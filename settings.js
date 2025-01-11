@@ -16,7 +16,7 @@ if (fs.existsSync('.env')) require('dotenv').config({ path: __dirname+'/.env' })
 
 //=================================================//
 global.SESSION_ID = process.env.SESSION_ID || '' 
-//Enter your Xploader session id here; must start with XPLOADER~
+//Enter your Xploader session id here; must start with XPLOADER-BOT:~
 
 //=================================================//
 global.botname = process.env.BOT_NAME || '᙭ᑭᒪOᗩᗪᗴᖇ ᗷOT' 
@@ -90,11 +90,9 @@ global.menustyle = process.env.MENU_STYLE || '2'
 //Replies
 global.mess = { 
   limit: '*Your limit is used up!*', 
-  nsfw: '*Tell the admin to enable NSFW first!*', 
   done: '*Done*', 
   error: '*Sorry, I cannot perform that action!*', 
   success: '*©𝐗𝐩𝐥𝐨𝐚𝐝𝐞𝐫𝐁𝐨𝐭*', 
-  premium: '*Only premium users can use this command!*', 
   owner: '*Apologies, only my owner can use this command!*', 
   group: '*This feature becomes available when you use it in a group!*', 
   admin: '*You’ll unlock this feature with me as an admin!*', 

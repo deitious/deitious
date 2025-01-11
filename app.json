@@ -10,7 +10,7 @@
   },
   "env": {
     "SESSION_ID": {
-      "description": "Enter your Xploader session id here; must start with XPLOADER~",
+      "description": "Enter your Xploader session id here; must start with XPLOADER-BOT:~",
       "value": "",
       "required": false
     },
