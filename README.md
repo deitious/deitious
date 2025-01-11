@@ -46,12 +46,12 @@
 2. GET SESSION
     <br>
     <p align="center">
-<a href='https://xploaderbots.us.kg/' target="_blank"><img alt='REQUEST PAIR CODE' src='https://img.shields.io/badge/Pair_code-100000?style=for-the-badge&logo=scan&logoColor=white&labelColor=darkorange&color=darkorange'/></a>
+<a href='https://xploaderbots.vercel.app/' target="_blank"><img alt='REQUEST PAIR CODE' src='https://img.shields.io/badge/Pair_code-100000?style=for-the-badge&logo=scan&logoColor=white&labelColor=darkorange&color=darkorange'/></a>
 
 
 ## `DEPLOYMENTS`
   
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://xploaderbots.us.kg/deploy)  
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://xploaderbots.vercel.app/deploy)  
 💯 safe
     
 
