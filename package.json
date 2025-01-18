@@ -13,7 +13,7 @@
   "author": "Tylor",
   "license": "MIT",
   "dependencies": {
-        "@whiskeysockets/baileys": "https://github.com/Dark-Xploit/Baileys/archive/refs/tags/v1.3.5.tar.gz",
+        "@whiskeysockets/baileys": "^6.7.9",
         "@adiwajshing/keyed-db": "^0.2.4",
         "@hapi/boom": "^10.0.1",
         "@vitalets/google-translate-api": "^8.0.0",
