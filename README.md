@@ -1,9 +1,9 @@
 <h1 align="center"> 𝐗𝐏𝐋𝐎𝐀𝐃𝐄𝐑 𝐁𝐎𝐓 </h1>
-<h1 align="center"> 𝖵𝖤𝖱𝖲𝖨𝖮𝖭 1.0.0 </h1>
+<h1 align="center"> 𝖵𝖤𝖱𝖲𝖨𝖮𝖭 1.0.5 </h1>
 
 <p align="center">
   <a href="https://github.com/Dark-Xploit/XPLOADER--BOT">
-    <img alt="xploader docs" height="400" src="https://i.ibb.co/DRW8wCV/Xploader4.jpg">
+    <img alt="xploader docs" height="250" src="https://i.ibb.co/DRW8wCV/Xploader4.jpg">
   </a>
 </p>
     
@@ -182,16 +182,7 @@ npm i -g pm2 && pm2 start index.js -f && pm2 save && pm2 logs
 <h2 align="center">  𝗣𝗢𝗟𝗜𝗧𝗘 𝗡𝗢𝗧𝗜𝗖𝗘!
 </h2>
 
-- *`XPLOADER BOT` is not affiliated with `WhatsApp Inc`.*
-- *Misusing the bot may result in account banning.*
-- *Use at your own risk.*
-
-##
- [ XPLOADER WHATSAPP CHANNEL ](https://whatsapp.com/channel/0029VaaxfYH2ER6oOMkqFS3W)
- 
-## 
- [XPLOADER WHATSAPP GROUP ](https://chat.whatsapp.com/B6Hk3829WHYChdpqnuz7bL)
-
+- This bot is made for educational purposes `only` hence `DO NOT MISUSE`.
  
 ©𝐗𝐩𝐥𝐨𝐚𝐝𝐞𝐫𝐁𝐨𝐭
 ##
