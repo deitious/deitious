@@ -158,7 +158,3 @@ npm i -g pm2 && pm2 start index.js -f && pm2 save && pm2 logs
 </h2>
 
 - This bot is made for educational purposes `only` hence `DO NOT MISUSE`.
- 
-©𝐗𝐩𝐥𝐨𝐚𝐝𝐞𝐫𝐁𝐨𝐭
-##
-![MIT License](https://img.shields.io/badge/License-yellow.svg)
