@@ -35,7 +35,19 @@
 
 
 ## `DEPLOYMENTS`
-  
+
+  <p align="center">
+  <a href="https://xploaderbots.vercel.app/deploy" target="_blank" style="margin-right: 10px;">
+    <img alt="Deploy" src="https://www.herokucdn.com/deploy/button.svg"/>
+  </a>
+  <a href="https://repl.it/github/Dark-Xploit/XPLOADER--BOT" target="_blank">
+    <img alt="Deploy on Repl.it" src="https://repl.it/badge/github/quiec/whatsAlfa"/>
+  </a>
+</p>
+<p align="center">
+  💯 safe
+</p>
+
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://xploaderbots.vercel.app/deploy)  
 💯 safe
     
