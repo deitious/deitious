@@ -5,10 +5,10 @@ const { exec } = require('child_process');
 const { getRandom } = require('../../lib/myfunc'); // Import from your custom library
 
 module.exports = {
-  command: ['bass'],
+  command: ['blown'],
   operate: async ({ Xploader, m, reply, quoted, mime, prefix, command }) => {
     try {
-      const set = "-af equalizer=f=54:width_type=o:width=2:g=20";
+      const set = "-af acrusher=.1:1:64:0:log";
       
       if (/audio/.test(mime)) {
         let media = await Xploader.downloadAndSaveMediaMessage(quoted);

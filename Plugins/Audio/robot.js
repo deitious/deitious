@@ -2,13 +2,14 @@
 
 const fs = require('fs');
 const { exec } = require('child_process');
-const { getRandom } = require('../../lib/myfunc'); // Import from your custom library
+const { getRandom } = require('../../lib/myfunc'); // Correct import path
 
 module.exports = {
-  command: ['bass'],
+  command: ['robot'],
   operate: async ({ Xploader, m, reply, quoted, mime, prefix, command }) => {
     try {
-      const set = "-af equalizer=f=54:width_type=o:width=2:g=20";
+      const set =
+        "-filter_complex \"afftfilt=real='hypot(re,im)*sin(0)':imag='hypot(re,im)*cos(0)':win_size=512:overlap=0.75\"";
       
       if (/audio/.test(mime)) {
         let media = await Xploader.downloadAndSaveMediaMessage(quoted);
