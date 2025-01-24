@@ -1,8 +1,8 @@
 {
   "name": "XPLOADER-BOT",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "description": "Xploader, the best WhatsApp Bot",
-  "logo": "https://i.ibb.co/0tbxXc0/Xploader5.jpg",
+  "logo": "https://i.ibb.co/DRW8wCV/Xploader4.jpg",
   "keywords": ["whatsapp", "bot", "md"],
   "repository": "https://github.com/Dark-Xploit/XPLOADER-BOT",
   "scripts": {
@@ -58,6 +58,11 @@
       "description": "Set to 'private' to enable private mode, otherwise default is 'public'",
       "value": "public",
       "required": false
+    },
+    "ALWAYS_ONLINE": {
+      "description": "Set true to make the bot online 24/7 or set false to disable always online'",
+      "value": "true",
+      "required": true
     },
     "AUTO_STATUS_VIEW": {
       "description": "Set true to enable and false to disable auto status view",
