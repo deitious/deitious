@@ -43,61 +43,6 @@
 [![Deploy on Repl.it](https://repl.it/badge/github/quiec/whatsAlfa)](https://repl.it/github/Dark-Xploit/XPLOADER--BOT)
 
 
-<p align="left">
-    <a href="https://app.koyeb.com/apps/deploy?type=git&repository=github.com%2FDark-Xploit%2FXPLOADER--BOT&branch=main&name=XPLOADER--BOT&builder=dockerfile&env[DATABASE_URL]=&env[SESSION_ID]=Enter+your+session+id+here&env[AUTO_STATUS_SEEN]=true&env=[AUTO_REACT_STATUS]=true&env[OWNER_NUMBER]=Enter+your+number&env[OWNER_NAME]=Enter+your+name&env[TIMEZONE]=Africa/Nairobi">
-        <img src="https://www.koyeb.com/static/images/deploy/button.svg" height="40"/>
-    </a>
-</p>
-
-
-
-<details>
-<summary>𝘋𝘌𝘗𝘓𝘖𝘠 𝘛𝘖 𝘏𝘌𝘙𝘖𝘒𝘜, 𝘔𝘌𝘛𝘏𝘖𝘋 2</summary>
- 
-* `Fork` Xploader Repository or `sync` if you had forked.
-* `Link` to your WhatsApp using Server 1, 2 or 3
-* Incase you use Server 3, paste the session id on settings.js @SESSION_ID
-* If you used Server 2, upload the `creds.json` received in the `session` folder.
-* Alternatively; you can open the `creds.json` using `Mt manager` or `treb edit` and copy everything and paste at `creds.json` on the `session` folder.
-* Go to `src>data>role>owner.json` and enter your number.
-* Edit your details at `settings.js` (Optional).
-* Create an `heroku` account if you don't have.
-* Then choose create new app
-* Enter your app name and Create.
-* Connect with your GitHub account.
-* Search XPLOADER--BOT, and connect.
-* Press deploy and wait for a few minutes.
-* Enjoy.
-</details>
-
-<details>
-<summary>𝘔𝘖𝘙𝘌 𝘋𝘌𝘗𝘓𝘖𝘠𝘔𝘌𝘕𝘛𝘚</summary>
- 
-<p align="center">
-  <a href="https://dashboard.render.com/select-repo?type=web"><img src="https://img.shields.io/badge/render-333333?style=for-the-badge&logo=render&logoColor=FFFFFF"></a>
-  <p align="center">
-  <a href="https://account.solarhosting.cc/register?ref=6JR38R0T"><img src="https://img.shields.io/badge/solar hosting-000000?style=for-the-badge&logo=solar hosting&logoColor=FFA500"></a>
- <p align="center">
-  <a href="https://bot-hosting.net/?aff=1230335382248488971"><img src="https://img.shields.io/badge/bot hosting-000000?style=for-the-badge&logo=bot hosting &logoColor=FFA500"></a>
-</details>
-
-
-<details>
-<summary>𝘏𝘖𝘞 𝘛𝘖 𝘋𝘌𝘗𝘓𝘖𝘠 𝘖𝘕 𝘗𝘈𝘕𝘌𝘓𝘚</summary>
- 
-1. `Fork` the Repository.
-2. If already forked then `sync` fork repository.
-3. Click on the green `Code` button and click `download as zip`.
-4. `Upload` the script zip file to your `panel`.
-5. `Unarchieve` the uploaded zip file.
-6. Open the `unarchieved folder` and `move` all files to container by typing (`../`)
-7. Now go to `console` and `start` bot.
-8. Wait for `5-10 mins` to enter your number.
-9. Enter your number when requested to get the pair code.
-10. Enter pair code in link devices in whatsapp.
-11. Deployment successful.
-</details>
- 
 
 <details>
 <summary>𝘔𝘈𝘕𝘜𝘈𝘓 𝘐𝘕𝘚𝘛𝘈𝘓𝘓𝘔𝘌𝘕𝘛𝘚</summary>
