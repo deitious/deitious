@@ -1,7 +1,7 @@
 // Xploader by Tylor
 
 module.exports = {
-  command: ['autoread'],
+  command: ['autorecordtyping', 'autorecordtype'],
   operate: async ({ Xploader, m, reply, args, prefix, command, isCreator, mess, db, botNumber }) => {
     if (!isCreator) return reply(mess.owner);
     if (args.length < 1) return reply(`Example: ${prefix + command} on/off`);
@@ -11,8 +11,8 @@ module.exports = {
 
     if (!validOptions.includes(option)) return reply("Invalid option");
 
-    // Update the autoread setting in the database
-    db.data.settings[botNumber].autoread = option === "on";
-    reply(`Auto-read ${option === "on" ? "enabled" : "disabled"} successfully`);
+    // Update the autorecord typing setting in the database
+    db.data.settings[botNumber].autorecordtype = option === "on";
+    reply(`Auto-record typing ${option === "on" ? "enabled" : "disabled"} successfully`);
   }
 };
