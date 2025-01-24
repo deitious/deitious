@@ -3,7 +3,7 @@
 const axios = require('axios');
 
 module.exports = {
-  command: ['bully'], // Command name
+  command: ['pat'], // Command name
   operate: async ({ m, command, reply, Xploader }) => {
     try {
       const { data } = await axios.get(`https://api.waifu.pics/sfw/${command}`);
