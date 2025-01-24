@@ -2,7 +2,7 @@
   "name": "XPLOADER-BOT",
   "version": "1.0.0",
   "description": "Xploader, the best WhatsApp Bot",
-  "logo": "https://i.ibb.co/DRW8wCV/Xploader4.jpg",
+  "logo": "https://i.ibb.co/0tbxXc0/Xploader5.jpg",
   "keywords": ["whatsapp", "bot", "md"],
   "repository": "https://github.com/Dark-Xploit/XPLOADER-BOT",
   "scripts": {
@@ -62,6 +62,21 @@
     "AUTO_STATUS_VIEW": {
       "description": "Set true to enable and false to disable auto status view",
       "value": "true",
+      "required": false
+    },
+    "AUTO_STATUS_REACT": {
+      "description": "Set true to enable and false to disable auto status react",
+      "value": "false",
+      "required": false
+    },
+    "STATUS_EMOJI": {
+      "description": "Set your desired status reaction emoji",
+      "value": "🧡",
+      "required": false
+    },
+    "CHATBOT": {
+      "description": "Set true to enable and false to disable auto reply chatbot",
+      "value": "false",
       "required": false
     },
     "ANTI_CALL": {

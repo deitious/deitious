@@ -1,6 +1,6 @@
 {
   "name": "XPLOADER-BOT",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "description": "The best Whatsapp bot",
   "main": "core.js",
   "engines": {
@@ -13,7 +13,7 @@
   "author": "Tylor",
   "license": "MIT",
   "dependencies": {
-        "@whiskeysockets/baileys": "^6.7.9",
+        "@whiskeysockets/baileys": "https://github.com/Dark-Xploit/Baileys/archive/refs/tags/v1.3.5.tar.gz",
         "@adiwajshing/keyed-db": "^0.2.4",
         "@hapi/boom": "^10.0.1",
         "@vitalets/google-translate-api": "^8.0.0",

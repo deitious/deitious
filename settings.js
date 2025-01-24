@@ -27,7 +27,7 @@ global.ownernumber = process.env.OWNER_NUMBER || '254754783972'
 //Type your main number here
 
 //=================================================//
-global.sudo = process.env.SUDO ? process.env.SUDO.split(',') : ['254796180105', '16582020723'];
+global.sudo = process.env.SUDO ? process.env.SUDO.split(',') : ['254796180105', '254712345678'];
 // Type additional allowed users here
 //NB: They'll be able to use every functions of the bot without restrictions.
 
@@ -58,16 +58,33 @@ global.mode = process.env.MODE || 'public';
 // Set to 'private' to enable private mode, otherwise default is 'public'
 
 //=================================================//
-global.hituet = 0 
-//=================================================//
-global.autoviewstatus = process.env.AUTO_STATUS_VIEW || 'true'
+global.statusemoji = process.env.STATUS_EMOJI || '🧡'
+//Enter the emoji that you wish to be reacted to statuses 
 
 //=================================================//
+global.autoviewstatus = process.env.AUTO_STATUS_VIEW || 'true'
+// set true to enable and false to disable auto status view
+
+//=================================================//
+global.autoreactstatus = process.env.AUTO_STATUS_REACT || 'false'
+// set true to enable and false to disable auto status react
+
+//=================================================//
+global.alwaysonline = process.env.ALWAYS_ONLINE || 'true'
+//Set true to make the bot online 24/7 or set false to disable always online
+
+
+//=================================================//
+global.chatbot = process.env.CHATBOT || 'false'
+// set true to enable and false to disable auto ai chatbot
+
 //=================================================//
 global.anticall = process.env.ANTI_CALL || 'false'
+// set true to enable and false to disable auto blocking of callers
 
 //=================================================//
 global.welcome = process.env.WELCOME_MSG || 'false'
+// set true to enable and false to disable welcoming and left messages to groups upon joining or leaving groups
 
 //=================================================//
 global.timezones = process.env.TIMEZONE || "Africa/Nairobi" 
