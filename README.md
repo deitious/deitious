@@ -23,14 +23,9 @@
 
 
 
-1. Fork and star this repo first
-    <br>
-    <p align="center">
+ <p align="center">
 <a href='https://github.com/Dark-Xploit/XPLOADER--BOT/fork' target="_blank"><img alt='Fork Repo' src='https://img.shields.io/badge/Fork Repo-100000?style=for-the-badge&logo=scan&logoColor=white&labelColor=orange&color=darkgreen'/></a>
-
-2. GET SESSION
-    <br>
-    <p align="center">
+<p align="center">
 <a href='https://xploaderbots.vercel.app/' target="_blank"><img alt='REQUEST PAIR CODE' src='https://img.shields.io/badge/Pair_code-100000?style=for-the-badge&logo=scan&logoColor=white&labelColor=darkorange&color=darkorange'/></a>
 
 
