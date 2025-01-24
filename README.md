@@ -22,22 +22,7 @@
 <p align="center"><img src="https://profile-counter.glitch.me/{Dark-Xploit}/count.svg" alt="XPLOADER--BOT:: Visitor's Count" /></p>
 
 
-<h3>XPLOADER STATS</h3>
 
-<p align="center">
-<a href="https://github.com/Dark-Xploit/XPLOADER--BOT/stargazers/"><img title="Stars" src="https://img.shields.io/github/stars/Dark-Xploit/XPLOADER--BOT?color=orange&style=flat-square"></a>
-<a href="https://github.com/Dark-Xploit/XPLOADER--BOT/network/members"><img title="Forks" src="https://img.shields.io/github/forks/Dark-Xploit/XPLOADER--BOT?color=orange&style=flat-square"></a>
-<a href="https://github.com/Dark-Xploit/XPLOADER--BOT/watchers"><img title="Watching" src="https://img.shields.io/github/watchers/Dark-Xploit/XPLOADER--BOT?label=Watchers&color=orange&style=flat-square"></a>
-<a href="https://github.com/Dark-Xploit/XPLOADER--BOT"><img title="Open Source" src="https://img.shields.io/badge/Author-Tylor-orange?v=103"></a>
-<a href="https://github.com/Dark-Xploit/XPLOADER--BOT/"><img title="Size" src="https://img.shields.io/github/repo-size/Dark-Xploit/XPLOADER--BOT?style=flat-square&color=orange"></a>
-<a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FDark-Xploit%2FXPLOADER--BOT&count_bg=%23FFA500&title_bg=%23555555&icon=probot.svg&icon_color=%23FFA500&title=hits&edge_flat=false"/></a>
-<a href="https://github.com/Dark-Xploit/XPLOADER--BOT/graphs/commit-activity"><img height="20" src="https://img.shields.io/badge/Maintained%3F-Yes-orange.svg"></a>&nbsp;&nbsp;
-</p>
-<p align='center'>
-</p>
-
-  
-## 🛠️ `XPLOADER INSTALATION`
 1. Fork and star this repo first
     <br>
     <p align="center">
