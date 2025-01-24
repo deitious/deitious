@@ -48,14 +48,6 @@
   💯 safe
 </p>
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://xploaderbots.vercel.app/deploy)  
-💯 safe
-    
-
-[![Deploy on Repl.it](https://repl.it/badge/github/quiec/whatsAlfa)](https://repl.it/github/Dark-Xploit/XPLOADER--BOT)
-
-
-
 <details>
 <summary>𝘔𝘈𝘕𝘜𝘈𝘓 𝘐𝘕𝘚𝘛𝘈𝘓𝘓𝘔𝘌𝘕𝘛𝘚</summary>
   
