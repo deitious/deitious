@@ -1,6 +1,6 @@
 // XPLOADER-BOT by Tylor
 
-const fetch = require('node-fetch'); // Ensure fetch is available
+const fetch = require('node-fetch'); 
 
 module.exports = {
   command: ['gitclone'],
