@@ -4,6 +4,7 @@ module.exports = {
   command: ['delete', 'del'],
   operate: async ({ Xploader, m, reply, isCreator, mess }) => {
     if (!isCreator) return reply(mess.owner);
+    if (!m.quoted) return reply(`*Please reply to a message*`);
 
     let key = {};
     try {
