@@ -1,24 +1,25 @@
 // XPLOADER BOT by Tylor
 
-const fetch = require('node-fetch');
+const axios = require('axios');
 
 module.exports = {
   command: ['gpt'],
-  operate: async ({ Xploader, m, reply, text }) => {
-    if (!text) return reply("*Please ask a question*");
+  operate: async ({ m, text }) => {
+    async function fetchDeepSeek(query) {
+      let { data } = await axios.post("https://api.blackbox.ai/api/chat", {
+        messages: [{ id: null, role: "user", content: query }],
+        userSelectedModel: "deepseek-v3"
+      });
+      return data;
+    }
 
     try {
-      let response = await fetch(`https://restapi.apibotwa.biz.id/api/gpt4o?message=${encodeURIComponent(text)}`);
-      let data = await response.json();
-
-      if (response.status !== 200 || !data.data || !data.data.response) {
-        return reply("*Please try again later or try another command!*");
-      } else {
-        reply(data.data.response);
-      }
+      if (!text) return m.reply('*Please ask a question*');
+      const result = await fetchDeepSeek(text);
+      m.reply(result);
     } catch (error) {
-      console.error('Error fetching response from GPT API:', error);
-      reply("An error occurred while fetching the response from GPT API.");
+      console.error('Error in GPT plugin:', error);
+      m.reply('An error occurred!');
     }
   }
 };
