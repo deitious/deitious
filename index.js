@@ -7,16 +7,13 @@ const moment = require('moment-timezone');
 const MEMORY_LIMIT = 250;
 const RESTART_DELAY = 3000;
 
-// Default timezone
 const TIMEZONE = global.timezones || "Africa/Nairobi";
 
-// Function to get today's date as a filename (YYYY-MM-DD.log)
 function getLogFileName() {
   const today = moment(Date.now()).tz(TIMEZONE);
   return `${today.format('YYYY-MM-DD')}.log`;
 }
 
-// Function to log messages with timestamps
 function logMessage(message) {
   const timestamp = moment(Date.now()).tz(TIMEZONE).locale('en').format('HH:mm z');
   console.log(`[XPLOADER] ${message}`);
