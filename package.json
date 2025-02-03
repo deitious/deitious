@@ -2,7 +2,7 @@
   "name": "XPLOADER-BOT",
   "version": "1.1.0",
   "description": "The best Whatsapp bot",
-  "main": "core.js",
+  "main": "index.js",
   "engines": {
       "node": ">= 21.x",
       "npm": ">= 10.x"
