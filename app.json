@@ -5,6 +5,7 @@
   "logo": "https://i.ibb.co/DRW8wCV/Xploader4.jpg",
   "keywords": ["whatsapp", "bot", "md"],
   "repository": "https://github.com/Dark-Xploit/XPLOADER-BOT",
+  "stack": "container",
   "scripts": {
     "start": "node index.js"
   },
@@ -115,9 +116,12 @@
       "required": false
     }
   },
-  "buildpacks": [
+    "buildpacks": [
     {
       "url": "heroku/nodejs"
+    },
+    {
+      "url": "https://github.com/DuckyTeam/heroku-buildpack-imagemagick.git"
     },
     {
       "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest"
