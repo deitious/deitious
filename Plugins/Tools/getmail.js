@@ -8,7 +8,6 @@ module.exports = {
     if (!text) return reply("Please provide the temporary email address to fetch messages.");
 
     try {
-      // Fetch email content
       let response = await fetch(`https://api.tioo.eu.org/getmail?email=${encodeURIComponent(text)}`);
       let data = await response.json();
 
@@ -22,7 +21,6 @@ module.exports = {
         return reply(`*Temporary Email*: ${text}\n\nNo messages received yet. Check back later.`);
       }
 
-      // Send email content
       let emailMessages = emailContent.map((email, index) => `*Email #${index + 1}:*\n${email}`).join('\n\n');
       await Xploader.sendMessage(m.chat, {
         text: `*Temporary Email*: ${text}\n\n*Messages Received*:\n${emailMessages}`

@@ -1,6 +1,6 @@
 // XPLOADER BOT by Tylor
 
-const { getDevice } = require('@whiskeysockets/baileys'); // Import getDevice from baileys
+const { getDevice } = require('@whiskeysockets/baileys'); 
 
 module.exports = {
   command: ['device', 'getdevice'],
@@ -13,7 +13,6 @@ module.exports = {
 console.log('Quoted Key:', m.quoted?.key);
 
     try {
-      // Get the quoted message
       const quotedMsg = await m.getQuotedMessage();
 
       if (!quotedMsg) {
@@ -22,7 +21,6 @@ console.log('Quoted Key:', m.quoted?.key);
 
       const messageId = quotedMsg.key.id;
 
-      // Determine the device using the getDevice function from Baileys
       const device = getDevice(messageId) || 'Unknown';
 
       reply(`The message is sent from *${device}* device.`);
