@@ -46,7 +46,7 @@ module.exports = {
       }
     } catch (error) {
       console.error('Error processing sticker:', error);
-      reply('An error occurred while processing the sticker.');
+      reply('An error occurred while processing the sticker.', error);
     }
   }
 };
