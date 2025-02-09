@@ -1,8 +1,7 @@
-// XPLOADER-BOT by Tylor
 
 module.exports = {
   command: ['emojimix', 'emix'],
-  operate: async ({ m, text, prefix, command, Xploader, fetchJson, reply }) => {
+  operate: async ({ m, text, prefix, command, Cypher, fetchJson, reply }) => {
     let [emoji1, emoji2] = text.split`+`;
     
     if (!emoji1)
@@ -19,7 +18,7 @@ module.exports = {
       );
       
       for (let res of anu.results) {
-        await Xploader.sendImageAsSticker(
+        await Cypher.sendImageAsSticker(
           m.chat,
           res.url,
           m,

@@ -1,4 +1,3 @@
-// XPLOADER-BOT by Tylor
 
 module.exports = {
   command: ['fliptext'],

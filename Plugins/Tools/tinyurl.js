@@ -1,6 +1,5 @@
-// XPLOADER-BOT by Tylor
 
-const axios = require('axios'); // Import axios
+const axios = require('axios');
 
 module.exports = {
   command: ['tinyurl', 'shortlink'],

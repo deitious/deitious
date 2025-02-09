@@ -1,9 +1,9 @@
-// XPLOADER-BOT by Tylor
+
 const { styletext } = require('../../lib/scraper'); 
 
 module.exports = {
   command: ['fancy', 'styletext'],
-  operate: async ({ m, text, Xploader, reply }) => {
+  operate: async ({ m, text, Cypher, reply }) => {
     
     if (!text) return reply('*Enter a text!*');
     

@@ -1,11 +1,10 @@
-// XPLOADER-BOT by Tylor
 
 const fs = require('fs'); 
 const qrcode = require('qrcode'); 
 
 module.exports = {
   command: ['qrcode2'],
-  operate: async ({ m, text, Xploader, reply, getRandom }) => {
+  operate: async ({ m, text, Cypher, reply, getRandom }) => {
     if (!text) return reply("*Please include link or text!*");
 
     try {
@@ -16,9 +15,9 @@ module.exports = {
       await fs.writeFileSync("./" + buff, data);
       let medi = fs.readFileSync("./" + buff);
 
-      await Xploader.sendMessage(
+      await Cypher.sendMessage(
         m.chat,
-        { image: medi, caption: "©𝐗𝐩𝐥𝐨𝐚𝐝𝐞𝐫𝐁𝐨𝐭" },
+        { image: medi, caption: global.wm },
         { quoted: m }
       );
 

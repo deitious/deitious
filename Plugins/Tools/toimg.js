@@ -1,4 +1,3 @@
-// XPLOADER BOT by Tylor
 
 const fs = require('fs');
 const { exec } = require('child_process');
@@ -7,7 +6,7 @@ const path = require('path');
 
 module.exports = {
   command: ['toimage', 'toimg'],
-  operate: async ({ Xploader, m, reply, args, prefix, command }) => {
+  operate: async ({ Cypher, m, reply, args, prefix, command }) => {
     const quoted = m.quoted || m.msg?.quoted;
     const mime = quoted?.mimetype || quoted?.msg?.mimetype;
     if (!quoted || !/webp/.test(mime)) {
@@ -27,7 +26,7 @@ module.exports = {
           return reply('An error occurred while converting the sticker to an image.');
         }
         const buffer = fs.readFileSync(outputPath);
-        Xploader.sendMessage(m.chat, { image: buffer }, { quoted: m });    
+        Cypher.sendMessage(m.chat, { image: buffer }, { quoted: m });    
         fs.unlinkSync(outputPath);
       });
     } catch (error) {

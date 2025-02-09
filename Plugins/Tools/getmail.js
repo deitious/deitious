@@ -1,10 +1,9 @@
-// XPLOADER BOT by Tylor
 
 const fetch = require('node-fetch');
 
 module.exports = {
   command: ['getmail'],
-  operate: async ({ Xploader, m, reply, text }) => {
+  operate: async ({ Cypher, m, reply, text }) => {
     if (!text) return reply("Please provide the temporary email address to fetch messages.");
 
     try {
@@ -22,7 +21,7 @@ module.exports = {
       }
 
       let emailMessages = emailContent.map((email, index) => `*Email #${index + 1}:*\n${email}`).join('\n\n');
-      await Xploader.sendMessage(m.chat, {
+      await Cypher.sendMessage(m.chat, {
         text: `*Temporary Email*: ${text}\n\n*Messages Received*:\n${emailMessages}`
       }, { quoted: m });
 

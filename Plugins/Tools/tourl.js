@@ -2,7 +2,7 @@ const { handleMediaUpload } = require('../../lib/catbox');
 
 module.exports = {
   command: ['tourl', 'url'],
-  operate: async ({ m, Xploader, reply }) => {
+  operate: async ({ m, Cypher, reply }) => {
     const quoted = m.quoted || m.msg?.quoted;
     const mime = quoted?.mimetype || quoted?.msg?.mimetype;
 
@@ -11,7 +11,7 @@ module.exports = {
     }
 
     try {
-      const mediaUrl = await handleMediaUpload(quoted, Xploader, mime);
+      const mediaUrl = await handleMediaUpload(quoted, Cypher, mime);
       reply(`*Uploaded successfully:*\n${mediaUrl}`);
     } catch (error) {
       console.error(error);

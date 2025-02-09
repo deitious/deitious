@@ -1,10 +1,9 @@
-// XPLOADER BOT by Tylor
 
 const { getDevice } = require('@whiskeysockets/baileys'); 
 
 module.exports = {
   command: ['device', 'getdevice'],
-  operate: async ({ Xploader, m, reply }) => {
+  operate: async ({ Cypher, m, reply }) => {
     if (!m.quoted) {
       return reply('*Please quote a message to use this command!*');
     }

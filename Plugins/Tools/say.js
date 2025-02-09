@@ -4,7 +4,7 @@ const { exec } = require("child_process");
 
 module.exports = {
   command: ['say', 'tts'],
-  operate: async ({ m, args, reply, Xploader }) => {
+  operate: async ({ m, args, reply, Cypher }) => {
     let text = args.join(" ");
     if (!text) return reply("*Text needed!*");
 
@@ -34,7 +34,7 @@ module.exports = {
           return reply("*Error merging audio files.*");
         }
 
-        await Xploader.sendMessage(
+        await Cypher.sendMessage(
           m.chat,
           {
             audio: fs.readFileSync(mergedFile),
