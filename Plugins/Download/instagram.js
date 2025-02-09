@@ -1,7 +1,7 @@
 const fetch = require('node-fetch');
 
 module.exports = {
-  command: ['igdl', 'instadl'],
+  command: ['instagram', 'igdl'],
   operate: async ({ Cypher, m, reply, text }) => {
     if (!text) return reply('*Please provide an Instagram URL!*');
 
