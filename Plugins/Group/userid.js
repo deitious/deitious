@@ -1,15 +1,13 @@
-// XPLOADER-BOT by Tylor
-
 
 module.exports = {
     command: ['userid', 'userjid'],
     operate: async (context) => {
-        const { m, mess, isCreator, Xploader } = context;
-        if (!isCreator) return m.reply(mess.owner);
-        if (!m.isGroup) return m.reply(mess.group);
+        const { m, mess, isCreator, Cypher } = context;
+        if (!isCreator) return reply(mess.owner);
+        if (!m.isGroup) return reply(mess.group);
 
         const groupMetadata = m.isGroup
-            ? await Xploader.groupMetadata(m.chat).catch((e) => {})
+            ? await Cypher.groupMetadata(m.chat).catch((e) => {})
             : "";
         const participants = m.isGroup
             ? await groupMetadata.participants
@@ -18,6 +16,6 @@ module.exports = {
         for (let mem of participants) {
             textt += `□ ${mem.id}\n`;
         }
-        m.reply(textt);
+        reply(textt);
     }
 };

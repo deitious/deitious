@@ -1,12 +1,11 @@
-// XPLOADER-BOT 
 
 module.exports = {
     command: ['tagall'],
     operate: async (context) => {
-        const { m, isAdmins, isGroupOwner, isCreator, mess, q, participants, Xploader, isBotAdmins } = context;
-        if (!m.isGroup) return m.reply(mess.group);
-        if (!isAdmins && !isGroupOwner && !isCreator) return m.reply(mess.admin);
-        if (!isBotAdmins) return m.reply(mess.admin);
+        const { m, isAdmins, isGroupOwner, isCreator, mess, q, participants, Cypher, isBotAdmins } = context;
+        if (!m.isGroup) return reply(mess.group);
+        if (!isAdmins && !isGroupOwner && !isCreator) return reply(mess.admin);
+        if (!isBotAdmins) return reply(mess.admin);
 
         let me = m.sender;
         let teks = `*TAGGED BY:*  @${
@@ -15,7 +14,7 @@ module.exports = {
         for (let mem of participants) {
           teks += `@${mem.id.split("@")[0]}\n`;
         }
-        Xploader.sendMessage(
+        Cypher.sendMessage(
           m.chat,
           {
             text: teks,

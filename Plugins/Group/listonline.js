@@ -1,9 +1,8 @@
-// XPLOADER-BOT by Tylor
 
 module.exports = {
   command: ['listonline', 'onlinemembers'],
   operate: async (context) => {
-    const { m, mess, args, store, botNumber, Xploader, reply } = context;
+    const { m, mess, args, store, botNumber, Cypher, reply } = context;
     if (!m.isGroup) return reply(mess.group);
     
     let id = args && /\d+\-\d+@g.us/.test(args[0]) ? args[0] : m.chat;
@@ -15,6 +14,6 @@ module.exports = {
 
     let online = [...Object.keys(presences), botNumber];
     let liston = 1;
-    Xploader.sendText(m.chat, '*ONLINE MEMBERS IN THIS GROUP*\n\n' + online.map(v => `${liston++} . @` + v.replace(/@.+/, '')).join`\n`, m, { mentions: online });
+    Cypher.sendText(m.chat, '*ONLINE MEMBERS IN THIS GROUP*\n\n' + online.map(v => `${liston++} . @` + v.replace(/@.+/, '')).join`\n`, m, { mentions: online });
   }
 };

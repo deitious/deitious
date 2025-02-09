@@ -1,12 +1,11 @@
-// XPLOADER-BOT by Tylor
 
 module.exports = {
     command: ['opentime'],
     operate: async (context) => {
-        const { m, mess, args, isAdmins, isCreator, isBotAdmins, Xploader } = context;
-        if (!m.isGroup) return m.reply(mess.group);
-        if (!isAdmins && !isCreator) return m.reply(mess.notadmin);
-        if (!isBotAdmins) return m.reply(mess.admin);
+        const { m, mess, args, isAdmins, isCreator, isBotAdmins, Cypher } = context;
+        if (!m.isGroup) return reply(mess.group);
+        if (!isAdmins && !isCreator) return reply(mess.notadmin);
+        if (!isBotAdmins) return reply(mess.admin);
 
         const duration = args[0];
         const unit = args[1].toLowerCase();
@@ -26,13 +25,13 @@ module.exports = {
                 timer = duration * 86400000;
                 break;
             default:
-                return m.reply("*Select unit:*\nseconds\nminutes\nhours\ndays\n\n*Example:*\n10 seconds");
+                return reply("*Select unit:*\nseconds\nminutes\nhours\ndays\n\n*Example:*\n10 seconds");
         }
 
-        m.reply(`*Opening group after ${duration} ${unit}*`);
+        reply(`*Opening group after ${duration} ${unit}*`);
         setTimeout(() => {
-            Xploader.groupSettingUpdate(m.chat, "not_announcement");
-            m.reply("Group opened by admin. Members can now send messages.");
+            Cypher.groupSettingUpdate(m.chat, "not_announcement");
+            reply("Group opened by admin. Members can now send messages.");
         }, timer);
     }
 };

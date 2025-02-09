@@ -1,28 +1,26 @@
-// XPLOADER-BOT
 
 module.exports = {
     command: ['antilinkgc'],
     operate: async (context) => {
-        const { m, db, from, isBotAdmins, isAdmins, isCreator, args, mess, command } = context;
+        const { m, db, from, isBotAdmins, isAdmins, isCreator, args, mess, command, reply } = context;
 
-        if (!m.isGroup) return m.reply(mess.group); // Ensure it's a group
-        if (!isBotAdmins) return m.reply(mess.admin); // Ensure the bot is an admin
-        if (!isAdmins && !isCreator) return m.reply(mess.notadmin); // Ensure the user is an admin or creator
-        if (args.length < 2) return m.reply("*Usage: .antilinkgc <delete/kick> <on/off>*");
+        if (!m.isGroup) return reply(mess.group); 
+        if (!isBotAdmins) return reply(mess.admin); 
+        if (!isAdmins && !isCreator) return reply(mess.notadmin); 
+        if (args.length < 2) return reply("*Usage: .antilinkgc <delete/kick> <on/off>*");
 
-        const mode = args[0].toLowerCase(); // Either "delete" or "kick"
-        const state = args[1].toLowerCase(); // Either "on" or "off"
+        const mode = args[0].toLowerCase();
+        const state = args[1].toLowerCase();
 
         if (!["delete", "kick"].includes(mode)) {
-            return m.reply("*Invalid mode! Use either 'delete' or 'kick'.*");
+            return reply("*Invalid mode! Use either 'delete' or 'kick'.*");
         }
 
         if (!["on", "off"].includes(state)) {
-            return m.reply("*Invalid state! Use either 'on' or 'off'.*");
+            return reply("*Invalid state! Use either 'on' or 'off'.*");
         }
 
         if (state === "on") {
-            // Enable the selected mode and disable the other
             if (mode === "delete") {
                 db.data.chats[from].antilinkgc = true;
                 db.data.chats[from].antilinkgckick = false;
@@ -30,15 +28,14 @@ module.exports = {
                 db.data.chats[from].antilinkgckick = true;
                 db.data.chats[from].antilinkgc = false;
             }
-            m.reply(`*Successfully enabled antilinkgc ${mode} mode!*`);
+            reply(`*Successfully enabled antilinkgc ${mode} mode!*`);
         } else if (state === "off") {
-            // Disable the selected mode
             if (mode === "delete") {
                 db.data.chats[from].antilinkgc = false;
             } else if (mode === "kick") {
                 db.data.chats[from].antilinkgckick = false;
             }
-            m.reply(`*Successfully disabled antilinkgc ${mode} mode!*`);
+            reply(`*Successfully disabled antilinkgc ${mode} mode!*`);
         }
     },
 };

@@ -1,14 +1,13 @@
-// XPLOADER-BOT
 
 module.exports = {
     command: ['poll'],
     operate: async (context) => {
-        const { m, mess, text, isCreator, prefix, Xploader, isGroup } = context;
-        if (!isCreator) return m.reply(mess.owner);
-        if (!m.isGroup) return m.reply(mess.group);
+        const { m, mess, text, isCreator, prefix, Cypher, isGroup } = context;
+        if (!isCreator) return reply(mess.owner);
+        if (!m.isGroup) return reply(mess.group);
         let [poll, opt] = text.split("|");
         if (text.split("|") < 2)
-            return await m.reply(
+            return await reply(
                 `Enter a question and at least 2 options\nExample: ${prefix}poll Who is best player?|Messi,Ronaldo,None...`
             );
         let options = [];
@@ -16,7 +15,7 @@ module.exports = {
             options.push(i);
         }
         
-        await Xploader.sendMessage(m.chat, {
+        await Cypher.sendMessage(m.chat, {
             poll: {
                 name: poll,
                 values: options,
