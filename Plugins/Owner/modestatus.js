@@ -1,4 +1,3 @@
-// XPLOADER-BOT 
 
 module.exports = {
   command: ['modestatus', 'botmode'],

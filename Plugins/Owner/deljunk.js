@@ -1,4 +1,3 @@
-// XPLOADER-BOT 
 
 const fs = require('fs');
 const path = require('path');
@@ -7,11 +6,9 @@ const { sleep } = require('../../lib/myfunc');
 module.exports = {
   command: ['deljunk', 'deletejunk', 'clearjunk'],
   operate: async (context) => {
-    const { Xploader, m, reply, isCreator, mess } = context;
+    const { Cypher, m, reply, isCreator, mess } = context;
 
     if (!isCreator) return reply(mess.owner);
-
-    // Clear junk files in the session folder
     fs.readdir("./session", async function (err, files) {
       if (err) {
         console.log("Unable to scan directory: " + err);
@@ -34,7 +31,6 @@ module.exports = {
       reply("*Successfully cleared all the junk files in the session's folder*");
     });
 
-    // Clear junk files in the tmp folder
     const tmpDir = path.resolve("./tmp");
     fs.readdir(tmpDir, async function (err, files) {
       if (err) {

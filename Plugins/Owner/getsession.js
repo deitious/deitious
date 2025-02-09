@@ -1,15 +1,14 @@
-// XPLOADER-BOT 
 
 const fs = require('fs');
 
 module.exports = {
   command: ['getsession'],
-  operate: async ({ Xploader, m, reply, isCreator, mess }) => {
+  operate: async ({ Cypher, m, reply, isCreator, mess }) => {
     if (!isCreator) return reply(mess.owner);
     reply("*Fetching session file...*");
 
     if (global.SESSION_ID) {
-      Xploader.sendMessage(
+      Cypher.sendMessage(
         m.chat,
         {
           text: `${global.SESSION_ID}`,
@@ -21,7 +20,7 @@ module.exports = {
     }
 
     let botxp = fs.readFileSync("./session/creds.json");
-    Xploader.sendMessage(
+    Cypher.sendMessage(
       m.chat,
       {
         document: botxp,

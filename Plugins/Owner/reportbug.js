@@ -1,10 +1,9 @@
-// XPLOADER-BOT by Tylor
 
 module.exports = {
   command: ['reportbug'],
-  operate: async ({ m, mess, text, Xploader, isCreator, versions, prefix, command }) => {
-    if (!isCreator) return m.reply(mess.owner);
-    if (!text) return m.reply(`Example: ${prefix + command} Hey, play command isn't working`);
+  operate: async ({ m, mess, text, Cypher, isCreator, versions, prefix, command }) => {
+    if (!isCreator) return reply(mess.owner);
+    if (!text) return reply(`Example: ${prefix + command} Hey, play command isn't working`);
 
     const bugReportMsg = `
 *BUG REPORT*
@@ -25,7 +24,7 @@ Please wait for a reply.
 ${bugReportMsg}
     `;
 
-    Xploader.sendMessage("254754783972@s.whatsapp.net", { text: bugReportMsg, mentions: [m.sender] }, { quoted: m });
-    Xploader.sendMessage(m.chat, { text: confirmationMsg, mentions: [m.sender] }, { quoted: m });
+    Cypher.sendMessage("254754783972@s.whatsapp.net", { text: bugReportMsg, mentions: [m.sender] }, { quoted: m });
+    Cypher.sendMessage(m.chat, { text: confirmationMsg, mentions: [m.sender] }, { quoted: m });
   }
 };

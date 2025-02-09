@@ -1,12 +1,11 @@
-// Xploader Bot by Tylor
 
 const { promisify } = require('util');
-const { exec } = require('child_process'); // Correct import
+const { exec } = require('child_process');
 const execAsync = promisify(exec);
 
 module.exports = {
   command: ['disk'],
-  operate: async ({ Xploader, m, reply, isCreator, mess }) => {
+  operate: async ({ Cypher, m, reply, isCreator, mess }) => {
     if (!isCreator) return reply(mess.owner);
 
     await reply('Please Wait');

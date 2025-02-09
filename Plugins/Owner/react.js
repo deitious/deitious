@@ -1,8 +1,7 @@
-// XPLOADER-BOT 
 
 module.exports = {
   command: ['react'],
-  operate: async ({ Xploader, m, reply, isCreator, mess, args, quoted }) => {
+  operate: async ({ Cypher, m, reply, isCreator, mess, args, quoted }) => {
     if (!isCreator) return reply(mess.owner);
     if (!args) return reply(`*Reaction emoji needed*\n Example .react 🤔`);
 
@@ -12,6 +11,6 @@ module.exports = {
         key: { remoteJid: m.chat, fromMe: true, id: quoted.id },
       },
     };
-    Xploader.sendMessage(m.chat, reactionMessage);
+    Cypher.sendMessage(m.chat, reactionMessage);
   }
 };

@@ -1,8 +1,7 @@
-// XPLOADER-BOT 
 
 module.exports = {
   command: ['groupid', 'idgc'],
-  operate: async ({ Xploader, m, reply, isCreator, mess, args, q }) => {
+  operate: async ({ Cypher, m, reply, isCreator, mess, args, q }) => {
     if (!isCreator) return reply(mess.owner);
     if (!q) return reply('Please provide a group link!');
     
@@ -10,7 +9,7 @@ module.exports = {
     let coded = linkRegex.split("https://chat.whatsapp.com/")[1];
     if (!coded) return reply("Link Invalid");
 
-    Xploader.query({
+    Cypher.query({
       tag: "iq",
       attrs: {
         type: "get",

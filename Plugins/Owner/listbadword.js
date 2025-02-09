@@ -1,8 +1,7 @@
-// XPLOADER-BOT 
 
 module.exports = {
   command: ['listbadword'],
-  operate: async ({ Xploader, m, reply, isCreator, mess, bad }) => {
+  operate: async ({ m, reply, isCreator, mess, bad }) => {
     if (!isCreator) return reply(mess.owner);
     if (m.isGroup) return reply('This command cannot be used in personal chats.');
 

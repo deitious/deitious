@@ -1,8 +1,7 @@
-// XPLOADER-BOT 
 
 module.exports = {
   command: ['delete', 'del'],
-  operate: async ({ Xploader, m, reply, isCreator, mess }) => {
+  operate: async ({ Cypher, m, reply, isCreator, mess }) => {
     if (!isCreator) return reply(mess.owner);
     if (!m.quoted) return reply(`*Please reply to a message*`);
 
@@ -19,6 +18,6 @@ module.exports = {
     } catch (e) {
       console.error(e);
     }
-    Xploader.sendMessage(m.chat, { delete: key });
+    Cypher.sendMessage(m.chat, { delete: key });
   }
 };

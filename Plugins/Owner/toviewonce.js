@@ -1,14 +1,13 @@
-// XPLOADER-BOT 
 
 module.exports = {
   command: ['toviewonce', 'tovo', 'tovv'],
-  operate: async ({ Xploader, m, reply, isCreator, mess, quoted, mime }) => {
+  operate: async ({ Cypher, m, reply, isCreator, mess, quoted, mime }) => {
     if (!isCreator) return reply(mess.owner);
     if (!quoted) return reply(`*Reply to an Image or Video*`);
 
     if (/image/.test(mime)) {
-      const anuan = await Xploader.downloadAndSaveMediaMessage(quoted);
-      Xploader.sendMessage(
+      const anuan = await Cypher.downloadAndSaveMediaMessage(quoted);
+      Cypher.sendMessage(
         m.chat,
         {
           image: { url: anuan },
@@ -19,8 +18,8 @@ module.exports = {
         { quoted: m }
       );
     } else if (/video/.test(mime)) {
-      const anuanuan = await Xploader.downloadAndSaveMediaMessage(quoted);
-      Xploader.sendMessage(
+      const anuanuan = await Cypher.downloadAndSaveMediaMessage(quoted);
+      Cypher.sendMessage(
         m.chat,
         {
           video: { url: anuanuan },
@@ -31,8 +30,8 @@ module.exports = {
         { quoted: m }
       );
     } else if (/audio/.test(mime)) {
-      const bebasap = await Xploader.downloadAndSaveMediaMessage(quoted);
-      Xploader.sendMessage(m.chat, {
+      const bebasap = await Cypher.downloadAndSaveMediaMessage(quoted);
+      Cypher.sendMessage(m.chat, {
         audio: { url: bebasap },
         mimetype: "audio/mpeg",
         ptt: true,

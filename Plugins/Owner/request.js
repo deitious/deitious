@@ -1,10 +1,9 @@
-// XPLOADER-BOT by Tylor
 
 module.exports = {
   command: ['request'],
-  operate: async ({ m, mess, text, Xploader, isCreator, versions, prefix, command }) => {
-    if (!isCreator) return m.reply(mess.owner);
-    if (!text) return m.reply(`Example: ${prefix + command} I would like a new feature (specify) to be added.`);
+  operate: async ({ m, mess, text, Cypher, isCreator, versions, prefix, command, reply }) => {
+    if (!isCreator) return reply(mess.owner);
+    if (!text) return reply(`Example: ${prefix + command} I would like a new feature (specify) to be added.`);
 
     const requestMsg = `
 *REQUEST*
@@ -25,7 +24,7 @@ Please wait for a reply.
 ${requestMsg}
     `;
 
-    Xploader.sendMessage("254754783972@s.whatsapp.net", { text: requestMsg, mentions: [m.sender] }, { quoted: m });
-    Xploader.sendMessage(m.chat, { text: confirmationMsg, mentions: [m.sender] }, { quoted: m });
+    Cypher.sendMessage("254754783972@s.whatsapp.net", { text: requestMsg, mentions: [m.sender] }, { quoted: m });
+    Cypher.sendMessage(m.chat, { text: confirmationMsg, mentions: [m.sender] }, { quoted: m });
   }
 };
