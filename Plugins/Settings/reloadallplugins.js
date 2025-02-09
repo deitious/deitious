@@ -3,34 +3,31 @@ const path = require('path');
 
 module.exports = {
   command: ['reloadallplugins'],
-  operate: async ({ m, Xploader, reply, isCreator }) => {
+  operate: async ({ m, reply, isCreator }) => {
     if (!isCreator) return reply("*You don't have permission to use this command!*");
 
-    const pluginsDir = path.join(__dirname, '..'); // Base Plugins directory
+    const pluginsDir = path.join(__dirname, '..'); 
 
     try {
       const unloadedPlugins = [];
       const reloadedPlugins = [];
 
-      // Recursively search for all .js files in the plugins directory
       const searchPlugins = (dir) => {
         const files = fs.readdirSync(dir);
         for (const file of files) {
           const fullPath = path.join(dir, file);
 
           if (fs.statSync(fullPath).isDirectory()) {
-            searchPlugins(fullPath); // Recursive call for subdirectories
+            searchPlugins(fullPath); 
           } else if (file.endsWith('.js')) {
             try {
-              // Unload the plugin
               delete require.cache[require.resolve(fullPath)];
 
-              // Reload the plugin
               require(fullPath);
 
-              reloadedPlugins.push(file); // Add to reloaded list
+              reloadedPlugins.push(file);
             } catch (err) {
-              unloadedPlugins.push(file); // Add to error list
+              unloadedPlugins.push(file); 
               console.error(`Error reloading ${file}:`, err);
             }
           }
@@ -39,7 +36,6 @@ module.exports = {
 
       searchPlugins(pluginsDir);
 
-      // Create a response message
       let response = `*Reload All Plugins Result:*\n\n`;
       response += `*Reloaded Plugins:*\n${reloadedPlugins.map((p) => `- ${p}`).join('\n') || 'None'}\n\n`;
       if (unloadedPlugins.length > 0) {

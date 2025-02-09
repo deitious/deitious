@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   command: ['reload'],
-  operate: async ({ Xploader, m, reply, isCreator, args }) => {
+  operate: async ({ m, reply, isCreator, args }) => {
     if (!isCreator) return reply("*You don't have permission to use this command!*");
 
     if (args.length === 0) return reply("*Please specify a file to reload! For example: Xploader, index.js, core.js, settings.js*");
@@ -11,7 +11,6 @@ module.exports = {
       const fileName = args[0].toLowerCase();
       let filePath;
 
-      // Determine the file path based on the provided file name
       switch (fileName) {
         case 'xploader':
         case 'xploader.js':
@@ -33,10 +32,8 @@ module.exports = {
           return reply("*Invalid file specified! Please provide a valid file name.*");
       }
 
-      // Clear the require cache for the specified file
       delete require.cache[require.resolve(filePath)];
 
-      // Re-require the file to reload it
       require(filePath);
 
       console.log(`File ${fileName} reloaded successfully!`);
