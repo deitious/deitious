@@ -1,5 +1,3 @@
-// XPLOADER-BOT
-
 
 module.exports = {
   command: ['setsudo'],

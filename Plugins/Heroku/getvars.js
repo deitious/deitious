@@ -1,9 +1,8 @@
-// XPLOADER-BOT by Tylor
 
 module.exports = {
     command: ['getvar', 'getvars'],
     operate: async (context) => {
-        const { m, isCreator, getHerokuEnvVars } = context;
+        const { m, isCreator, reply, getHerokuEnvVars } = context;
         if (!isCreator) return;
 
         try {
@@ -11,9 +10,9 @@ module.exports = {
             const formattedVars = Object.entries(envVars)
                 .map(([key, value]) => `${key} = ${value}`)
                 .join('\n');
-            await m.reply(`*Current Environment Variables:*\n\`\`\`${formattedVars}\`\`\``);
+            await reply(`*Current Environment Variables:*\n\`\`\`${formattedVars}\`\`\``);
         } catch (error) {
-            await m.reply(`*Error getting environment variables*\n${error.message}`);
+            await reply(`*Error getting environment variables*\n${error.message}`);
         }
     }
 };
