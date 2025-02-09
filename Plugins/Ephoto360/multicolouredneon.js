@@ -1,6 +1,6 @@
 module.exports = {
   command: ["multicoloredneon"],
-  operate: async ({ m, args, reply, Xploader, prefix, mess, ephoto }) => {
+  operate: async ({ m, args, reply, Cypher, prefix, mess, ephoto }) => {
     let q = args.join(" ");
     if (!q) {
       return reply(`*Example: ${prefix}multicoloredneon Tylor*`);
@@ -10,7 +10,7 @@ module.exports = {
 
     try {
       let result = await ephoto(link, q);
-      await Xploader.sendMessage(
+      await Cypher.sendMessage(
         m.chat,
         { image: { url: result }, caption: `${mess.success}` },
         { quoted: m }
