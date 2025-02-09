@@ -1,15 +1,15 @@
-// XPLOADER-BOT by Tylor
+
 const { wikimedia } = require('../../lib/scraper'); 
 
 module.exports = {
   command: ['wikimedia'],
-  operate: async ({ m, text, Xploader, reply }) => {
+  operate: async ({ m, text, Cypher, reply }) => {
     if (!text) return reply('Enter a search query');
     
     try {
-      let anumedia = await wikimedia(text);
-      let result = anumedia[Math.floor(Math.random() * anumedia.length)];
-      await Xploader.sendMessage(
+      let wiki = await wikimedia(text);
+      let result = wiki[Math.floor(Math.random() * wiki.length)];
+      await Cypher.sendMessage(
         m.chat,
         {
           caption: `TITLE: ${result.title}\nSOURCE: ${result.source}\nMEDIA URL: ${result.image}`,
