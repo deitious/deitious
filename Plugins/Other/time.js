@@ -1,4 +1,3 @@
-// XPLOADER BOT by Tylor
 
 const moment = require('moment-timezone');
 
@@ -9,13 +8,13 @@ module.exports = {
 
     const xpday = moment(Date.now()).tz(global.timezones).locale('en').format('dddd');
     const xptime = moment(Date.now()).tz(global.timezones).locale('en').format('HH:mm:ss z');
-    const lowq = `𝗧𝗜𝗠𝗘:\n${xptime}\n\n𝗗𝗔𝗧𝗘:\n${xpday}`;
+    const lowq = `*TIME*:\n${xptime}\n\nDATE*:\n${xpday}`;
 
     try {
-      m.reply(lowq);
+      reply(lowq);
     } catch (error) {
       console.error('Error sending time and date message:', error);
-      m.reply('An error occurred while fetching the time and date.');
+      reply('An error occurred while fetching the time and date.');
     }
   }
 };

@@ -5,12 +5,10 @@ const performance = require('perf_hooks').performance;
 const more = String.fromCharCode(8206);
 const readmore = more.repeat(4001); 
 
-// XPLOADER BOT by Tylor
-
 module.exports = {
   command: ['botstatus', 'statusbot'],
   operate: async (context) => {
-    const { Xploader, m, reply, mess } = context;
+    const { Cypher, m, reply, mess } = context;
  
 
     const used = process.memoryUsage();
@@ -130,7 +128,7 @@ ${cpus
 }
 `.trim();
 
-    Xploader.relayMessage(m.chat, {
+    Cypher.relayMessage(m.chat, {
       requestPaymentMessage: {
         currencyCodeIso4217: 'USD',
         requestFrom: '0@s.whatsapp.net',

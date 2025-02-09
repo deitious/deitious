@@ -1,4 +1,3 @@
-// XPLOADER BOT by Tylor
 
 const fs = require('fs');
 const { runtime } = require('../../lib/myfunc'); 
@@ -6,11 +5,11 @@ const { runtime } = require('../../lib/myfunc');
 module.exports = {
   command: ['runtime', 'uptime'],
   operate: async (context) => {
-    const { Xploader, m, reply } = context;
+    const { Cypher, m, reply } = context;
     const pinga = `*${runtime(process.uptime())}*`;
 
     try {
-      await Xploader.sendMessage(m.chat, {
+      await Cypher.sendMessage(m.chat, {
         text: pinga, 
         footer: wm,
         buttons: [
