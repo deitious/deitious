@@ -1,10 +1,9 @@
-// XPLOADER-BOT by Tylor
 
 const fs = require('fs'); 
 
 module.exports = {
   command: ['shazam', 'find', 'whatmusic'],
-  operate: async ({ m, mime, acr, Xploader, reply }) => {
+  operate: async ({ m, mime, acr, reply }) => {
     if (!m.quoted) {
       return reply('*It seems you want to identify a music. Please provide a quoted audio or video message for identification.*');
     }
@@ -13,7 +12,7 @@ module.exports = {
       try {
         let media = await m.quoted.download();
         const ext = mime.split('/')[1];
-        const filePath = `./src/${m.sender}.${ext}`;
+        const filePath = `./tmp/${m.sender}.${ext}`;
         
         fs.writeFileSync(filePath, media);
         

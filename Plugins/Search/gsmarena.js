@@ -1,10 +1,9 @@
-// XPLOADER BOT by Tylor
 
 const fetch = require('node-fetch');
 
 module.exports = {
   command: ['gsmarena'],
-  operate: async ({ Xploader, m, reply, text }) => {
+  operate: async ({ Cypher, m, reply, text }) => {
     if (!text) return reply("Please provide a phone model name.");
 
     try {
@@ -83,7 +82,7 @@ For more details, visit: [GSMArena](${phone.url})
       `;
 
       // Send the phone specifications with an image
-      await Xploader.sendMessage(m.chat, {
+      await Cypher.sendMessage(m.chat, {
         image: { url: phone.image },
         caption: phoneMessage.trim()
       }, { quoted: m });

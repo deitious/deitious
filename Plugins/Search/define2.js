@@ -1,10 +1,9 @@
-// XPLOADER-BOT by Tylor
 
 const axios = require('axios'); 
 
 module.exports = {
   command: ['define2'],
-  operate: async ({ m, text, Xploader, reply, mess }) => {
+  operate: async ({ m, text, Cypher, reply, mess }) => {
     if (!text) return reply(`What do you want to define?`);
     
     try {
@@ -16,7 +15,7 @@ module.exports = {
 *DEFINITION:* ${targetfine.data.list[0].definition.replace(/\[/g, "").replace(/\]/g, "")}
 *EXAMPLE:* ${targetfine.data.list[0].example.replace(/\[/g, "").replace(/\]/g, "")}`;
       
-      Xploader.sendMessage(m.chat, { text: replyText }, { quoted: m });
+      Cypher.sendMessage(m.chat, { text: replyText }, { quoted: m });
     } catch (err) {
       console.error(err);
       return reply(`*${text}* isn't a valid text`);

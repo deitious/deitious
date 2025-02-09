@@ -1,4 +1,3 @@
-// XPLOADER-BOT by Tylor
 
 const { happymod } = require("../../lib/scraper2"); 
 

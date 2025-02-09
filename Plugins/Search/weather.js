@@ -1,10 +1,9 @@
-// XPLOADER BOT by Tylor
 
-const axios = require('axios'); // Import axios
+const axios = require('axios');
 
 module.exports = {
   command: ['weather'],
-  operate: async ({ Xploader, m, reply, text }) => {
+  operate: async ({ Cypher, m, reply, text }) => {
     if (!text) return reply("*Which place?*");
     
     let city = text.split(" ")[0];
@@ -26,7 +25,7 @@ module.exports = {
       textw += `*Longitude:-* ${wdata.data.coord.lon}\n`;
       textw += `*Country:-* ${wdata.data.sys.country}\n`;
 
-      await Xploader.sendMessage(
+      await Cypher.sendMessage(
         m.chat,
         { text: textw },
         { quoted: m }

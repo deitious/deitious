@@ -1,10 +1,9 @@
-// XPLOADER BOT by Tylor
 
 const axios = require('axios');
 
 module.exports = {
-  command: ['imdb'],
-  operate: async ({ Xploader, m, reply, text }) => {
+  command: ['imdb', 'movie'],
+  operate: async ({ Cypher, m, reply, text }) => {
     if (!text) return reply(`*Name a series or movie*`);
     
     try {
@@ -30,7 +29,7 @@ module.exports = {
       imdbText += `*IMDB Rating:* ${movieData.imdbRating}\n`;
       imdbText += `*IMDB Votes:* ${movieData.imdbVotes}\n`;
 
-      await Xploader.sendMessage(m.chat, {
+      await Cypher.sendMessage(m.chat, {
         image: { url: movieData.Poster },
         caption: imdbText
       }, { quoted: m });

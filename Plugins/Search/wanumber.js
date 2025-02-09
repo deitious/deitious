@@ -1,10 +1,9 @@
-// XPLOADER BOT by Tylor
 
 const moment = require('moment-timezone');
 
 module.exports = {
   command: ['wanumber'],
-  operate: async ({ Xploader, m, reply, text, prefix, command }) => {
+  operate: async ({ Cypher, m, reply, text, prefix, command }) => {
     if (!text) {
       return reply(`*Provide Number with last values as x*\n\nExample: ${prefix + command} 2547961801xx`);
     }
@@ -34,13 +33,13 @@ module.exports = {
     var nowhatsapp = `\n*Numbers with no WhatsApp account within provided range.*\n`;
 
     for (let i = 0; i < randomxx; i++) {
-      var anu = await Xploader.onWhatsApp(`${number0}${i}${number1}@s.whatsapp.net`);
+      var anu = await Cypher.onWhatsApp(`${number0}${i}${number1}@s.whatsapp.net`);
       var anuu = anu.length !== 0 ? anu : false;
 
       try {
         var anu1;
         try {
-          anu1 = await Xploader.fetchStatus(anu[0].jid);
+          anu1 = await Cypher.fetchStatus(anu[0].jid);
         } catch {
           anu1 = { status: '401', setAt: '' };
         }
