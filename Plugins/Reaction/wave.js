@@ -1,13 +1,12 @@
-// XPLOADER-BOT by Tylor
 
 const axios = require('axios');
 
 module.exports = {
-  command: ['wave'], // Command name
-  operate: async ({ m, command, reply, Xploader }) => {
+  command: ['wave'],
+  operate: async ({ m, command, reply, Cypher }) => {
     try {
       const { data } = await axios.get(`https://api.waifu.pics/sfw/${command}`);
-      await Xploader.sendImageAsSticker(
+      await Cypher.sendImageAsSticker(
         m.chat,
         data.url,
         m,

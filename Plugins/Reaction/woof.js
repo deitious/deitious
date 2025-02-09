@@ -2,10 +2,10 @@ const axios = require('axios');
 
 module.exports = {
   command: ['woof'],
-  operate: async ({ Xploader, m, reply }) => {
+  operate: async ({ Cypher, m, reply }) => {
     try {
       const { data } = await axios.get('https://nekos.life/api/v2/img/woof');
-      await Xploader.sendImageAsSticker(m.from, data.url, m, {
+      await Cypher.sendImageAsSticker(m.from, data.url, m, {
         packname: global.packname,
         author: global.author,
       });
