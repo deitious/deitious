@@ -1,12 +1,11 @@
-// XPLOADER BOT by Tylor
 
 const axios = require('axios');
 
 module.exports = {
   command: ['xxqc'],
-  operate: async ({ Xploader, m, reply, prefix, command, text }) => {
+  operate: async ({ Cypher, m, reply, prefix, command, text }) => {
     if (!text) {
-      return reply(`📌Example: ${prefix + command} pink hello\n\n꒰ 🖌️ Color List ꒱ ೄྀ࿐ ˊˎ-\n━━━━━━⊱⋆⊰━━━━━━\npink\nblue\nred\ngreen\nyellow\npurple\ndarkblue\nlightblue\nash\norange\nblack\nwhite\nteal\nlightpink\nchocolate\nsalmon\nmagenta\ntan\nwheat\ndeeppink\nfire\nskyblue\nbrightskyblue\nhotpink\nlightskyblue\nseagreen\ndarkred\norangered\ncyan\nviolet\nmossgreen\ndarkgreen\nnavyblue\ndarkorange\ndarkpurple\nfuchsia\ndarkmagenta\ndarkgray\npeachpuff\nblackishgreen\ndarkishred\ngoldenrod\ndarkishgray\ndarkishpurple\ngold\nsilver`);
+      return reply(`Example: ${prefix + command} pink hello\n\nColour list\npink\nblue\nred\ngreen\nyellow\npurple\ndarkblue\nlightblue\nash\norange\nblack\nwhite\nteal\nlightpink\nchocolate\nsalmon\nmagenta\ntan\nwheat\ndeeppink\nfire\nskyblue\nbrightskyblue\nhotpink\nlightskyblue\nseagreen\ndarkred\norangered\ncyan\nviolet\nmossgreen\ndarkgreen\nnavyblue\ndarkorange\ndarkpurple\nfuchsia\ndarkmagenta\ndarkgray\npeachpuff\nblackishgreen\ndarkishred\ngoldenrod\ndarkishgray\ndarkishpurple\ngold\nsilver`);
     }
     
     if (text.length > 100) return reply(`Max 100 characters.`);
@@ -67,8 +66,8 @@ module.exports = {
 
     if (!backgroundColor) return reply("The selected color is not available.");
 
-    const pushname = await Xploader.getName(m.sender);
-    const profilePic = await Xploader.profilePictureUrl(m.sender, "image").catch(() => "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png?q=60");
+    const pushname = await Cypher.getName(m.sender);
+    const profilePic = await Cypher.profilePictureUrl(m.sender, "image").catch(() => "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png?q=60");
 
     let obj = {
       type: "quote",
@@ -96,7 +95,7 @@ module.exports = {
       let response = await axios.post("https://bot.lyo.su/quote/generate", obj, { headers: { "Content-Type": "application/json" } });
       let buffer = Buffer.from(response.data.result.image, "base64");
       
-      Xploader.sendImageAsSticker(m.chat, buffer, m, {
+      Cypher.sendImageAsSticker(m.chat, buffer, m, {
         packname: `${global.packname}`,
         author: `${global.author}`,
       });

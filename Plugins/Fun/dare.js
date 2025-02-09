@@ -2,7 +2,7 @@ const { getBuffer } = require('../../lib/myfunc');
 
 module.exports = {
   command: ["dare"],
-  operate: async ({ Xploader, m, from }) => {
+  operate: async ({ Cypher, m, from }) => {
     const dares = [
       "Eat 2 tablespoons of rice without any side dishes.",
       "Spill a secret about yourself.",
@@ -49,7 +49,7 @@ module.exports = {
     const dareMessage = dares[Math.floor(Math.random() * dares.length)];
     const buffer = await getBuffer('https://i.ibb.co/305yt26/bf84f20635dedd5dde31e7e5b6983ae9.jpg');
 
-    await Xploader.sendMessage(
+    await Cypher.sendMessage(
       from,
       {
         image: buffer,
