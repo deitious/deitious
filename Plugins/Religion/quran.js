@@ -1,4 +1,3 @@
-// XPLOADER-BOT by Tylor
 
 const fetch = require('node-fetch'); 
 
@@ -6,7 +5,6 @@ module.exports = {
   command: ['quran'],
   operate: async ({ m, text, Xploader, reply }) => {
     try {
-      // Extract the surah number or name from the command text.
       let surahInput = text.split(" ")[0];
       if (!surahInput) {
         throw new Error(`*Please specify the surah number or name*`);

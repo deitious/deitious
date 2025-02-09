@@ -1,4 +1,3 @@
-// XPLOADER-BOT by Tylor
 
 const fetch = require('node-fetch'); 
 
@@ -8,16 +7,11 @@ module.exports = {
     const BASE_URL = "https://bible-api.com";
 
     try {
-      // Extract the chapter number or name from the command text.
       let chapterInput = text.split(" ").join("").trim();
       if (!chapterInput) {
         throw new Error(`*Please specify the chapter number or name. Example: ${prefix + command} John 3:16*`);
       }
-      
-      // Encode the chapterInput to handle special characters
       chapterInput = encodeURIComponent(chapterInput);
-      
-      // Make an API request to fetch the chapter information.
       let chapterRes = await fetch(`${BASE_URL}/${chapterInput}`);
       if (!chapterRes.ok) {
         throw new Error(`*Please specify the chapter number or name. Example: ${prefix + command} John 3:16*`);
