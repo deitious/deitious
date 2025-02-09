@@ -1,10 +1,9 @@
-// XPLOADER BOT by Tylor
 
 const fetch = require('node-fetch');
 
 module.exports = {
   command: ['simi'],
-  operate: async ({ Xploader, m, reply, text }) => {
+  operate: async ({ m, reply, text }) => {
     if (!text) return reply("*Please ask a question*");
 
     try {

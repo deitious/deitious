@@ -6,35 +6,29 @@ const path = require('path');
 
 const SESSION_FILE = path.join(__dirname, '../../src/gemini.json');
 
-// Function to load session data
 const loadSession = () => {
     if (!fs.existsSync(SESSION_FILE)) {
-        fs.writeFileSync(SESSION_FILE, JSON.stringify({}), 'utf-8'); // Create file if it doesn't exist
+        fs.writeFileSync(SESSION_FILE, JSON.stringify({}), 'utf-8')
     }
     return JSON.parse(fs.readFileSync(SESSION_FILE, 'utf-8'));
 };
-
-// Function to save session data
 const saveSession = (data) => {
     fs.writeFileSync(SESSION_FILE, JSON.stringify(data, null, 2));
 };
 
 module.exports = {
     command: ['gemini'],
-    operate: async ({ m, text, mime }) => {
-        if (!text) return m.reply('Please ask a question');
+    operate: async ({ reply, m, text, mime }) => {
+        if (!text) return reply('Please ask a question');
         
         try {
-            // Load session data
             const geminiData = loadSession();
             const userId = m.sender;
 
-            // Initialize user session if not present
             if (!geminiData[userId]) {
                 geminiData[userId] = [];
             }
-
-            // Append "Reply in English" to the query
+            
             text += ' (Reply in English)';
 
             const formData = new FormData();
@@ -55,7 +49,7 @@ module.exports = {
                 });
 
                 fs.unlinkSync(filename);
-                m.reply(data.result);
+                reply(data.result);
             } else {
                 formData.append('content', text);
                 formData.append('model', 'gemini-1.5-flash');
@@ -65,15 +59,14 @@ module.exports = {
                     headers: { ...formData.getHeaders() }
                 });
 
-                // Save query and response in session data
                 geminiData[userId].push({ query: text, response: data.result });
                 saveSession(geminiData);
 
-                m.reply(data.result);
+                reply(data.result);
             }
         } catch (err) {
             console.error(err);
-            m.reply('An error occurred!');
+            reply('An error occurred!');
         }
     }
 };
