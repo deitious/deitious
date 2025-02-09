@@ -1,15 +1,14 @@
-// XPLOADER BOT by Tylor
 
 module.exports = {
   command: ['xvideos', 'porn', 'xdl'],
-  operate: async ({ m, text, isCreator, reply, mess, Xploader, fetchJson, quoted }) => {
+  operate: async ({ m, text, isCreator, reply, mess, Cypher, fetchJson, quoted }) => {
   if (!isCreator) return reply(mess.owner);
 	if (!text) return reply('*Please provide a porn video search query!*');
     let kutu = await fetchJson(`https://api-aswin-sparky.koyeb.app/api/search/xvideos?search=${text}`)
 	let kyuu = await fetchJson(`https://api-aswin-sparky.koyeb.app/api/downloader/xdl?url=${kutu.data[0].url}`)
-await Xploader.sendMessage(m.chat, {
+await Cypher.sendMessage(m.chat, {
  video: {url: kyuu.data}, 
- caption: `©𝐗𝐩𝐥𝐨𝐚𝐝𝐞𝐫𝐁𝐨𝐭` ,
+ caption: global.wm,
  contextInfo: {
         externalAdReply: {
           title: global.botname,
@@ -22,9 +21,9 @@ await Xploader.sendMessage(m.chat, {
     }, { quoted: m });
     
 	let kyut = await fetchJson(`https://api-aswin-sparky.koyeb.app/api/downloader/xdl?url=${kutu.data[1].url}`)
-await Xploader.sendMessage(m.chat, {
+await Cypher.sendMessage(m.chat, {
  video: {url: kyut.data}, 
- caption: `©𝐗𝐩𝐥𝐨𝐚𝐝𝐞𝐫𝐁𝐨𝐭` ,
+ caption: global.wm,
  contextInfo: {
         externalAdReply: {
           title: global.botname,
@@ -37,9 +36,9 @@ await Xploader.sendMessage(m.chat, {
     }, { quoted: m });
   
 	let ktut = await fetchJson(`*https://api-aswin-sparky.koyeb.app/api/downloader/xdl?url=${kutu.data[2].url}*`)
-await Xploader.sendMessage(m.chat, {
+await Cypher.sendMessage(m.chat, {
  video: {url: ktut.data}, 
- caption: `©𝐗𝐩𝐥𝐨𝐚𝐝𝐞𝐫𝐁𝐨𝐭` ,
+ caption: global.wm ,
  contextInfo: {
         externalAdReply: {
           title: botname,
@@ -50,6 +49,6 @@ await Xploader.sendMessage(m.chat, {
         }
       }
     }, { quoted: m });
-    Xploader.sendMessage(m.chat, { react: { text: '✅', key: m.key }})
+    Cypher.sendMessage(m.chat, { react: { text: '✅', key: m.key }})
   }
 };

@@ -1,10 +1,8 @@
-// XPLOADER BOT by Tylor
 
-const { Telesticker } = require('../../lib/scraper'); // Import Telesticker function
-
+const { Telesticker } = require('../../lib/scraper');
 module.exports = {
   command: ['telesticker', 'telegramsticker'],
-  operate: async ({ m, args, Xploader, prefix, command, reply }) => {
+  operate: async ({ m, args, Cypher, prefix, command, reply }) => {
     if (args[0] && args[0].match(/(https:\/\/t.me\/addstickers\/)/gi)) {
       try {
         let XpBotresources = await Telesticker(args[0]);
@@ -13,13 +11,13 @@ module.exports = {
         if (m.isGroup && XpBotresources.length > 30) {
           await reply("*Number of stickers more than 30, bot will send it in private chat.*");
           for (let i = 0; i < XpBotresources.length; i++) {
-            Xploader.sendMessage(m.sender, {
+            Cypher.sendMessage(m.sender, {
               sticker: { url: XpBotresources[i].url },
             });
           }
         } else {
           for (let i = 0; i < XpBotresources.length; i++) {
-            Xploader.sendMessage(m.chat, {
+            Cypher.sendMessage(m.chat, {
               sticker: { url: XpBotresources[i].url },
             });
           }

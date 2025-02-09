@@ -1,17 +1,16 @@
-// XPLOADER BOT by Tylor
 
-const { fetchJson } = require('../../lib/myfunc'); // Import fetchJson function
+const { fetchJson } = require('../../lib/myfunc');
 
 module.exports = {
   command: ['apk', 'apkdl'],
-  operate: async ({ m, text, Xploader, botname, reply }) => {
+  operate: async ({ m, text, Cypher, botname, reply }) => {
     if (!text) return reply("*Which apk do you want to download?*");
     
     try {
       let kyuu = await fetchJson(`https://bk9.fun/search/apk?q=${text}`);
       let tylor = await fetchJson(`https://bk9.fun/download/apk?id=${kyuu.BK9[0].id}`);
 
-      await Xploader.sendMessage(
+      await Cypher.sendMessage(
         m.chat,
         {
           document: { url: tylor.BK9.dllink },

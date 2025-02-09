@@ -1,43 +1,28 @@
-// XPLOADER BOT by Tylor
-
 const axios = require('axios');
-const yts = require('yt-search');
 
 module.exports = {
   command: ['videodoc'],
-  operate: async ({ Xploader, m, reply, text }) => {
-    if (!text) return reply("Please provide a song/video name.");
+  operate: async ({ Cypher, m, reply, text }) => {
+    if (!text) return reply('*Please provide a video URL!*');
 
+    const apiUrl = `https://xploader-api.vercel.app/ytmp4?url=${encodeURIComponent(text)}`;
+    
     try {
-      // Search for the video
-      let searchResults = await yts(text);
-      let result = searchResults.all[0];
-      let videoUrl = `https://api.siputzx.my.id/api/d/ytmp4?url=${encodeURIComponent(result.url)}`;
+      const response = await axios.get(apiUrl);
+      if (!response.data || !response.data.download_url) return reply('*Failed to retrieve the video!*');
 
-      // Fetch the direct download link
-      let response = await axios.get(videoUrl);
-      if (response.status !== 200 || !response.data.status) throw new Error('Failed to retrieve video link');
+      const video = response.data;
+      const downloadUrl = video.download_url;
 
-      let videoInfo = response.data.data;
-
-      // Send video information
-      let videoInfoMessage = {
-        text: `*Title*: ${videoInfo.title}\n*Channel*: ${result.author.name}\n*Views*: ${result.views}\n*Duration*: ${result.timestamp}\n\n*Xploader is downloading video...*`,
-        contextInfo: { mentionedJid: [m.sender] }
-      };
-      Xploader.sendMessage(m.chat, videoInfoMessage, { quoted: m });
-
-      // Send video as document
-      await Xploader.sendMessage(m.chat, { 
-        document: { url: videoInfo.dl }, 
-        mimetype: 'video/mp4', 
-        fileName: `${videoInfo.title}.mp4`,
-        caption: `᙭ᑭᒪOᗩᗪᗴᖇ ᗷOT`
+      await Cypher.sendMessage(m.chat, {
+        document: { url: downloadUrl },
+        mimetype: 'video/mp4',
+        fileName: `${video.title}.mp4`
       }, { quoted: m });
 
     } catch (error) {
-      console.error(error);
-      reply("An error occurred while fetching the video.");
+      console.error('Error:', error);
+      Cypher.sendMessage(m.chat, { text: 'An error occurred while trying to download the video.' }, { quoted: m });
     }
   }
 };

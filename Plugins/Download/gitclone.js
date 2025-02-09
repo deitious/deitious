@@ -1,12 +1,11 @@
-// XPLOADER-BOT by Tylor
 
 const fetch = require('node-fetch'); 
 
 module.exports = {
   command: ['gitclone'],
-  operate: async ({ m, args, prefix, command, Xploader, reply, mess, isUrl }) => {
+  operate: async ({ m, args, prefix, command, Cypher, reply, mess, isUrl }) => {
     if (!args[0])
-      return reply(`*GitHub link to clone?*\nExample :\n${prefix}${command} https://github.com/Dark-Xploit/XPLOADER--BOT`);
+      return reply(`*GitHub link to clone?*\nExample :\n${prefix}${command} https://github.com/Dark-Xploit/CypherX`);
     
     if (!isUrl(args[0]))
       return reply("*Link invalid! Please provide a valid URL.*");
@@ -27,7 +26,7 @@ module.exports = {
         .get("content-disposition")
         .match(/attachment; filename=(.*)/)[1];
       
-      await Xploader.sendMessage(
+      await Cypher.sendMessage(
         m.chat,
         {
           document: { url: url },

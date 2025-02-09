@@ -1,19 +1,18 @@
-// XPLOADER BOT by Tylor
 
-const { fetchJson } = require('../../lib/myfunc'); // Import fetchJson function
+const { fetchJson } = require('../../lib/myfunc');
 
 module.exports = {
   command: ['tiktok', 'tikdl', 'tiktokvideo'],
-  operate: async ({ m, args, fetchJson, Xploader, reply }) => {
+  operate: async ({ m, args, fetchJson, Cypher, reply }) => {
     if (!args[0]) return reply('*Please provide a TikTok video url!*');
     
     try {
       let kyuu = await fetchJson(`https://api-aswin-sparky.koyeb.app/api/downloader/tiktok?url=${args[0]}`);
       
-      await Xploader.sendMessage(
+      await Cypher.sendMessage(
         m.chat,
         {
-          caption: `©𝐗𝐩𝐥𝐨𝐚𝐝𝐞𝐫𝐁𝐨𝐭`,
+          caption: global.wm,
           video: { url: kyuu.data.video },
           fileName: "video.mp4",
           mimetype: "video/mp4",

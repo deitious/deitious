@@ -1,20 +1,18 @@
-// XPLOADER BOT by Tylor
 
-const fetch = require('node-fetch'); // Import fetch function
+const fetch = require('node-fetch'); 
 
 module.exports = {
   command: ['download'],
-  operate: async ({ m, text, Xploader, reply }) => {
+  operate: async ({ m, text, Cypher, reply }) => {
     if (!text) return reply('Enter download URL');
     
     try {
-      let res = await fetch(text, { method: 'GET', redirect: 'follow' }); // Follow redirects
+      let res = await fetch(text, { method: 'GET', redirect: 'follow' });
       let contentType = res.headers.get('content-type');
       let buffer = await res.buffer();
-      let extension = contentType.split('/')[1]; // Get file extension from content type
+      let extension = contentType.split('/')[1]; 
       let filename = res.headers.get('content-disposition')?.match(/filename="(.*)"/)?.[1] || `download-${Math.random().toString(36).slice(2, 10)}.${extension}`;
 
-      // Determine mime type
       let mimeType;
       switch (contentType) {
         case 'audio/mpeg':
@@ -45,7 +43,7 @@ module.exports = {
           mimeType = 'application/octet-stream';
       }
 
-      Xploader.sendMessage(m.chat, { document: buffer, mimetype: mimeType, fileName: filename }, { quoted: m });
+      Cypher.sendMessage(m.chat, { document: buffer, mimetype: mimeType, fileName: filename }, { quoted: m });
     } catch (error) {
       reply(`Error downloading file: ${error.message}`);
     }

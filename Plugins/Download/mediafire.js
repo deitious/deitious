@@ -1,4 +1,3 @@
-// XPLOADER BOT by Tylor
 
 const fetch = require('node-fetch');
 const fs = require('fs');
@@ -7,7 +6,7 @@ const axios = require('axios');
 
 module.exports = {
   command: ['mediafire'],
-  operate: async ({ Xploader, m, reply, text }) => {
+  operate: async ({ Cypher, m, reply, text }) => {
     if (!text) return reply("*Please provide a MediaFire file URL*");
 
     try {
@@ -17,7 +16,6 @@ module.exports = {
       if (response.status !== 200 || !data.status || !data.data) {
         return reply("*Please try again later or try another command!*");
       } else {
-        // Fetch the file from the download link
         const downloadUrl = data.data.downloadLink;
         const filePath = path.join(__dirname, `${data.data.fileName}.zip`);
 
@@ -31,14 +29,13 @@ module.exports = {
         fileResponse.data.pipe(writer);
 
         writer.on('finish', async () => {
-          // Send the file
-          await Xploader.sendMessage(m.chat, {
+          
+          await Cypher.sendMessage(m.chat, {
             document: { url: filePath },
             fileName: data.data.fileName,
             mimetype: 'application/zip'
           });
 
-          // Clean up the file after sending
           fs.unlinkSync(filePath);
         });
 

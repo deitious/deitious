@@ -1,26 +1,28 @@
-// XPLOADER BOT by Tylor
-
-const { fetchJson } = require('../../lib/myfunc'); // Import fetchJson function
+const fetch = require('node-fetch');
 
 module.exports = {
-  command: ['instagram', 'igdl'],
-  operate: async ({ m, text, Xploader, reply }) => {
-    if (!text) return reply(`*Please provide an Instagram video url!*`);
+  command: ['igdl', 'instadl'],
+  operate: async ({ Cypher, m, reply, text }) => {
+    if (!text) return reply('*Please provide an Instagram URL!*');
+
+    const apiUrl = `https://xploader-api.vercel.app/igdl?url=${encodeURIComponent(text)}`;
     
     try {
-      var anu = await fetchJson(`https://api-aswin-sparky.koyeb.app/api/downloader/igdl?url=${text}`);
-      var hassdl = anu.data[0].url;
-      
-      await Xploader.sendMessage(m.chat, {
-        video: {
-          url: hassdl,
-          caption: '©𝐗𝐩𝐥𝐨𝐚𝐝𝐞𝐫𝐁𝐨𝐭'
-        }
-      }, {
-        quoted: m
-      });
+      const response = await fetch(apiUrl);
+      const data = await response.json();
+      if (!data || data.url.length === 0) return reply('*Failed to retrieve the video!*');
+
+      const videoUrl = data.url;
+      const title = `Instagram Video`;
+
+      await Cypher.sendMessage(m.chat, {
+        video: { url: videoUrl },
+        mimetype: 'video/mp4',
+        fileName: `${title}.mp4`
+      }, { quoted: m });
     } catch (error) {
-      reply(`Error fetching video: ${error.message}`);
+      console.error('Download command failed:', error);
+      m.reply(`Error: ${error.message}`);
     }
   }
 };

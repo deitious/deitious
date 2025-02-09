@@ -1,10 +1,9 @@
-// XPLOADER BOT by Tylor
 
-const fetch = require('node-fetch'); // Import fetch function
+const fetch = require('node-fetch'); 
 
 module.exports = {
   command: ['itunes'],
-  operate: async ({ m, text, Xploader, reply }) => {
+  operate: async ({ m, text, Cypher, reply }) => {
     if (!text) return reply("*Please provide a song name*");
     
     try {
@@ -22,10 +21,9 @@ module.exports = {
  • *Length:* ${json.length}\n
  • *Genre:* ${json.genre}\n
  • *URL:* ${json.url}`;
-      
-      // Check if thumbnail is present, then send it with songInfo as caption
+     
       if (json.thumbnail) {
-        await Xploader.sendMessage(
+        await Cypher.sendMessage(
           m.chat,
           { image: { url: json.thumbnail }, caption: songInfo },
           { quoted: m }

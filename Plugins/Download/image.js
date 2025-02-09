@@ -1,10 +1,9 @@
-// XPLOADER BOT by Tylor
 
 const fetch = require('node-fetch');
 
 module.exports = {
   command: ['image', 'img'],
-  operate: async ({ Xploader, m, reply, text }) => {
+  operate: async ({ Cypher, m, reply, text }) => {
     if (!text) return reply("*Please provide a search query*");
 
     try {
@@ -18,7 +17,7 @@ module.exports = {
         const images = data.data.slice(0, 5);
 
         for (const image of images) {
-          await Xploader.sendMessage(m.chat, {
+          await Cypher.sendMessage(m.chat, {
             image: { url: image.images_url },
           });
         }
