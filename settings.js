@@ -50,8 +50,8 @@ global.author = process.env.STICKER_AUTHOR_NAME || "X"
 //The sticker author name
 
 //=================================================//
-global.prefixz = process.env.PREFIX || ["."]
-//Set your desired prefix, if you want to use multiple prefixes you can add e.g [".", "*", "#"]
+global.prefixz = process.env.PREFIX || '.'
+//Set your desired prefix
 
 //=================================================//
 global.mode = process.env.MODE || 'public';
