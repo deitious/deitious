@@ -12,7 +12,7 @@
 </a>
 </p>
 <p align="center">
-<a href="https://github.com/Dark-Xploit"><img title="Author" src="https://img.shields.io/badge/XPLOADER--BOT-skyblue?style=for-the-badge&logo=telegram"></a>
+<a href="https://github.com/Dark-Xploit"><img title="Author" src="https://img.shields.io/badge/CypherX-skyblue?style=for-the-badge&logo=telegram"></a>
 <p/>
 <p align="center">
 <a href="https://github.com/Dark-Xploit/XPLOADER--BOT/stargazers/"><img title="Stars" src="https://img.shields.io/github/stars/Dark-Xploit/XPLOADER--BOT?&style=social"></a>
@@ -25,7 +25,7 @@
 ## `SETUP`
 
 <p align="center">
-  <a href='https://github.com/Dark-Xploit/XPLOADER--BOT/fork' target="_blank" style="margin-right: 10px;">
+  <a href='https://github.com/Dark-Xploit/CypherX/fork' target="_blank" style="margin-right: 10px;">
     <img alt='Fork Repo' src='https://img.shields.io/badge/Fork Repo-100000?style=for-the-badge&logo=scan&logoColor=white&labelColor=orange&color=darkgreen'/>
   </a>
   <a href='https://xploader-pair.onrender.com/' target="_blank">
