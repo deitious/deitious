@@ -26,7 +26,7 @@ https://github.com/Dark-Xploit/CypherX
 
 @${me.split("@")[0]}👋, Don't forget to star and fork my repository😊
 
-> 𝐗𝐩𝐥𝐨𝐚𝐝𝐞𝐫𝐁𝐨𝐭`;
+> global.wm`;
 
         Cypher.sendMessage(m.chat, { text: repos, contextInfo: {
           mentionedJid: [m.sender],
