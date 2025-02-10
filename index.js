@@ -3,7 +3,6 @@ const path = require('path');
 const fs = require('fs');
 const moment = require('moment-timezone');
 
-// Memory limit in MB
 const MEMORY_LIMIT = 250;
 const RESTART_DELAY = 3000;
 
@@ -16,7 +15,7 @@ function getLogFileName() {
 
 function logMessage(message) {
   const timestamp = moment(Date.now()).tz(TIMEZONE).locale('en').format('HH:mm z');
-  console.log(`[XPLOADER] ${message}`);
+  console.log(`[CYPHER-X] ${message}`);
   fs.appendFileSync(path.join(__dirname, 'src', getLogFileName()), `[${timestamp}] ${message}\n`);
 }
 
@@ -25,25 +24,21 @@ function start() {
 
   const args = [path.join(__dirname, 'core.js'), ...process.argv.slice(2)];
   
-  console.clear()
   logMessage('Starting...');
 
-  // Open a write stream for error logging
-  const logFilePath = path.join(__dirname, 'src', getLogFileName());
+  const logFilePath = path.join(__dirname, 'tmp', getLogFileName());
   const errorLogStream = fs.createWriteStream(logFilePath, { flags: 'a' });
 
   let p = spawn(process.argv[0], args, {
     stdio: ['inherit', 'inherit', 'pipe', 'ipc'],
   });
 
-  // Pipe stderr (error output) to log file and console
   p.stderr.on('data', (data) => {
     const errorMsg = `[${moment(Date.now()).tz(TIMEZONE).locale('en').format('HH:mm z')}] ${data.toString()}`;
     console.error(errorMsg);
     errorLogStream.write(errorMsg);
   });
 
-  // Memory monitoring
   const memoryCheckInterval = setInterval(() => {
     try {
       const memoryUsage = process.memoryUsage().rss / 1024 / 1024;
@@ -65,9 +60,8 @@ function start() {
     }
   });
 
-  // Handle shutdown signals
   const handleShutdown = (signal) => {
-    logMessage(`Shutting down XPLOADER due to ${signal}...`);
+    logMessage(`Shutting down CypherX due to ${signal}...`);
     p.kill();
     errorLogStream.end();
     process.exit(0);

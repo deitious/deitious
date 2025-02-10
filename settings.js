@@ -1,4 +1,4 @@
-  //project_name : XPLOADER
+  //project_name : CypherX
 // @author : TYLOR
 // @youtube : https://www.youtube.com/@heyits_tylor
 // @instagram : heyits_tylor
@@ -19,7 +19,7 @@ global.SESSION_ID = process.env.SESSION_ID || ''
 //Enter your Xploader session id here; must start with XPLOADER-BOT:~
 
 //=================================================//
-global.botname = process.env.BOT_NAME || '᙭ᑭᒪOᗩᗪᗴᖇ ᗷOT' 
+global.botname = process.env.BOT_NAME || 'CypherX' 
 //Your desired bot name
 
 //=================================================//
@@ -39,19 +39,19 @@ global.ownername = process.env.OWNER_NAME || 'Tylor'
 global.plink = process.env.PLINK || "https://www.instagram.com/heyits_tylor?igsh=YzljYTk1ODg3Zg=="
 
 //=================================================//
-global.wm = process.env.GL_WM || "©᙭ᑭᒪOᗩᗪᗴᖇ ᗷOT"
+global.wm = process.env.GL_WM || "©CypherX"
 
 //=================================================//
-global.packname = process.env.STICKER_PACK_NAME || "᙭ᑭᒪOᗩᗪᗴᖇ" 
+global.packname = process.env.STICKER_PACK_NAME || "Cypher" 
 //The sticker pack name
 
 //=================================================//
-global.author = process.env.STICKER_AUTHOR_NAME || "ᗷOT" 
+global.author = process.env.STICKER_AUTHOR_NAME || "X" 
 //The sticker author name
 
 //=================================================//
-global.prefixz = process.env.PREFIX || '.' 
-//Set your desired prefix
+global.prefixz = process.env.PREFIX || ["."]
+//Set your desired prefix, if you want to use multiple prefixes you can add e.g [".", "*", "#"]
 
 //=================================================//
 global.mode = process.env.MODE || 'public';
@@ -107,7 +107,7 @@ global.menustyle = process.env.MENU_STYLE || '2'
 //Replies
 global.mess = { 
   done: '*Done*', 
-  success: '©᙭ᑭᒪOᗩᗪᗴᖇ ᗷOT', 
+  success: '©CypherX', 
   owner: `*You don't have permission to use this command!*`, 
   group: '*This feature becomes available when you use it in a group!*', 
   admin: '*You’ll unlock this feature with me as an admin!*', 

@@ -9,7 +9,9 @@ class PluginManager {
   
   async loadPlugins() {
     try {
+      console.log("[CYPHER-X] Loading plugins...");
       const folders = await fs.readdir(this.directory);
+      let loadedCount = 0;
 
       for (const folder of folders) {
         const folderPath = path.join(this.directory, folder);
@@ -21,27 +23,43 @@ class PluginManager {
           for (const file of files.filter(file => file.endsWith('.js'))) {
             const filePath = path.join(folderPath, file);
 
-            try {
-              if (!this.pluginCache.has(filePath)) {
-                const plugin = require(filePath);
-
-                if (plugin && plugin.command && typeof plugin.operate === 'function') {
-                  this.pluginCache.set(filePath, plugin);
-                } else {
-                  console.warn(`Invalid plugin structure in: ${filePath}`);
-                }
+            if (!this.pluginCache.has(filePath)) {
+              const success = await this.loadPlugin(filePath);
+              if (success) {
+                loadedCount++;
               }
-            } catch (error) {
-              console.error(`Error loading plugin (${filePath}):`, error);
             }
           }
         }
       }
+      console.log(`[CYPHER-X] Loaded ${loadedCount} plugins.`);
     } catch (error) {
-      console.error(`Error loading plugins:`, error);
+      console.error(`[CYPHER-X] Error loading plugins:`, error);
     }
   }
-  
+
+  async loadPlugin(filePath) {
+    try {
+      if (this.pluginCache.has(filePath)) {
+        console.warn(`Plugin already loaded: ${filePath}`);
+        return false;
+      }
+
+      const plugin = require(filePath);
+
+      if (plugin && plugin.command && typeof plugin.operate === 'function') {
+        this.pluginCache.set(filePath, plugin);
+        return true;
+      } else {
+        console.warn(`Invalid plugin structure in: ${filePath}`);
+        return false;
+      }
+    } catch (error) {
+      console.error(`Error loading plugin (${filePath}):`, error);
+      return false;
+    }
+  }
+
   async unloadPlugin(filePath) {
     if (this.pluginCache.has(filePath)) {
       try {
@@ -65,10 +83,13 @@ class PluginManager {
     for (const filePath of this.pluginCache.keys()) {
       await this.unloadPlugin(filePath);
     }
-    console.log('All plugins unloaded.');
   }
 
-  // Execute a command within a plugin
+  async reloadPlugin(filePath) {
+    await this.unloadPlugin(filePath);
+    await this.loadPlugin(filePath);
+  }
+
   async executePlugin(globalContext, command) {
     for (const plugin of this.pluginCache.values()) {
       try {
