@@ -1,3 +1,5 @@
+const yts = require("yt-search")
+
 module.exports = {
   command: ['playdoc'],
   operate: async ({ Cypher, m, reply, text, fetchMp3DownloadUrl }) => {
