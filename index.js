@@ -13,10 +13,21 @@ function getLogFileName() {
   return `${today.format('YYYY-MM-DD')}.log`;
 }
 
+function createTmpFolder() {
+const folderName = "tmp";
+const folderPath = path.join(__dirname, folderName);
+
+if (!fs.existsSync(folderPath)) {
+fs.mkdirSync(folderPath);
+   }
+ }
+ 
+createTmpFolder();
+
 function logMessage(message) {
   const timestamp = moment(Date.now()).tz(TIMEZONE).locale('en').format('HH:mm z');
   console.log(`[CYPHER-X] ${message}`);
-  fs.appendFileSync(path.join(__dirname, 'src', getLogFileName()), `[${timestamp}] ${message}\n`);
+  fs.appendFileSync(path.join(__dirname, 'tmp', getLogFileName()), `[${timestamp}] ${message}\n`);
 }
 
 function start() {

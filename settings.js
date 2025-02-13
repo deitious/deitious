@@ -79,6 +79,13 @@ global.chatbot = process.env.CHATBOT || 'false'
 // set true to enable and false to disable auto ai chatbot
 
 //=================================================//
+global.antidelete = process.env.ANTIDELETE || 'private'
+// options:- 'private', 'chat' or 'off'
+// private = Sends to message yourself 
+// chat = sends to the current chat 
+// off = Disables
+
+//=================================================//
 global.anticall = process.env.ANTI_CALL || 'false'
 // set true to enable and false to disable auto blocking of callers
 

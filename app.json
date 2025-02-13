@@ -11,7 +11,7 @@
   },
   "env": {
     "SESSION_ID": {
-      "description": "Enter your Xploader session id here; must start with XPLOADER-BOT:~",
+      "description": "Enter your CypherX session id here; must start with XPLOADER-BOT:~",
       "value": "",
       "required": false
     },
@@ -58,6 +58,11 @@
     "MODE": {
       "description": "Set to 'private' to enable private mode, otherwise default is 'public'",
       "value": "public",
+      "required": false
+    },
+    "ANTIDELETE": {
+      "description": "Set 'private' to send deleted messages to message yourself, 'chat' to current chat and 'off' to disable'",
+      "value": "private",
       "required": false
     },
     "ALWAYS_ONLINE": {
