@@ -3,14 +3,13 @@ const path = require('path');
 const fs = require('fs');
 const moment = require('moment-timezone');
 
-const MEMORY_LIMIT = 250;
-const RESTART_DELAY = 3000;
+const MEMORY_LIMIT = 250; // MB
+const RESTART_DELAY = 3000; // ms
 
-const TIMEZONE = global.timezones || "Africa/Nairobi";
+const TIMEZONE = "Africa/Nairobi";
 
 function getLogFileName() {
-  const today = moment(Date.now()).tz(TIMEZONE);
-  return `${today.format('YYYY-MM-DD')}.log`;
+  return `${moment().tz(TIMEZONE).format('YYYY-MM-DD')}.log`;
 }
 
 function createTmpFolder() {
@@ -25,12 +24,13 @@ fs.mkdirSync(folderPath);
 createTmpFolder();
 
 function logMessage(message) {
-  const timestamp = moment(Date.now()).tz(TIMEZONE).locale('en').format('HH:mm z');
+  const timestamp = moment().tz(TIMEZONE).format('HH:mm z');
   console.log(`[CYPHER-X] ${message}`);
   fs.appendFileSync(path.join(__dirname, 'tmp', getLogFileName()), `[${timestamp}] ${message}\n`);
 }
 
 function start() {
+  process.env.SERVER_MEMORY = '716';
   process.env.NODE_OPTIONS = '--no-deprecation';
 
   const args = [path.join(__dirname, 'core.js'), ...process.argv.slice(2)];
@@ -45,14 +45,18 @@ function start() {
   });
 
   p.stderr.on('data', (data) => {
-    const errorMsg = `[${moment(Date.now()).tz(TIMEZONE).locale('en').format('HH:mm z')}] ${data.toString()}`;
+    const errorMsg = `[${moment().tz(TIMEZONE).format('HH:mm z')}] ${data.toString()}`;
     console.error(errorMsg);
     errorLogStream.write(errorMsg);
   });
 
   const memoryCheckInterval = setInterval(() => {
     try {
-      const memoryUsage = process.memoryUsage().rss / 1024 / 1024;
+      if (!p.pid) return; 
+
+      const { execSync } = require('child_process');
+      const memoryUsage = parseFloat(execSync(`ps -o rss= -p ${p.pid}`).toString().trim()) / 1024; 
+
       if (memoryUsage > MEMORY_LIMIT) {
         logMessage(`Memory usage exceeded ${MEMORY_LIMIT}MB. Restarting...`);
         p.kill();
@@ -60,13 +64,13 @@ function start() {
     } catch (error) {
       logMessage(`Memory check failed: ${error.message}`);
     }
-  }, 60000);
+  }, 600000);
 
   p.on('exit', (code) => {
     clearInterval(memoryCheckInterval);
     logMessage(`Exited with code: ${code}`);
 
-    if (code === 0 || code === 1 || code === 401) {
+    if (code !== 0) {
       setTimeout(start, RESTART_DELAY);
     }
   });
@@ -77,9 +81,6 @@ function start() {
     errorLogStream.end();
     process.exit(0);
   };
-
-  process.removeAllListeners('SIGINT');
-  process.removeAllListeners('SIGTERM');
 
   process.on('SIGINT', handleShutdown);
   process.on('SIGTERM', handleShutdown);

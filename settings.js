@@ -50,12 +50,15 @@ global.author = process.env.STICKER_AUTHOR_NAME || "X"
 //The sticker author name
 
 //=================================================//
-global.prefixz = process.env.PREFIX || '.'
+global.prefixz = process.env.BOT_PREFIX || '.'
 //Set your desired prefix
 
 //=================================================//
 global.mode = process.env.MODE || 'public';
-// Set to 'private' to enable private mode, otherwise default is 'public'
+// Set 'private' to enable private mode
+// Set 'public' to enable public mode
+// Set 'group' to enable only group
+// Set 'pm' to enable only private chats
 
 //=================================================//
 global.statusemoji = process.env.STATUS_EMOJI || '🧡'

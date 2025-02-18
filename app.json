@@ -1,6 +1,6 @@
 {
   "name": "CypherX",
-  "version": "1.2.0",
+  "version": "1.2.5",
   "description": "CypherX, the best WhatsApp Bot",
   "logo": "https://i.ibb.co/DRW8wCV/Xploader4.jpg",
   "keywords": ["whatsapp", "bot", "md"],
@@ -50,13 +50,13 @@
       "value": "",
       "required": false
     },
-    "PREFIX": {
+    "BOT_PREFIX": {
       "description": "Enter your desired prefix here",
       "value": ".",
       "required": true
     },
     "MODE": {
-      "description": "Set to 'private' to enable private mode, otherwise default is 'public'",
+      "description": "Set 'private' to enable private mode, 'public' to enable public mode, 'group' to enable only group and 'pm' to enable only private chats",
       "value": "public",
       "required": false
     },
