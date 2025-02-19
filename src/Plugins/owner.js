@@ -31,29 +31,23 @@ module.exports = [
     }
   }
 },
-  {
+{
   command: ['addignorelist'],
-  operate: async ({ m, args, isCreator, mess, loadBlacklist, blacklistPath, reply }) => {
+  operate: async ({ m, args, isCreator, loadBlacklist, mess, reply }) => {
     if (!isCreator) return reply(mess.owner);
 
     let mentionedUser = m.mentionedJid && m.mentionedJid[0];
     let quotedUser = m.quoted && m.quoted.sender;
-    let userToAdd = mentionedUser || quotedUser || args[0];
+    let userToAdd = mentionedUser || quotedUser || m.chat;
 
-    if (userToAdd && !userToAdd.includes('@s.whatsapp.net')) {
-      userToAdd = `${userToAdd}@s.whatsapp.net`;
-    }
-
-    if (!userToAdd) return reply('Please mention a user, reply to a user\'s message, or provide a phone number to add to the bot\'s ignore list.');
+    if (!userToAdd) return reply('Mention a user, reply to their message, or provide a phone number to ignore.');
 
     let blacklist = loadBlacklist();
-
     if (!blacklist.blacklisted_numbers.includes(userToAdd)) {
-      blacklist.blacklisted_numbers.push(userToAdd);
-      fs.writeFileSync(blacklistPath, JSON.stringify(blacklist, null, 2));
-      reply(`User ${userToAdd} has been added to the bot's ignore list.\n\nThe bot will no longer respond to their messages 🗿.`);
+        blacklist.blacklisted_numbers.push(userToAdd);
+        reply(`${userToAdd} added to the ignore list.`);
     } else {
-      reply(`User ${userToAdd} is already in the bot's ignore list.`);
+        reply(`${userToAdd} is already ignored.`);
     }
   }
 },
@@ -172,28 +166,24 @@ module.exports = [
     Cypher.sendMessage(m.chat, { delete: key });
   }
 },
-  {
+{
   command: ['delignorelist'],
-  operate: async ({ m, args, isCreator, mess, loadBlacklist, blacklistPath, reply }) => {
-    if (!isCreator) return reply(mess.owner); 
+  operate: async ({ m, args, isCreator, loadBlacklist, mess, reply }) => {
+    if (!isCreator) return reply(mess.owner);
+
     let mentionedUser = m.mentionedJid && m.mentionedJid[0];
     let quotedUser = m.quoted && m.quoted.sender;
-    let userToRemove = mentionedUser || quotedUser || args[0]; 
+    let userToRemove = mentionedUser || quotedUser || m.chat;
 
-    if (userToRemove && !userToRemove.includes('@s.whatsapp.net')) {
-      userToRemove = `${userToRemove}@s.whatsapp.net`; 
-    }
-
-    if (!userToRemove) return reply('Please mention a user, reply to a user\'s message, or provide a phone number to remove from the bot\'s ignore list.');
+    if (!userToRemove) return reply('Mention a user, reply to their message, or provide a phone number to remove from the ignore list.');
 
     let blacklist = loadBlacklist();
-
-    if (blacklist.blacklisted_numbers.includes(userToRemove)) {
-      blacklist.blacklisted_numbers = blacklist.blacklisted_numbers.filter(number => number !== userToRemove);
-      fs.writeFileSync(blacklistPath, JSON.stringify(blacklist, null, 2));
-      reply(`User ${userToRemove} has been removed from the bot's ignore list.`);
+    let index = blacklist.blacklisted_numbers.indexOf(userToRemove);
+    if (index !== -1) {
+        blacklist.blacklisted_numbers.splice(index, 1);
+        reply(`${userToRemove} removed from the ignore list.`);
     } else {
-      reply(`User ${userToRemove} is not in the bot's ignore list.`);
+        reply(`${userToRemove} is not in the ignore list.`);
     }
   }
 },
@@ -439,20 +429,14 @@ module.exports = [
     reply(text);
   }
 },
-  {
+{
   command: ['listignorelist'],
-  operate: async ({ m, isCreator, mess, loadBlacklist, reply }) => {
-    if (!isCreator) return reply(mess.owner);
+  operate: async ({ reply, loadBlacklist }) => {
     let blacklist = loadBlacklist();
-
     if (blacklist.blacklisted_numbers.length === 0) {
-      reply('The ignore list is currently empty.');
+        reply('The ignore list is empty.');
     } else {
-      let blacklistMessage = 'Ignored Numbers:\n';
-      blacklist.blacklisted_numbers.forEach((number, index) => {
-        blacklistMessage += `${index + 1}. ${number}\n`;
-      });
-      reply(blacklistMessage);
+        reply(`Ignored users/chats:\n${blacklist.blacklisted_numbers.join('\n')}`);
     }
   }
 },

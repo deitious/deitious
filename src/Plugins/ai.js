@@ -19,7 +19,7 @@ const saveSession = (data) => {
 };
 
 module.exports = [
-  {
+{
   command: ['bardai', 'bard'],
   operate: async ({ m, reply, text }) => {
     if (!text) return reply("*Please ask a question*");
@@ -31,31 +31,11 @@ module.exports = [
       if (response.status !== 200 || !data.result || data.result.length === 0) {
         return reply("*Please try again later or try another command!*");
       } else {
-        reply(data.result); 
+        reply(data.result[0]); // Extract the first message from the result array
       }
     } catch (error) {
       console.error('Error fetching response from Bard API:', error);
       reply("An error occurred while fetching the response from Bard API.");
-      }
-    }
- }, 
-  {
-  command: ['bibleai', 'biblequote'],
-  operate: async ({ m, reply, text }) => {
-    if (!text) return reply("*Please ask a question*");
-
-    try {
-      let response = await fetch(`https://api.siputzx.my.id/api/ai/bible?question=${encodeURIComponent(text)}`);
-      let data = await response.json();
-
-      if (response.status !== 200 || !data.status || !data.data) {
-        return reply("*Please try again later or try another command!*");
-      } else {
-        reply(data.data);
-      }
-    } catch (error) {
-      console.error('Error fetching response from Bible API:', error);
-      reply("An error occurred while fetching the response from the Bible API.");
     }
   }
 },
@@ -113,8 +93,28 @@ module.exports = [
     }
   }
 },
+{
+  command: ['gemini'],
+  operate: async ({ m, reply, text }) => {
+    if (!text) return reply("*Please ask a question*");
+
+    try {
+      let response = await fetch(`https://bk9.fun/ai/gemini?q=${encodeURIComponent(text)}`);
+      let data = await response.json();
+
+      if (response.status !== 200 || !data.status || !data.BK9) {
+        return reply("*Please try again later or try another command!*");
+      } else {
+        reply(data.BK9);
+      }
+    } catch (error) {
+      console.error('Error fetching response from Gemini AI API:', error);
+      reply("An error occurred while fetching the response from Gemini AI API.");
+    }
+  }
+},
   {
-    command: ['gemini'],
+    command: ['gemini2'],
     operate: async ({ reply, m, text, mime }) => {
         if (!text) return reply('Please ask a question');
         
@@ -181,21 +181,18 @@ module.exports = [
     }
   }
 },
-  {
+{
   command: ['gpt'],
   operate: async ({ reply, m, text }) => {
-    async function fetchDeepSeek(query) {
-      let { data } = await axios.post("https://api.blackbox.ai/api/chat", {
-        messages: [{ id: null, role: "user", content: query }],
-        userSelectedModel: "deepseek-v3"
-      });
-      return data;
+    async function fetchGPTResponse(query) {
+      const response = await axios.get(`https://xploader-api.vercel.app/gpt-3.5?prompt=${encodeURIComponent(query)}`);
+      return response.data;
     }
 
     try {
       if (!text) return reply('*Please ask a question*');
-      const result = await fetchDeepSeek(text);
-      reply(result);
+      const result = await fetchGPTResponse(text);
+      reply(result.message);
     } catch (error) {
       console.error('Error in GPT plugin:', error);
       reply('An error occurred!');
@@ -219,26 +216,6 @@ module.exports = [
     } catch (error) {
       console.error('Error fetching response from GPT-2 API:', error);
       reply("An error occurred while fetching the response from GPT-2 API.");
-    }
-  }
-},
-  {
-  command: ['gptgo'],
-  operate: async ({ m, reply, text }) => {
-    if (!text) return reply("*Please ask a question*");
-
-    try {
-      let response = await fetch(`https://api.tioo.eu.org/gptgo?text=${encodeURIComponent(text)}`);
-      let data = await response.json();
-
-      if (!data.result) {
-        return reply("*Please try again later or try another command!*");
-      } else {
-        reply(data.result);
-      }
-    } catch (error) {
-      console.error('Error fetching response from GPTGO API:', error);
-      reply("An error occurred while fetching the response from GPTGO API.");
     }
   }
 },
@@ -273,6 +250,26 @@ module.exports = [
     } catch (error) {
       console.error('Error fetching response from Llama API:', error);
       reply("An error occurred while fetching the response from Llama API.");
+    }
+  }
+},
+{
+  command: ['metaai'],
+  operate: async ({ m, reply, text }) => {
+    if (!text) return reply("*Please provide a prompt*");
+
+    try {
+      let response = await fetch(`https://xploader-api.vercel.app/metaai?prompt=${encodeURIComponent(text)}`);
+      let data = await response.json();
+
+      if (response.status !== 200 || !data.prompt) {
+        return reply("*Please try again later or try another command!*");
+      } else {
+        reply(data.prompt);
+      }
+    } catch (error) {
+      console.error('Error fetching response from MetaAI API:', error);
+      reply("An error occurred while fetching the response from MetaAI API.");
     }
   }
 },
