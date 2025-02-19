@@ -65,6 +65,11 @@
       "value": "private",
       "required": false
     },
+     "ANTI_EDIT": {
+      "description": "Set 'private' to send edited messages to message yourself, 'chat' to current chat and 'off' to disable'",
+      "value": "private",
+      "required": false
+    },
     "ALWAYS_ONLINE": {
       "description": "Set true to make the bot online 24/7 or set false to disable always online'",
       "value": "true",

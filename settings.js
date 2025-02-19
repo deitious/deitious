@@ -1,260 +1,143 @@
-const fs = require('fs');
-const path = require('path');
-let deletionTimeouts = {};
+  //project_name : CypherX
+// @author : TYLOR
+// @youtube : https://www.youtube.com/@heyits_tylor
+// @instagram : heyits_tylor
+// @telegram : t.me/heyits_tylor
+// @github : Dark-Xploit
+// @tiktok : heyits_tylor
+// @whatsapp : +254754783972
+//*
+//* 
+//=================================================//
+const fs = require('fs')
+const { color } = require('./lib/color')
+if (fs.existsSync('.env')) require('dotenv').config({ path: __dirname+'/.env' })
 
-module.exports = [
- {
-  command: ['delplugin', 'deleteplugin', 'canceldelete'],
-  operate: async ({ m, args, reply, prefix, isCreator, command }) => {
-    if (!isCreator) return reply("*You don't have permission to use this command!*");
 
-    const pluginsDir = path.join(__dirname, '..');
+//=================================================//
+global.SESSION_ID = process.env.SESSION_ID || '' 
+//Enter your Xploader session id here; must start with XPLOADER-BOT:~
 
-    if (command === 'canceldelete') {
-      if (deletionTimeouts[m.chat]) {
-        clearTimeout(deletionTimeouts[m.chat]);
-        delete deletionTimeouts[m.chat];
-        return reply('*Plugin deletion canceled successfully.*');
-      } else {
-        return reply('*No plugin deletion is currently scheduled.*');
-      }
-    }
+//=================================================//
+global.botname = process.env.BOT_NAME || 'CypherX' 
+//Your desired bot name
 
-    if (!args[0]) {
-      return reply('Usage: `.delplugin <filename>`\nExample: `.delplugin block`');
-    }
+//=================================================//
+global.ownernumber = process.env.OWNER_NUMBER || '254754783972' 
+//Type your main number here
 
-    const pluginName = args[0].toLowerCase();
+//=================================================//
+global.sudo = process.env.SUDO ? process.env.SUDO.split(',') : ['254796180105', '254712345678'];
+// Type additional allowed users here
+//NB: They'll be able to use every functions of the bot without restrictions.
 
-    try {
-      let foundFile = null;
+//=================================================//
+global.ownername = process.env.OWNER_NAME || 'Tylor' 
+//Type your name here
 
-      const searchFile = (dir) => {
-        const files = fs.readdirSync(dir);
-        for (const file of files) {
-          const fullPath = path.join(dir, file);
+//=================================================//
+global.plink = process.env.PLINK || "https://www.instagram.com/heyits_tylor?igsh=YzljYTk1ODg3Zg=="
 
-          if (fs.statSync(fullPath).isDirectory()) {
-            searchFile(fullPath); 
-          } else if (file.toLowerCase() === `${pluginName}.js`) {
-            foundFile = fullPath; // File found
-            break;
-          }
-        }
-      };
+//=================================================//
+global.wm = process.env.GL_WM || "©CypherX"
 
-      searchFile(pluginsDir);
-      if (!foundFile) {
-        return reply(`*Error:* Plugin "${pluginName}.js" not found.`);
-      }
-      const notificationMessage = `*The plugin "${pluginName}.js" will be deleted in 30 seconds.*\n\nTo stop the deletion, use the command \`${prefix}canceldelete\`.`;
-      await reply(notificationMessage);
+//=================================================//
+global.packname = process.env.STICKER_PACK_NAME || "Cypher" 
+//The sticker pack name
 
-      deletionTimeouts[m.chat] = setTimeout(async () => {
-        try {
-          if (fs.existsSync(foundFile)) {
-            fs.unlinkSync(foundFile);
-            delete deletionTimeouts[m.chat];
-            await reply(`*Success:* Plugin "${pluginName}.js" has been deleted.`);
-          }
-        } catch (err) {
-          console.error(err);
-          await reply(`*Error:* Could not delete "${pluginName}.js".`);
-        }
-      }, 30000);
-    } catch (error) {
-      console.error(error);
-      reply('*An error occurred while trying to delete the plugin.*');
-    }
-  }
- },
-  {
-  command: ['getplugin'],
-  operate: async ({ m, args, Cypher, reply }) => {
-    if (!args[0]) {
-      return reply('Usage: `.getplugin <filename>`\nExample: `.getplugin block`');
-    }
+//=================================================//
+global.author = process.env.STICKER_AUTHOR_NAME || "X" 
+//The sticker author name
 
-    const pluginName = args[0].toLowerCase();
-    const pluginsDir = path.join(__dirname, '..'); 
+//=================================================//
+global.prefixz = process.env.BOT_PREFIX || '.'
+//Set your desired prefix
 
-    try {
-      let foundFile = null;
-      const searchFile = (dir) => {
-        const files = fs.readdirSync(dir);
-        for (const file of files) {
-          const fullPath = path.join(dir, file);
+//=================================================//
+global.mode = process.env.MODE || 'public';
+// Set 'private' to enable private mode
+// Set 'public' to enable public mode
+// Set 'group' to enable only group
+// Set 'pm' to enable only private chats
 
-          if (fs.statSync(fullPath).isDirectory()) {
-            searchFile(fullPath); 
-          } else if (file.toLowerCase() === `${pluginName}.js`) {
-            foundFile = fullPath; // File found
-            break;
-          }
-        }
-      };
+//=================================================//
+global.statusemoji = process.env.STATUS_EMOJI || '🧡'
+//Enter the emoji that you wish to be reacted to statuses 
 
-      searchFile(pluginsDir);
+//=================================================//
+global.autoviewstatus = process.env.AUTO_STATUS_VIEW || 'true'
+// set true to enable and false to disable auto status view
 
-      if (!foundFile) {
-        return reply(`*Error:* Plugin "${pluginName}.js" not found.`);
-      }
-      
-      const fileContent = fs.readFileSync(foundFile, 'utf-8');
+//=================================================//
+global.autoreactstatus = process.env.AUTO_STATUS_REACT || 'false'
+// set true to enable and false to disable auto status react
 
-      await reply(`*Plugin Content:*\n\n\`\`\`\n${fileContent}\n\`\`\``);
+//=================================================//
+global.alwaysonline = process.env.ALWAYS_ONLINE || 'true'
+//Set true to make the bot online 24/7 or set false to disable always online
 
-      await Cypher.sendMessage(
-        m.chat,
-        {
-          document: fs.readFileSync(foundFile),
-          fileName: `${pluginName}.js`,
-          mimetype: 'application/javascript',
-        },
-        { quoted: m }
-      );
-    } catch (error) {
-      console.error(error);
-      reply('*An error occurred while retrieving the plugin.*');
-    }
-  }
-},
-  {
-  command: ['reload'],
-  operate: async ({ m, reply, isCreator, args }) => {
-    if (!isCreator) return reply("*You don't have permission to use this command!*");
 
-    if (args.length === 0) return reply("*Please specify a file to reload! For example: Xploader, index.js, core.js, settings.js*");
+//=================================================//
+global.chatbot = process.env.CHATBOT || 'false'
+// set true to enable and false to disable auto ai chatbot
 
-    try {
-      const fileName = args[0].toLowerCase();
-      let filePath;
+//=================================================//
+global.antidelete = process.env.ANTIDELETE || 'private'
+// options:- 'private', 'chat' or 'off'
+// private = Sends to message yourself 
+// chat = sends to the current chat 
+// off = Disables detection of deleted messages
 
-      switch (fileName) {
-        case 'xploader':
-        case 'xploader.js':
-          filePath = path.resolve(__dirname, '..', '..', 'Xploader.js');
-          break;
-        case 'index':
-        case 'index.js':
-          filePath = path.resolve(__dirname, '..', '..', 'index.js');
-          break;
-        case 'core':
-        case 'core.js':
-          filePath = path.resolve(__dirname, '..', '..', 'core.js');
-          break;
-        case 'settings':
-        case 'settings.js':
-          filePath = path.resolve(__dirname, '..', '..', 'settings.js');
-          break;
-        default:
-          return reply("*Invalid file specified! Please provide a valid file name.*");
-      }
+//=================================================//
+global.antiedit = process.env.ANTI_EDIT || 'private'
+// options:- 'private', 'chat' or 'off'
+// private = Sends to message yourself 
+// chat = sends to the current chat 
+// off = Disables detection of edited messages
 
-      delete require.cache[require.resolve(filePath)];
+//=================================================//
+global.anticall = process.env.ANTI_CALL || 'false'
+// set true to enable and false to disable auto blocking of callers
 
-      require(filePath);
+//=================================================//
+global.welcome = process.env.WELCOME_MSG || 'false'
+// set true to enable and false to disable welcoming and left messages to groups upon joining or leaving groups
 
-      console.log(`File ${fileName} reloaded successfully!`);
-      reply(`File ${fileName} reloaded successfully!`);
-    } catch (err) {
-      console.error(`Error reloading the file ${args[0]}:`, err);
-      reply(`Error reloading the file ${args[0]}. Check logs for details.`);
-    }
-  }
-},
-  {
-  command: ['reloadallplugins'],
-  operate: async ({ m, reply, isCreator }) => {
-    if (!isCreator) return reply("*You don't have permission to use this command!*");
+//=================================================//
+global.timezones = process.env.TIMEZONE || "Africa/Nairobi" 
+//Don't edit this if you don't know!
 
-    const pluginsDir = path.join(__dirname, '..'); 
+//=================================================//
+global.autoread = process.env.AUTO_READ || 'false';
+// Set to 'true' to enable automatic reading of messages
 
-    try {
-      const unloadedPlugins = [];
-      const reloadedPlugins = [];
+//=================================================//
+global.menustyle = process.env.MENU_STYLE || '2' 
+// options 1, 2, 3, 4 or 5
+// 1 = Document menu(Android only)
+// 2 = Text only menu(Android & iOS)
+//3 = Image menu with context(Android & iOS)
+//4 = Image menu(Android & iOS)
+//5 = Payment menu
 
-      const searchPlugins = (dir) => {
-        const files = fs.readdirSync(dir);
-        for (const file of files) {
-          const fullPath = path.join(dir, file);
+//=================================================//
+//Replies
+global.mess = { 
+  done: '*Done*', 
+  success: '©CypherX', 
+  owner: `*You don't have permission to use this command!*`, 
+  group: '*This feature becomes available when you use it in a group!*', 
+  admin: '*You’ll unlock this feature with me as an admin!*', 
+  notadmin: '*This feature will work once you become an admin. A way of ensuring order!*' 
+}
+//=================================================//
 
-          if (fs.statSync(fullPath).isDirectory()) {
-            searchPlugins(fullPath); 
-          } else if (file.endsWith('.js')) {
-            try {
-              delete require.cache[require.resolve(fullPath)];
-
-              require(fullPath);
-
-              reloadedPlugins.push(file);
-            } catch (err) {
-              unloadedPlugins.push(file); 
-              console.error(`Error reloading ${file}:`, err);
-            }
-          }
-        }
-      };
-
-      searchPlugins(pluginsDir);
-
-      let response = `*Reload All Plugins Result:*\n\n`;
-      response += `*Reloaded Plugins:*\n${reloadedPlugins.map((p) => `- ${p}`).join('\n') || 'None'}\n\n`;
-      if (unloadedPlugins.length > 0) {
-        response += `*Failed to Reload:*\n${unloadedPlugins.map((p) => `- ${p}`).join('\n')}`;
-      } else {
-        response += `*All plugins reloaded successfully!*`;
-      }
-
-      reply(response);
-    } catch (error) {
-      console.error(error);
-      reply('*An error occurred while trying to reload all plugins.*');
-    }
-  }
-},
-  {
-  command: ['reloadplugin'],
-  operate: async ({ m, args, reply, isCreator }) => {
-    if (!isCreator) return reply("*You don't have permission to use this command!*");
-
-    if (!args[0]) {
-      return reply('Usage: `.reloadplugin <plugin_name>`\nExample: `.reloadplugin block`');
-    }
-
-    const pluginName = args[0].toLowerCase();
-    const pluginsDir = path.join(__dirname, '..'); 
-    try {
-      let foundFile = null;
-      const searchFile = (dir) => {
-        const files = fs.readdirSync(dir);
-        for (const file of files) {
-          const fullPath = path.join(dir, file);
-
-          if (fs.statSync(fullPath).isDirectory()) {
-            searchFile(fullPath); 
-          } else if (file.toLowerCase() === `${pluginName}.js`) {
-            foundFile = fullPath; // File found
-            break;
-          }
-        }
-      };
-
-      searchFile(pluginsDir);
-
-      if (!foundFile) {
-        return reply(`*Error:* Plugin "${pluginName}.js" not found.`);
-      }
-
-      delete require.cache[require.resolve(foundFile)];
-
-      require(foundFile);
-
-      reply(`*Success:* Plugin "${pluginName}.js" has been reloaded.`);
-    } catch (error) {
-      console.error(error);
-      reply('*An error occurred while trying to reload the plugin.*');
-    }
-  }
-},
-];
+//=================================================//
+let file = require.resolve(__filename)
+fs.watchFile(file, () => {
+  fs.unwatchFile(file)
+  console.log(color(`Updated '${__filename}'`, 'red'))
+  delete require.cache[file]
+  require(file)
+})
+//=================================================//
