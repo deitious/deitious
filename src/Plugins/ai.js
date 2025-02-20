@@ -182,7 +182,7 @@ module.exports = [
   }
 },
 {
-  command: ['gpt'],
+  command: ['metaai'],
   operate: async ({ reply, m, text }) => {
     async function fetchGPTResponse(query) {
       const response = await axios.get(`https://xploader-api.vercel.app/gpt-3.5?prompt=${encodeURIComponent(query)}`);
@@ -254,7 +254,7 @@ module.exports = [
   }
 },
 {
-  command: ['metaai'],
+  command: ['gpt'],
   operate: async ({ m, reply, text }) => {
     if (!text) return reply("*Please provide a prompt*");
 
