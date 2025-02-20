@@ -80,6 +80,16 @@ module.exports = [
       await updateHerokuVar({ Cypher, m, reply, isCreator, key: "ANTIDELETE", value: mode, setHerokuEnvVar });
     }
   },
+   {
+    command: ["antiedit"],
+    operate: async ({ Cypher, m, reply, isCreator, text, setHerokuEnvVar }) => {
+      if (!text) return reply("*Specify the antiedit mode*\n\nExample: .antiedit private");
+      const mode = text.trim().toLowerCase();
+      const validModes = ["private", "chat", "off"];
+      if (!validModes.includes(mode)) return reply("❌ *Invalid mode. Use 'private', 'chat', or 'off'*");
+      await updateHerokuVar({ Cypher, m, reply, isCreator, key: "ANTI_EDIT", value: mode, setHerokuEnvVar });
+    }
+  },
   {
     command: ['autoread'],
  operate: async ({ Cypher, m, reply, isCreator, text, setHerokuEnvVar }) => {
