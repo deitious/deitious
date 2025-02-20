@@ -1,9 +1,9 @@
 <h1 align="center"> 𝐂𝐘𝐏𝐇𝐄𝐑 𝐗 </h1>
-<h1 align="center"> 𝖵𝖤𝖱𝖲𝖨𝖮𝖭 1.2.0 </h1>
+<h1 align="center"> 𝖵𝖤𝖱𝖲𝖨𝖮𝖭 1.2.5 </h1>
 
 <p align="center">
-  <a href="https://github.com/Dark-Xploit/XPLOADER--BOT">
-    <img alt="xploader docs" height="250" src="https://i.ibb.co/Q4QCHYd/copilot-image-1739572393172.jpg">
+  <a href="https://github.com/Dark-Xploit/CypherX">
+    <img alt="CypherX docs" height="250" src="https://i.ibb.co/Q4QCHYd/copilot-image-1739572393172.jpg">
   </a>
 </p>
     
@@ -15,11 +15,11 @@
 <a href="https://github.com/Dark-Xploit"><img title="Author" src="https://img.shields.io/badge/CypherX-skyblue?style=for-the-badge&logo=telegram"></a>
 <p/>
 <p align="center">
-<a href="https://github.com/Dark-Xploit/XPLOADER--BOT/stargazers/"><img title="Stars" src="https://img.shields.io/github/stars/Dark-Xploit/XPLOADER--BOT?&style=social"></a>
-<a href="https://github.com/Dark-Xploit/XPLOADER--BOT/network/members"><img title="Fork" src="https://img.shields.io/github/forks/Dark-Xploit/XPLOADER--BOT?style=social"></a>
-<a href="https://github.com/Dark-Xploit/XPLOADER--BOT/watchers"><img title="Watching" src="https://img.shields.io/github/watchers/Dark-Xploit/XPLOADER--BOT?label=Watching&style=social"></a>
+<a href="https://github.com/Dark-Xploit/CypherX/stargazers/"><img title="Stars" src="https://img.shields.io/github/stars/Dark-Xploit/CypherX?&style=social"></a>
+<a href="https://github.com/Dark-Xploit/CypherX/network/members"><img title="Fork" src="https://img.shields.io/github/forks/Dark-Xploit/CypherX?style=social"></a>
+<a href="https://github.com/Dark-Xploit/CypherX/watchers"><img title="Watching" src="https://img.shields.io/github/watchers/Dark-Xploit/CypherX?label=Watching&style=social"></a>
 </p>
-<p align="center"><img src="https://profile-counter.glitch.me/{Dark-Xploit}/count.svg" alt="XPLOADER--BOT:: Visitor's Count" /></p>
+<p align="center"><img src="https://profile-counter.glitch.me/{Dark-Xploit}/count.svg" alt="CypherX:: Visitor's Count" /></p>
 
 
 ## `SETUP`
@@ -40,7 +40,7 @@
   <a href="https://dashboard.heroku.com/new?template=https://github.com/Dark-Xploit/CypherX" target="_blank" style="margin-right: 10px;">
     <img alt="Deploy" src="https://www.herokucdn.com/deploy/button.svg"/>
   </a>
-  <a href="https://repl.it/github/Dark-Xploit/XPLOADER--BOT" target="_blank">
+  <a href="https://repl.it/github/Dark-Xploit/CypherX" target="_blank">
     <img alt="Deploy on Repl.it" src="https://repl.it/badge/github/quiec/whatsAlfa"/>
   </a>
 </p>
@@ -60,8 +60,8 @@
   
 ## `CLONE REPO & INSTALLATION DEPENDENCIES`
 ```bash
-git clone https://github.com/<your gitHub Username>/XPLOADER--BOT.git
-cd XPLOADER--BOT
+git clone https://github.com/<your gitHub Username>/CypherX.git
+cd CypherX
 npm start
 ```
 
@@ -76,8 +76,8 @@ sudo apt-get install -y nodejs
 sudo apt-get install -y ffmpeg
 sudo apt-get install -y wget
 sudo apt-get install -y imagemagick
-git clone https://github.com/<your-gitHub-Username>/XPLOADER--BOT
-cd XPLOADER--BOT
+git clone https://github.com/<your-gitHub-Username>/CypherX
+cd CypherX
 npm install
 npm start
 ```
