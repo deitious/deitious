@@ -548,7 +548,7 @@ module.exports = [
 },
   {
   command: ['reportbug'],
-  operate: async ({ m, mess, text, Cypher, isCreator, versions, prefix, command }) => {
+  operate: async ({ m, mess, text, Cypher, isCreator, versions, prefix, reply, command }) => {
     if (!isCreator) return reply(mess.owner);
     if (!text) return reply(`Example: ${prefix + command} Hey, play command isn't working`);
 
