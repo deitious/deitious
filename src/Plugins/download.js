@@ -358,7 +358,7 @@ module.exports = [
   }
 },
  {
-  command: ['play'],
+  command: ['play', 'song'],
   operate: async ({ Cypher, m, reply, text, fetchMp3DownloadUrl }) => {
     if (!text) return reply('*Please provide a song name!*');
 
@@ -382,7 +382,7 @@ module.exports = [
   }
 },
   {
-  command: ['playdoc'],
+  command: ['playdoc', 'songdoc'],
   operate: async ({ Cypher, m, reply, text, fetchMp3DownloadUrl }) => {
     if (!text) return reply('*Please provide a song name!*');
 

@@ -6,8 +6,7 @@ const { sleep } = require('../../lib/myfunc');
 const { promisify } = require('util');
 const { exec } = require('child_process');
 const execAsync = promisify(exec);
-const { generateProfilePicture } = require('@whiskeysockets/baileys'); 
-const { downloadContentFromMessage } = require('@whiskeysockets/baileys');
+const { generateProfilePicture, downloadContentFromMessage } = require('@whiskeysockets/baileys'); 
 
 module.exports = [ 
  {

@@ -3,7 +3,6 @@ const axios = require('axios');
 const fs = require('fs');
 const moment = require('moment-timezone');
 const yts = require('yt-search');
-const { happymod } = require("../../lib/scraper2"); 
 
 module.exports = [
   {
@@ -44,20 +43,6 @@ module.exports = [
       }
     }
   },
-   {
-  command: ['happymod'],
-  operate: async ({ m, text, prefix, command, reply }) => {
-    if (!text) return reply(`*Example: ${prefix + command} WhatsApp mod*`);
-
-    try {
-      let rslt = await happymod(text);
-      reply(util.format(rslt));
-    } catch (error) {
-      console.error(error);
-      reply('*An error occurred while fetching the HappyMod data.*');
-    }
-  }
-},
   {
     command: ['imdb', 'movie'],
     operate: async ({ Cypher, m, reply, text }) => {
