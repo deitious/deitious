@@ -21,13 +21,13 @@
       "required": false
     },
     "OWNER_NUMBER": {
-      "description": "Enter your number here",
-      "value": "254754783972",
+      "description": "Enter your number here, starting with country code E.g 2547xxxxxxxx",
+      "value": "",
       "required": true
     },
     "OWNER_NAME": {
       "description": "Enter your name here",
-      "value": "Tylor",
+      "value": "",
       "required": true
     },
     "STICKER_PACK_NAME": {
@@ -112,7 +112,7 @@
     },
     "SUDO": {
       "description": " Type additional allowed users here. They'll be able to use all the functions of the bot without restrictions. Separate with comma incase of more than one number.",
-      "value": "254796180105,639852804510",
+      "value": "2547xxxxxxxxx,263xxxxxxxxxx",
       "required": false
     },
     "AUTO_READ": {
@@ -121,7 +121,7 @@
       "required": false
     },
     "MENU_STYLE": {
-      "description": "Menu style, options 1, 2, 3, 4 or 5",
+      "description": "Menu style, options 1, 2, 3, 4, 5 or 6",
       "value": "2",
       "required": false
     }
