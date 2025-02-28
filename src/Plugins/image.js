@@ -16,7 +16,7 @@ const quoted = m.quoted ? m.quoted : null || m.msg ;
         if (!media) return reply("❌ *Failed to download media. Try again.*");
 
         const enhancedImage = await remini(media, 'enhance');
-        await Cypher.sendMessage(m.chat, { image: enhancedImage, caption: mess.success }, { quoted: m });
+        await Cypher.sendMessage(m.chat, { image: enhancedImage, caption: "*Image enhanced successfully*" }, { quoted: m });
       } catch (error) {
         console.error(error);
         reply("❌ *An error occurred while enhancing the image.*");

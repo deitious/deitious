@@ -1,260 +1,519 @@
 const fs = require('fs');
-const path = require('path');
-let deletionTimeouts = {};
+const fsp = fs.promises;
 
 module.exports = [
  {
-  command: ['delplugin', 'deleteplugin', 'canceldelete'],
-  operate: async ({ m, args, reply, prefix, isCreator, command }) => {
-    if (!isCreator) return reply("*You don't have permission to use this command!*");
+  command: ['addbadword'],
+  operate: async ({ Cypher, m, isCreator, mess, prefix, args, q, bad, reply }) => {
+    if (!isCreator) return reply(mess.owner);
+    if (args.length < 1) return reply(`Use ${prefix}addbadword [harsh word].`);
 
-    const pluginsDir = path.join(__dirname, '..');
-
-    if (command === 'canceldelete') {
-      if (deletionTimeouts[m.chat]) {
-        clearTimeout(deletionTimeouts[m.chat]);
-        delete deletionTimeouts[m.chat];
-        return reply('*Plugin deletion canceled successfully.*');
-      } else {
-        return reply('*No plugin deletion is currently scheduled.*');
-      }
+    if (bad.includes(q)) {
+      return reply('This word is already in the list!');
     }
-
-    if (!args[0]) {
-      return reply('Usage: `.delplugin <filename>`\nExample: `.delplugin block`');
-    }
-
-    const pluginName = args[0].toLowerCase();
+    
+    bad.push(q);
 
     try {
-      let foundFile = null;
-
-      const searchFile = (dir) => {
-        const files = fs.readdirSync(dir);
-        for (const file of files) {
-          const fullPath = path.join(dir, file);
-
-          if (fs.statSync(fullPath).isDirectory()) {
-            searchFile(fullPath); 
-          } else if (file.toLowerCase() === `${pluginName}.js`) {
-            foundFile = fullPath; // File found
-            break;
-          }
-        }
-      };
-
-      searchFile(pluginsDir);
-      if (!foundFile) {
-        return reply(`*Error:* Plugin "${pluginName}.js" not found.`);
-      }
-      const notificationMessage = `*The plugin "${pluginName}.js" will be deleted in 30 seconds.*\n\nTo stop the deletion, use the command \`${prefix}canceldelete\`.`;
-      await reply(notificationMessage);
-
-      deletionTimeouts[m.chat] = setTimeout(async () => {
-        try {
-          if (fs.existsSync(foundFile)) {
-            fs.unlinkSync(foundFile);
-            delete deletionTimeouts[m.chat];
-            await reply(`*Success:* Plugin "${pluginName}.js" has been deleted.`);
-          }
-        } catch (err) {
-          console.error(err);
-          await reply(`*Error:* Could not delete "${pluginName}.js".`);
-        }
-      }, 30000);
+      await fsp.writeFile('./src/badwords.json', JSON.stringify(bad, null, 2));
+      reply('Successfully added bad word!');
     } catch (error) {
-      console.error(error);
-      reply('*An error occurred while trying to delete the plugin.*');
+      console.error('Error writing to badwords.json:', error);
+      reply('An error occurred while adding the bad word.');
     }
   }
- },
-  {
-  command: ['getplugin'],
-  operate: async ({ m, args, Cypher, reply }) => {
-    if (!args[0]) {
-      return reply('Usage: `.getplugin <filename>`\nExample: `.getplugin block`');
+},
+{
+  command: ['addignorelist', 'ban', 'banchat'],
+  operate: async ({ m, args, isCreator, loadBlacklist, mess, reply }) => {
+    if (!isCreator) return reply(mess.owner);
+
+    let mentionedUser = m.mentionedJid && m.mentionedJid[0];
+    let quotedUser = m.quoted && m.quoted.sender;
+    let userToAdd = mentionedUser || quotedUser || m.chat;
+
+    if (!userToAdd) return reply('Mention a user, reply to their message, or provide a phone number to ignore.');
+
+    let blacklist = loadBlacklist();
+    if (!blacklist.blacklisted_numbers.includes(userToAdd)) {
+        blacklist.blacklisted_numbers.push(userToAdd);
+
+    if (global.dbToken) {
+        await global.writeDB();
     }
-
-    const pluginName = args[0].toLowerCase();
-    const pluginsDir = path.join(__dirname, '..'); 
-
-    try {
-      let foundFile = null;
-      const searchFile = (dir) => {
-        const files = fs.readdirSync(dir);
-        for (const file of files) {
-          const fullPath = path.join(dir, file);
-
-          if (fs.statSync(fullPath).isDirectory()) {
-            searchFile(fullPath); 
-          } else if (file.toLowerCase() === `${pluginName}.js`) {
-            foundFile = fullPath; // File found
-            break;
-          }
+await reply(`+${userToAdd.split('@')[0]} added to the ignore list.`);
+        } else {
+await reply(`+${userToAdd.split('@')[0]} is already ignored.`);
         }
-      };
+  }
+},
+{
+  command: ['addsudo', 'addowner'],
+  operate: async ({ m, args, isCreator, reply }) => {
+if (!isCreator) return reply(mess.owner);
 
-      searchFile(pluginsDir);
+if (m.chat.endsWith('@g.us') && !(m.mentionedJid && m.mentionedJid[0]) && !(m.quoted && m.quoted.sender)) {
+  return reply('Reply to or tag a person!');
+}
 
-      if (!foundFile) {
-        return reply(`*Error:* Plugin "${pluginName}.js" not found.`);
-      }
-      
-      const fileContent = fs.readFileSync(foundFile, 'utf-8');
+    const userToAdd = m.mentionedJid && m.mentionedJid[0] || m.quoted && m.quoted.sender || m.chat;
 
-      await reply(`*Plugin Content:*\n\n\`\`\`\n${fileContent}\n\`\`\``);
+    if (!userToAdd) return reply('Mention a user or reply to their message to add them to the sudo list.');
 
-      await Cypher.sendMessage(
-        m.chat,
-        {
-          document: fs.readFileSync(foundFile),
-          fileName: `${pluginName}.js`,
-          mimetype: 'application/javascript',
-        },
-        { quoted: m }
-      );
-    } catch (error) {
-      console.error(error);
-      reply('*An error occurred while retrieving the plugin.*');
+    const sudoList = global.db.data.sudo;
+
+    if (!sudoList.includes(userToAdd)) {
+      sudoList.push(userToAdd);
+      if (global.dbToken) await global.writeDB();
+await reply(`+${userToAdd.split('@')[0]} added to the sudo list and are be able to use any function of the bot even in private mode.`);
+    } else {
+await reply(`+${userToAdd.split('@')[0]} is already a sudo user.`);
     }
   }
 },
   {
-  command: ['reload'],
-  operate: async ({ m, reply, isCreator, args }) => {
-    if (!isCreator) return reply("*You don't have permission to use this command!*");
+  command: ['alwaysonline'],
+  operate: async ({ Cypher, m, reply, args, prefix, command, isCreator, mess, db, botNumber }) => {
+    if (!isCreator) return reply(mess.owner);
+    if (args.length < 1) return reply(`Example: ${prefix + command} on/off`);
 
-    if (args.length === 0) return reply("*Please specify a file to reload! For example: Xploader, index.js, core.js, settings.js*");
+    const validOptions = ["on", "off"];
+    const option = args[0].toLowerCase();
 
-    try {
-      const fileName = args[0].toLowerCase();
-      let filePath;
+    if (!validOptions.includes(option)) return reply("Invalid option");
 
-      switch (fileName) {
-        case 'xploader':
-        case 'xploader.js':
-          filePath = path.resolve(__dirname, '..', '..', 'Xploader.js');
-          break;
-        case 'index':
-        case 'index.js':
-          filePath = path.resolve(__dirname, '..', '..', 'index.js');
-          break;
-        case 'core':
-        case 'core.js':
-          filePath = path.resolve(__dirname, '..', '..', 'core.js');
-          break;
-        case 'settings':
-        case 'settings.js':
-          filePath = path.resolve(__dirname, '..', '..', 'settings.js');
-          break;
-        default:
-          return reply("*Invalid file specified! Please provide a valid file name.*");
-      }
+    db.data.settings.alwaysonline = option === "on";
 
-      delete require.cache[require.resolve(filePath)];
-
-      require(filePath);
-
-      console.log(`File ${fileName} reloaded successfully!`);
-      reply(`File ${fileName} reloaded successfully!`);
-    } catch (err) {
-      console.error(`Error reloading the file ${args[0]}:`, err);
-      reply(`Error reloading the file ${args[0]}. Check logs for details.`);
+    if (global.dbToken) {
+        await global.writeDB();
     }
+
+    reply(`Always-online ${option === "on" ? "enabled" : "disabled"} successfully`);
+  }
+},
+{
+  command: ['anticall'],
+  operate: async ({ reply, args, prefix, command, isCreator, mess, db }) => {
+    if (!isCreator) return reply(mess.owner);
+    if (args.length < 1) return reply(`Example: ${prefix + command} block/decline/off\n\nblock - Declines and blocks callers\ndecline - Declines incoming calls\noff - disables anticall`);
+
+    const validOptions = ["block", "decline", "off"];
+    const option = args[0].toLowerCase();
+
+    if (!validOptions.includes(option)) return reply(`Invalid option; type *${prefix}anticall* to see available options!`);
+
+    db.data.settings.anticall = option === "off" ? false : option;
+
+    if (global.dbToken) await global.writeDB();
+
+    reply(`Anti-call set to *${option}* successfully.`);
+  }
+},
+{
+  command: ['antidelete'],
+  operate: async ({ Cypher, m, reply, args, prefix, command, isCreator, mess, db, botNumber }) => {
+    if (!isCreator) return reply(mess.owner);
+    if (args.length < 1) return reply(`Example: ${prefix + command} private/chat/off\n\nprivate - sends deleted messages to message yourself\nchat - sends to current chat\noff - disables antidelete`);
+
+    const validOptions = ["private", "chat", "off"];
+    const option = args[0].toLowerCase();
+
+    if (!validOptions.includes(option)) return reply("Invalid option. Use: private, chat, or off");
+
+    db.data.settings.antidelete = option;
+
+    if (global.dbToken) {
+        await global.writeDB();
+    }
+
+    reply(`Anti-delete mode set to: *${option}*`);
+  }
+},
+{
+  command: ['antiedit'],
+  operate: async ({ Cypher, m, reply, args, prefix, command, isCreator, mess, db, botNumber }) => {
+    if (!isCreator) return reply(mess.owner);
+    if (args.length < 1) return reply(`Example: ${prefix + command} private/chat/off\n\n private - sends edited messages to message yourself\nchat - sends to current chat\noff - disables antiedit`);
+
+    const validOptions = ["private", "chat", "off"];
+    const option = args[0].toLowerCase();
+
+    if (!validOptions.includes(option)) return reply("Invalid option. Use: private, chat, or off");
+
+    db.data.settings.antiedit = option;
+
+    if (global.dbToken) {
+        await global.writeDB();
+    }
+
+    reply(`Anti-edit mode set to: *${option}*`);
   }
 },
   {
-  command: ['reloadallplugins'],
-  operate: async ({ m, reply, isCreator }) => {
-    if (!isCreator) return reply("*You don't have permission to use this command!*");
+  command: ['autobio'],
+  operate: async ({ Cypher, m, reply, args, prefix, command, isCreator, mess, db, botNumber }) => {
+    if (!isCreator) return reply(mess.owner);
+    if (args.length < 1) return reply(`Example: ${prefix + command} on/off`);
 
-    const pluginsDir = path.join(__dirname, '..'); 
+    const validOptions = ["on", "off"];
+    const option = args[0].toLowerCase();
 
-    try {
-      const unloadedPlugins = [];
-      const reloadedPlugins = [];
+    if (!validOptions.includes(option)) return reply("Invalid option");
 
-      const searchPlugins = (dir) => {
-        const files = fs.readdirSync(dir);
-        for (const file of files) {
-          const fullPath = path.join(dir, file);
+    db.data.settings.autobio = option === "on";
 
-          if (fs.statSync(fullPath).isDirectory()) {
-            searchPlugins(fullPath); 
-          } else if (file.endsWith('.js')) {
-            try {
-              delete require.cache[require.resolve(fullPath)];
-
-              require(fullPath);
-
-              reloadedPlugins.push(file);
-            } catch (err) {
-              unloadedPlugins.push(file); 
-              console.error(`Error reloading ${file}:`, err);
-            }
-          }
-        }
-      };
-
-      searchPlugins(pluginsDir);
-
-      let response = `*Reload All Plugins Result:*\n\n`;
-      response += `*Reloaded Plugins:*\n${reloadedPlugins.map((p) => `- ${p}`).join('\n') || 'None'}\n\n`;
-      if (unloadedPlugins.length > 0) {
-        response += `*Failed to Reload:*\n${unloadedPlugins.map((p) => `- ${p}`).join('\n')}`;
-      } else {
-        response += `*All plugins reloaded successfully!*`;
-      }
-
-      reply(response);
-    } catch (error) {
-      console.error(error);
-      reply('*An error occurred while trying to reload all plugins.*');
+    if (global.dbToken) {
+        await global.writeDB();
     }
+
+    reply(`Auto-bio ${option === "on" ? "enabled" : "disabled"} successfully`);
   }
 },
   {
-  command: ['reloadplugin'],
-  operate: async ({ m, args, reply, isCreator }) => {
-    if (!isCreator) return reply("*You don't have permission to use this command!*");
+  command: ['autoreactstatus', 'autostatusreact'],
+  operate: async ({ Cypher, m, reply, args, prefix, command, isCreator, mess, db, botNumber }) => {
+    if (!isCreator) return reply(mess.owner);
+    if (args.length < 1) return reply(`Example: ${prefix + command} on/off\nKeep in mind that enabling this setting might lead to your account getting banned!`);
 
-    if (!args[0]) {
-      return reply('Usage: `.reloadplugin <plugin_name>`\nExample: `.reloadplugin block`');
+    const validOptions = ["on", "off"];
+    const option = args[0].toLowerCase();
+
+    if (!validOptions.includes(option)) return reply("Invalid option");
+
+    db.data.settings.autoreactstatus = option === "on";
+
+    if (global.dbToken) {
+        await global.writeDB();
     }
 
-    const pluginName = args[0].toLowerCase();
-    const pluginsDir = path.join(__dirname, '..'); 
+    reply(`Auto status reaction ${option === "on" ? "enabled" : "disabled"} successfully\nKeep in mind that enabling this setting might lead to your account getting banned!`);
+  }
+},
+  {
+  command: ['autoviewstatus', 'autostatusview'],
+  operate: async ({ Cypher, m, reply, args, prefix, command, isCreator, mess, db, botNumber }) => {
+    if (!isCreator) return reply(mess.owner);
+    if (args.length < 1) return reply(`Example: ${prefix + command} on/off`);
+
+    const validOptions = ["on", "off"];
+    const option = args[0].toLowerCase();
+
+    if (!validOptions.includes(option)) return reply("Invalid option");
+
+    db.data.settings.autoviewstatus = option === "on";
+
+    if (global.dbToken) {
+        await global.writeDB();
+    }
+
+    reply(`Auto status view ${option === "on" ? "enabled" : "disabled"} successfully`);
+  }
+},
+{
+  command: ['autoread'],
+  operate: async ({ reply, args, prefix, command, isCreator, mess, db }) => {
+    if (!isCreator) return reply(mess.owner);
+    if (args.length < 1) return reply(`Example: ${prefix + command} all/group/pm/command/off\n\nall - reads all messages\ngroup - reads group messages alone\npm - reads private messages alone\ncommand - reads bot commands only\noff disables autoread`);
+
+    const validOptions = ["all", "group", "pm", "command", "off"];
+    const option = args[0].toLowerCase();
+
+    if (!validOptions.includes(option)) return reply(`Invalid option; type *${prefix}autoread* to see available options!`);
+
+    db.data.settings.autoread = option === "off" ? false : option;
+
+    if (global.dbToken) await global.writeDB();
+
+    reply(`Auto-read set to *${option}* successfully.`);
+  }
+},
+{
+  command: ['autotype', 'autotyping'],
+  operate: async ({ reply, args, prefix, command, isCreator, mess, db }) => {
+    if (!isCreator) return reply(mess.owner);
+    if (args.length < 1) return reply(`Example: ${prefix + command} all/group/pm/command/off\n\ngroup - typing in groups\npm - typing in private chats\ncommand - typing when a command is used\noff - disables autotyping`);
+
+    const validOptions = ["all", "group", "pm", "command", "off"];
+    const option = args[0].toLowerCase();
+
+    if (!validOptions.includes(option)) return reply(`Invalid option; type *${prefix}autotype* to see available options!`);
+
+    db.data.settings.autotype = option === "off" ? false : option;
+
+    if (global.dbToken) await global.writeDB();
+
+    reply(`Auto-typing set to *${option}* successfully.`);
+  }
+},
+{
+  command: ['autorecord', 'autorecording'],
+  operate: async ({ reply, args, prefix, command, isCreator, mess, db }) => {
+    if (!isCreator) return reply(mess.owner);
+    if (args.length < 1) return reply(`Example: ${prefix + command} all/group/pm/command/off\n\ngroup - recording in groups\npm - recording in private chats\ncommand - recording when a command is used\noff - disables auto-recording`);
+
+    const validOptions = ["all", "group", "pm", "command", "off"];
+    const option = args[0].toLowerCase();
+
+    if (!validOptions.includes(option)) return reply(`Invalid option; type *${prefix}autorecord* to see available options!`);
+
+    db.data.settings.autorecord = option === "off" ? false : option;
+
+    if (global.dbToken) await global.writeDB();
+
+    reply(`Auto-record set to *${option}* successfully.`);
+  }
+},
+{
+  command: ['autorecordtyping', 'autorecordtype'],
+  operate: async ({ reply, args, prefix, command, isCreator, mess, db }) => {
+    if (!isCreator) return reply(mess.owner);
+    if (args.length < 1) return reply(`Example: ${prefix + command} all/group/pm/command/off\n\ngroup - random typing/recording in groups\npm - random typing/recording in private chats\ncommand - random typing/recording when a command is used\noff - disables auto-record typing`);
+
+    const validOptions = ["all", "group", "pm", "command", "off"];
+    const option = args[0].toLowerCase();
+
+    if (!validOptions.includes(option)) return reply(`Invalid option; type *${prefix}autorecordtype* to see available options!`);
+
+    db.data.settings.autorecordtype = option === "off" ? false : option;
+
+    if (global.dbToken) await global.writeDB();
+
+    reply(`Auto-record typing set to *${option}* successfully.`);
+  }
+},
+  {
+  command: ['chatbot'],
+  operate: async ({ Cypher, m, reply, args, prefix, command, isCreator, mess, db, botNumber }) => {
+    if (!isCreator) return reply(mess.owner);
+    if (args.length < 1) return reply(`Example: ${prefix + command} on/off`);
+
+    const validOptions = ["on", "off"];
+    const option = args[0].toLowerCase();
+
+    if (!validOptions.includes(option)) return reply("Invalid option");
+
+    db.data.settings.chatbot = option === "on";
+
+    if (global.dbToken) {
+        await global.writeDB();
+    }
+
+    reply(`Chatbot ${option === "on" ? "enabled" : "disabled"} successfully`);
+  }
+},
+  {
+  command: ['deletebadword'],
+  operate: async ({ Cypher, m, isCreator, mess, prefix, args, q, bad, reply }) => {
+    if (!isCreator) return reply(mess.owner);
+    if (args.length < 1) return reply(`Use ${prefix}deletebadword [harsh word].`);
+
+    const index = bad.indexOf(q);
+    if (index === -1) {
+      return reply('This word is not in the list!');
+    }
+
+    bad.splice(index, 1);
+
     try {
-      let foundFile = null;
-      const searchFile = (dir) => {
-        const files = fs.readdirSync(dir);
-        for (const file of files) {
-          const fullPath = path.join(dir, file);
-
-          if (fs.statSync(fullPath).isDirectory()) {
-            searchFile(fullPath); 
-          } else if (file.toLowerCase() === `${pluginName}.js`) {
-            foundFile = fullPath; // File found
-            break;
-          }
-        }
-      };
-
-      searchFile(pluginsDir);
-
-      if (!foundFile) {
-        return reply(`*Error:* Plugin "${pluginName}.js" not found.`);
-      }
-
-      delete require.cache[require.resolve(foundFile)];
-
-      require(foundFile);
-
-      reply(`*Success:* Plugin "${pluginName}.js" has been reloaded.`);
+      await fsp.writeFile('./src/badwords.json', JSON.stringify(bad, null, 2));
+      reply('Successfully deleted bad word!');
     } catch (error) {
-      console.error(error);
-      reply('*An error occurred while trying to reload the plugin.*');
+      console.error('Error writing to badwords.json:', error);
+      reply('An error occurred while deleting the bad word.');
     }
   }
 },
+{
+  command: ['delignorelist'],
+  operate: async ({ m, args, isCreator, loadBlacklist, mess, reply }) => {
+    if (!isCreator) return reply(mess.owner);
+
+    let mentionedUser = m.mentionedJid && m.mentionedJid[0];
+    let quotedUser = m.quoted && m.quoted.sender;
+    let userToRemove = mentionedUser || quotedUser || m.chat;
+
+    if (!userToRemove) return reply('Mention a user, reply to their message, or provide a phone number to remove from the ignore list.');
+
+    let blacklist = loadBlacklist();
+    let index = blacklist.blacklisted_numbers.indexOf(userToRemove);
+    if (index !== -1) {
+        blacklist.blacklisted_numbers.splice(index, 1);
+
+    if (global.dbToken) {
+        await global.writeDB();
+    }
+
+await reply(`+${userToRemove.split('@')[0]} removed from the ignore list.`);
+    } else {
+await reply(`+${userToRemove.split('@')[0]} is not in the ignore list.`);
+    }
+  }
+},
+{
+  command: ['delsudo'],
+  operate: async ({ m, args, isCreator, reply }) => {
+ if (!isCreator) return reply(mess.owner);
+
+if (m.chat.endsWith('@g.us') && !(m.mentionedJid && m.mentionedJid[0]) && !(m.quoted && m.quoted.sender)) {
+  return reply('Reply to or tag a person!');
+}
+
+    const userToRemove = m.mentionedJid && m.mentionedJid[0] || m.quoted && m.quoted.sender || m.chat;
+
+    if (!userToRemove) return reply('Mention a user or reply to their message to remove them from the sudo list.');
+
+    const sudoList = global.db.data.sudo;
+    const index = sudoList.indexOf(userToRemove);
+
+    if (index !== -1) {
+      sudoList.splice(index, 1);
+      if (global.dbToken) await global.writeDB();
+await reply(`+${userToRemove.split('@')[0]} removed from the sudo list.`);
+    } else {
+await reply(`+${userToRemove.split('@')[0]} is not in the sudo list.`);
+    }
+  }
+},
+{
+  command: ['mode'],
+  operate: async ({ Cypher, m, reply, args, prefix, command, isCreator, mess, db, botNumber }) => {
+    if (!isCreator) return reply(mess.owner);
+    if (args.length < 1) return reply(`Example: ${prefix + command} public/private/group/pm\n\nprivate sends deleted messages to message yourself, chat sends to current chat and off disables`);
+
+    const validOptions = ["private", "public", "group", "pm"];
+    const option = args[0].toLowerCase();
+
+    if (!validOptions.includes(option)) return reply("Invalid option. Use: private, public, group or pm");
+
+    db.data.settings.mode = option;
+
+    if (global.dbToken) {
+        await global.writeDB();
+    }
+
+    reply(`Bot mode set to: *${option}*`);
+  }
+},
+{
+  command: ['setmenu', 'menustyle'],
+  operate: async ({ reply, args, prefix, command, db, isCreator, mess }) => {
+    if (!isCreator) return reply(mess.owner);
+    if (args.length < 1) return reply(`Example: ${prefix + command} 2\n\nOptions:\n1 = Document menu (Android only)\n2 = Text only menu (Android & iOS)\n3 = Image menu with context (Android & iOS)\n4 = Image menu (Android & iOS)\n5 = Footer/faded menu\n6 = Payment menu`);
+
+    const validOptions = ["1", "2", "3", "4", "5", "6"];
+    const option = args[0];
+
+    if (!validOptions.includes(option)) return reply("⚠️ Invalid menu style. Use a number between *1-6*.");
+
+    db.data.settings.menustyle = option;
+    reply(`✅ Menu style changed to *${option}* successfully.`);
+
+    if (global.dbToken) await global.writeDB();
+  }
+},
+{
+  command: ['setprefix'],
+  operate: async ({ reply, args, prefix, command, db, isCreator, mess }) => {
+    if (!isCreator) return reply(mess.owner);
+    if (args.length < 1) return reply(`Example: ${prefix + command} !\n\n- This will change the bot prefix to *!*`);
+
+    const newPrefix = args[0];
+
+    if (!newPrefix || newPrefix.length > 3) return reply("⚠️ Prefix should be 1-3 characters long.");
+
+    db.data.settings.prefix = newPrefix;
+    reply(`✅ Prefix changed to *${newPrefix}* successfully.`);
+
+    if (global.dbToken) await global.writeDB();
+  }
+},
+{
+  command: ['setstatusemoji', 'statusemoji'],
+  operate: async ({ reply, args, prefix, command, db, isCreator, mess }) => {
+    if (!isCreator) return reply(mess.owner);
+    if (args.length < 1) return reply(`Example: ${prefix + command} 🧡\n\n- This will change the bot's status reaction emoji to *🧡*`);
+
+    const newEmoji = args[0];
+
+    if (!/^\p{Emoji}$/u.test(newEmoji)) return reply("⚠️ Please provide a single valid emoji.");
+
+    db.data.settings.statusemoji = newEmoji;
+    reply(`✅ Status reaction emoji changed to *${newEmoji}* successfully.`);
+
+    if (global.dbToken) await global.writeDB();
+  }
+},
+  {
+  command: ['welcome'],
+  operate: async ({ Cypher, m, reply, args, prefix, command, isCreator, mess, db, botNumber }) => {
+    if (!isCreator) return reply(mess.owner);
+    if (args.length < 1) return reply(`Example: ${prefix + command} on/off`);
+
+    const validOptions = ["on", "off"];
+    const option = args[0].toLowerCase();
+
+    if (!validOptions.includes(option)) return reply("Invalid option");
+
+    db.data.settings.welcome = option === "on";
+
+    if (global.dbToken) {
+        await global.writeDB();
+    }
+
+    reply(`Group welcome/left messages ${option === "on" ? "enabled" : "disabled"} successfully`);
+  }
+},
+{
+  command: ['getsettings'],
+  operate: async ({ reply, db }) => {
+    const settings = db.data.settings;
+    
+    let message = "⚙️ *Current Bot Settings:*\n\n";
+    for (const [key, value] of Object.entries(settings)) {
+        message += `🔸 *${key}*: ${typeof value === "boolean" ? (value ? "ON" : "OFF") : value}\n`;
+    }
+
+    reply(message);
+  }
+},
+{
+  command: ['resetsetting'],
+  operate: async ({ reply, args, prefix, command, db, isCreator }) => {
+    if (!isCreator) return reply("Only the owner can reset settings.");
+    if (args.length < 1) return reply(`Example: ${prefix + command} <setting/all>\n\n- Use *all* to reset all settings.\n- Use a specific setting name to reset only that.`);
+
+    const settingToReset = args[0].toLowerCase();
+    const defaultSettings = {
+        prefix: ".",
+        mode: "public",
+        autobio: false,
+        anticall: false,
+        chatbot: false,
+        autotype: false,
+        autoread: false,
+        welcome: false,
+        antiedit: "private",
+        menustyle: "2",
+        statusemoji: "🧡",
+        autorecord: false,
+        antidelete: "private",
+        alwaysonline: true,
+        autoviewstatus: true,
+        autoreactstatus: false,
+        autorecordtype: false
+    };
+
+    if (settingToReset === "all") {
+        db.data.settings = { ...defaultSettings };
+        reply("✅ All settings have been reset to default.");
+    } else if (settingToReset in defaultSettings) {
+        db.data.settings[settingToReset] = defaultSettings[settingToReset];
+        reply(`✅ *${settingToReset}* has been reset to *${defaultSettings[settingToReset]}*.`);
+    } else {
+        reply(`⚠️ Invalid setting name. Use *${prefix + command} all* to reset everything or provide a valid setting name.`);
+    }
+
+    if (global.dbToken) await global.writeDB();
+  }
+}
 ];

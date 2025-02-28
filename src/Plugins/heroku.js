@@ -53,100 +53,10 @@ module.exports = [
     }
 },
   {
-    command: ["anticall"],
-    operate: async ({ Cypher, m, reply, isCreator, text, setHerokuEnvVar }) => {
-      if (!text) return reply("*Specify on/off*\n\nExample: .anticall on");
-      const value = text.trim().toLowerCase();
-      if (!["on", "off"].includes(value)) return reply("❌ *Invalid input. Use 'on' or 'off'*");
-      await updateHerokuVar({ Cypher, m, reply, isCreator, key: "ANTI_CALL", value: value === "on" ? "true" : "false", setHerokuEnvVar });
-    }
-  },
-  {
-    command: ["alwaysonline"],
-    operate: async ({ Cypher, m, reply, isCreator, text, setHerokuEnvVar }) => {
-      if (!text) return reply("*Specify on/off*\n\nExample: .alwaysonline on");
-      const value = text.trim().toLowerCase();
-      if (!["on", "off"].includes(value)) return reply("❌ *Invalid input. Use 'on' or 'off'*");
-      await updateHerokuVar({ Cypher, m, reply, isCreator, key: "ALWAYS_ONLINE", value: value === "on" ? "true" : "false", setHerokuEnvVar });
-    }
-  },
-  {
-    command: ["antidelete"],
-    operate: async ({ Cypher, m, reply, isCreator, text, setHerokuEnvVar }) => {
-      if (!text) return reply("*Specify the antidelete mode*\n\nExample: .antidelete private");
-      const mode = text.trim().toLowerCase();
-      const validModes = ["private", "chat", "off"];
-      if (!validModes.includes(mode)) return reply("❌ *Invalid mode. Use 'private', 'chat', or 'off'*");
-      await updateHerokuVar({ Cypher, m, reply, isCreator, key: "ANTIDELETE", value: mode, setHerokuEnvVar });
-    }
-  },
-   {
-    command: ["antiedit"],
-    operate: async ({ Cypher, m, reply, isCreator, text, setHerokuEnvVar }) => {
-      if (!text) return reply("*Specify the antiedit mode*\n\nExample: .antiedit private");
-      const mode = text.trim().toLowerCase();
-      const validModes = ["private", "chat", "off"];
-      if (!validModes.includes(mode)) return reply("❌ *Invalid mode. Use 'private', 'chat', or 'off'*");
-      await updateHerokuVar({ Cypher, m, reply, isCreator, key: "ANTI_EDIT", value: mode, setHerokuEnvVar });
-    }
-  },
-  {
-    command: ['autoread'],
- operate: async ({ Cypher, m, reply, isCreator, text, setHerokuEnvVar }) => {
-      if (!text) return reply('*Please specify on/off*\n\nExample: .autoread on');
-      const value = text.trim().toLowerCase();
-      if (!["on", "off"].includes(value)) return reply("❌ *Invalid input. Use 'on' or 'off'*");
-      await updateHerokuVar({ Cypher, m, reply, isCreator, key: "AUTO_READ", value: value === "on" ? "true" : "false", setHerokuEnvVar });
-    }
-  },
-   {
-    command: ['autostatusreact'],
- operate: async ({ Cypher, m, reply, isCreator, text, setHerokuEnvVar }) => {
-      if (!text) return reply('*Please specify on/off*\n\nExample: .autostatusreact on');
-      const value = text.trim().toLowerCase();
-      if (!["on", "off"].includes(value)) return reply("❌ *Invalid input. Use 'on' or 'off'*");
-      await updateHerokuVar({ Cypher, m, reply, isCreator, key: "AUTO_STATUS_REACT", value: value === "on" ? "true" : "false", setHerokuEnvVar });
-    }
-  },
-     {
-    command: ['autostatusview'],
- operate: async ({ Cypher, m, reply, isCreator, text, setHerokuEnvVar }) => {
-      if (!text) return reply('*Please specify on/off*\n\nExample: .autostatusview on');
-      const value = text.trim().toLowerCase();
-      if (!["on", "off"].includes(value)) return reply("❌ *Invalid input. Use 'on' or 'off'*");
-      await updateHerokuVar({ Cypher, m, reply, isCreator, key: "AUTO_STATUS_VIEW", value: value === "on" ? "true" : "false", setHerokuEnvVar });
-    }
-  },
-  {
-    command: ["chatbot"],
-    operate: async ({ Cypher, m, reply, isCreator, text, setHerokuEnvVar }) => {
-      if (!text) return reply("*Specify on/off*\n\nExample: .chatbot on");
-      const value = text.trim().toLowerCase();
-      if (!["on", "off"].includes(value)) return reply("❌ *Invalid input. Use 'on' or 'off'*");
-      await updateHerokuVar({ Cypher, m, reply, isCreator, key: "CHATBOT", value: value === "on" ? "true" : "false", setHerokuEnvVar });
-    }
-  },
-  {
-    command: ["mode"],
-    operate: async ({ Cypher, m, reply, isCreator, text, setHerokuEnvVar }) => {
-      if (!text) return reply("*Specify the mode*\n\nExample: .mode private");
-      const mode = text.trim().toLowerCase();
-      if (!["private", "public"].includes(mode)) return reply("❌ *Invalid mode. Use 'private' or 'public'*");
-      await updateHerokuVar({ Cypher, m, reply, isCreator, key: "MODE", value: mode, setHerokuEnvVar });
-    }
-  },
-  {
     command: ["setbotname"],
     operate: async ({ Cypher, m, reply, isCreator, text, setHerokuEnvVar }) => {
       if (!text) return reply("*Provide a bot name*\n\nExample: .setbotname CypherX");
       await updateHerokuVar({ Cypher, m, reply, isCreator, key: "BOT_NAME", value: text.trim(), setHerokuEnvVar });
-    }
-  },
-    {
-    command: ["setmenu"],
-    operate: async ({ Cypher, m, reply, isCreator, text, setHerokuEnvVar }) => {
-      if (!text) return reply("*Provide a menu style*\n\nExample: .setmenu 2");
-      await updateHerokuVar({ Cypher, m, reply, isCreator, key: "MENU_STYLE", value: text.trim(), setHerokuEnvVar });
     }
   },
     {
@@ -161,20 +71,6 @@ module.exports = [
     operate: async ({ Cypher, m, reply, isCreator, text, setHerokuEnvVar }) => {
       if (!text) return reply("*Provide your name*\n\nExample: .setownernumber 1234567890");
       await updateHerokuVar({ Cypher, m, reply, isCreator, key: "OWNER_NUMBER", value: text.trim(), setHerokuEnvVar });
-    }
-  },
-  {
-    command: ["setprefix"],
-    operate: async ({ Cypher, m, reply, isCreator, text, setHerokuEnvVar }) => {
-      if (!text) return reply("*Provide a prefix*\n\nExample: .setprefix !");
-      await updateHerokuVar({ Cypher, m, reply, isCreator, key: "BOT_PREFIX", value: text.trim(), setHerokuEnvVar });
-    }
-  },
-  {
-    command: ["setsudo"],
-    operate: async ({ Cypher, m, reply, isCreator, text, setHerokuEnvVar }) => {
-      if (!text) return reply("*Provide one or more sudo numbers*\n\nExample: .setsudo 1234567890");
-      await updateHerokuVar({ Cypher, m, reply, isCreator, key: "SUDO", value: text.trim(), setHerokuEnvVar });
     }
   },
   {
@@ -195,13 +91,4 @@ module.exports = [
         }
     }
 },
-  {
-    command: ["welcome"],
-    operate: async ({ Cypher, m, reply, isCreator, text, setHerokuEnvVar }) => {
-      if (!text) return reply("*Specify on/off*\n\nExample: .welcome on");
-      const value = text.trim().toLowerCase();
-      if (!["on", "off"].includes(value)) return reply("❌ *Invalid input. Use 'on' or 'off'*");
-      await updateHerokuVar({ Cypher, m, reply, isCreator, key: "WELCOME_MSG", value: value === "on" ? "true" : "false", setHerokuEnvVar });
-    }
-  }
 ];

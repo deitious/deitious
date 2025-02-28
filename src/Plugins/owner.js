@@ -8,123 +8,7 @@ const { exec } = require('child_process');
 const execAsync = promisify(exec);
 const { generateProfilePicture, downloadContentFromMessage } = require('@whiskeysockets/baileys'); 
 
-module.exports = [ 
- {
-  command: ['addbadword'],
-  operate: async ({ Cypher, m, isCreator, mess, prefix, args, q, bad, reply }) => {
-    if (!isCreator) return reply(mess.owner);
-    if (args.length < 1) return reply(`Use ${prefix}addbadword [harsh word].`);
-
-    if (bad.includes(q)) {
-      return reply('This word is already in the list!');
-    }
-    
-    bad.push(q);
-
-    try {
-      await fsp.writeFile('./src/badwords.json', JSON.stringify(bad, null, 2));
-      reply('Successfully added bad word!');
-    } catch (error) {
-      console.error('Error writing to badwords.json:', error);
-      reply('An error occurred while adding the bad word.');
-    }
-  }
-},
-{
-  command: ['addignorelist'],
-  operate: async ({ m, args, isCreator, loadBlacklist, mess, reply }) => {
-    if (!isCreator) return reply(mess.owner);
-
-    let mentionedUser = m.mentionedJid && m.mentionedJid[0];
-    let quotedUser = m.quoted && m.quoted.sender;
-    let userToAdd = mentionedUser || quotedUser || m.chat;
-
-    if (!userToAdd) return reply('Mention a user, reply to their message, or provide a phone number to ignore.');
-
-    let blacklist = loadBlacklist();
-    if (!blacklist.blacklisted_numbers.includes(userToAdd)) {
-        blacklist.blacklisted_numbers.push(userToAdd);
-        reply(`${userToAdd} added to the ignore list.`);
-    } else {
-        reply(`${userToAdd} is already ignored.`);
-    }
-  }
-},
-  {
-  command: ['autobio'],
-  operate: async ({ Cypher, m, reply, args, prefix, command, isCreator, mess, db, botNumber }) => {
-    if (!isCreator) return reply(mess.owner);
-    if (args.length < 1) return reply(`Example: ${prefix + command} on/off`);
-
-    const validOptions = ["on", "off"];
-    const option = args[0].toLowerCase();
-
-    if (!validOptions.includes(option)) return reply("Invalid option");
-
-    db.data.settings[botNumber].autobio = option === "on";
-    reply(`Auto-bio ${option === "on" ? "enabled" : "disabled"} successfully`);
-  }
-},
- {
-  command: ['autoread'],
-  operate: async ({ Cypher, m, reply, args, prefix, command, isCreator, mess, db, botNumber }) => {
-    if (!isCreator) return reply(mess.owner);
-    if (args.length < 1) return reply(`Example: ${prefix + command} on/off`);
-
-    const validOptions = ["on", "off"];
-    const option = args[0].toLowerCase();
-
-    if (!validOptions.includes(option)) return reply("Invalid option");
-
-    db.data.settings[botNumber].autoread = option === "on";
-    reply(`Auto-read ${option === "on" ? "enabled" : "disabled"} successfully`);
-  }
-},
-  {
-  command: ['autorecord', 'autorecording'],
-  operate: async ({ Cypher, m, reply, args, prefix, command, isCreator, mess, db, botNumber }) => {
-    if (!isCreator) return reply(mess.owner);
-    if (args.length < 1) return reply(`Example: ${prefix + command} on/off`);
-
-    const validOptions = ["on", "off"];
-    const option = args[0].toLowerCase();
-
-    if (!validOptions.includes(option)) return reply("Invalid option");
-    
-    db.data.settings[botNumber].autorecord = option === "on";
-    reply(`Auto-record ${option === "on" ? "enabled" : "disabled"} successfully`);
-  }
-},
-  {
-  command: ['autotype', 'autotyping'],
-  operate: async ({ Cypher, m, reply, args, prefix, command, isCreator, mess, db, botNumber }) => {
-    if (!isCreator) return reply(mess.owner);
-    if (args.length < 1) return reply(`Example: ${prefix + command} on/off`);
-
-    const validOptions = ["on", "off"];
-    const option = args[0].toLowerCase();
-
-    if (!validOptions.includes(option)) return reply("Invalid option");
-    
-    db.data.settings[botNumber].autotype = option === "on";
-    reply(`Auto-typing ${option === "on" ? "enabled" : "disabled"} successfully`);
-  }
-},
- {
-  command: ['autorecordtyping', 'autorecordtype'],
-  operate: async ({ Cypher, m, reply, args, prefix, command, isCreator, mess, db, botNumber }) => {
-    if (!isCreator) return reply(mess.owner);
-    if (args.length < 1) return reply(`Example: ${prefix + command} on/off`);
-
-    const validOptions = ["on", "off"];
-    const option = args[0].toLowerCase();
-
-    if (!validOptions.includes(option)) return reply("Invalid option");
-    
-    db.data.settings[botNumber].autorecordtype = option === "on";
-    reply(`Auto-record typing ${option === "on" ? "enabled" : "disabled"} successfully`);
-  }
-},
+module.exports = [
  {
   command: ['block'],
   operate: async ({ Cypher, m, reply, isCreator, mess, text }) => {
@@ -134,28 +18,6 @@ module.exports = [
     const userId = m.mentionedJid[0] || m.quoted?.sender || text.replace(/[^0-9]/g, "") + "@s.whatsapp.net";
     await Cypher.updateBlockStatus(userId, "block");
     reply(mess.done);
-  }
-},
-  {
-  command: ['deletebadword'],
-  operate: async ({ Cypher, m, isCreator, mess, prefix, args, q, bad, reply }) => {
-    if (!isCreator) return reply(mess.owner);
-    if (args.length < 1) return reply(`Use ${prefix}deletebadword [harsh word].`);
-
-    const index = bad.indexOf(q);
-    if (index === -1) {
-      return reply('This word is not in the list!');
-    }
-
-    bad.splice(index, 1);
-
-    try {
-      await fsp.writeFile('./src/badwords.json', JSON.stringify(bad, null, 2));
-      reply('Successfully deleted bad word!');
-    } catch (error) {
-      console.error('Error writing to badwords.json:', error);
-      reply('An error occurred while deleting the bad word.');
-    }
   }
 },
  {
@@ -178,27 +40,6 @@ module.exports = [
       console.error(e);
     }
     Cypher.sendMessage(m.chat, { delete: key });
-  }
-},
-{
-  command: ['delignorelist'],
-  operate: async ({ m, args, isCreator, loadBlacklist, mess, reply }) => {
-    if (!isCreator) return reply(mess.owner);
-
-    let mentionedUser = m.mentionedJid && m.mentionedJid[0];
-    let quotedUser = m.quoted && m.quoted.sender;
-    let userToRemove = mentionedUser || quotedUser || m.chat;
-
-    if (!userToRemove) return reply('Mention a user, reply to their message, or provide a phone number to remove from the ignore list.');
-
-    let blacklist = loadBlacklist();
-    let index = blacklist.blacklisted_numbers.indexOf(userToRemove);
-    if (index !== -1) {
-        blacklist.blacklisted_numbers.splice(index, 1);
-        reply(`${userToRemove} removed from the ignore list.`);
-    } else {
-        reply(`${userToRemove} is not in the ignore list.`);
-    }
   }
 },
  {
@@ -454,6 +295,18 @@ module.exports = [
     }
   }
 },
+{
+  command: ['listsudo'],
+  operate: async ({ reply }) => {
+    const sudoList = global.db.data.sudo;
+
+    if (sudoList.length === 0) {
+      reply('The sudo list is empty.');
+    } else {
+      reply(`Sudo users:\n${sudoList.join('\n')}`);
+    }
+  }
+},
  {
   command: ['modestatus', 'botmode'],
   operate: async ({ Xploader, m, reply, isCreator, mess, modeStatus }) => {
@@ -547,7 +400,7 @@ module.exports = [
 },
   {
   command: ['reportbug'],
-  operate: async ({ m, mess, text, Cypher, isCreator, versions, prefix, reply, command }) => {
+  operate: async ({ m, mess, text, Cypher, isCreator, versions, prefix, reply, command, mainOwner }) => {
     if (!isCreator) return reply(mess.owner);
     if (!text) return reply(`Example: ${prefix + command} Hey, play command isn't working`);
 
@@ -570,13 +423,13 @@ Please wait for a reply.
 ${bugReportMsg}
     `;
 
-    Cypher.sendMessage("254754783972@s.whatsapp.net", { text: bugReportMsg, mentions: [m.sender] }, { quoted: m });
+    Cypher.sendMessage(mainOwner, { text: bugReportMsg, mentions: [m.sender] }, { quoted: m });
     Cypher.sendMessage(m.chat, { text: confirmationMsg, mentions: [m.sender] }, { quoted: m });
   }
 },
   {
   command: ['request'],
-  operate: async ({ m, mess, text, Cypher, isCreator, versions, prefix, command, reply }) => {
+  operate: async ({ m, mess, text, Cypher, isCreator, versions, prefix, command, reply, mainOwner }) => {
     if (!isCreator) return reply(mess.owner);
     if (!text) return reply(`Example: ${prefix + command} I would like a new feature (specify) to be added.`);
 
@@ -599,7 +452,7 @@ Please wait for a reply.
 ${requestMsg}
     `;
 
-    Cypher.sendMessage("254754783972@s.whatsapp.net", { text: requestMsg, mentions: [m.sender] }, { quoted: m });
+    Cypher.sendMessage(mainOwner, { text: requestMsg, mentions: [m.sender] }, { quoted: m });
     Cypher.sendMessage(m.chat, { text: confirmationMsg, mentions: [m.sender] }, { quoted: m });
   }
 },

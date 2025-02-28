@@ -157,6 +157,18 @@ module.exports = [
         }
     },
 },
+{
+    command: ['approveall', 'acceptall'],
+    operate: async ({ m, args, isCreator, reply, approveAllRequests, mess, isGroupAdmins, isBotAdmins }) => {
+    if (!m.isGroup) return reply(mess.group);
+    if (!isGroupAdmins) return reply(mess.admin);
+    if (!isBotAdmins) return reply(mess.admin);
+        
+     const groupId = m.chat;
+ 
+     await approveAllRequests(m, groupId);
+    }
+},
   {
     command: ['close'],
     operate: async (context) => {
@@ -220,7 +232,7 @@ module.exports = [
   {
     command: ['demote'],
     operate: async (context) => {
-        const { m, mess, text, isAdmins, isGroupOwner, isCreator, isBotAdmins, Cypher } = context;
+        const { m, mess, text, isAdmins, isGroupOwner, isCreator, isBotAdmins, Cypher, reply } = context;
         if (!m.isGroup) return reply(mess.group);
         if (!isAdmins && !isGroupOwner && !isCreator) return reply(mess.admin);
         if (!isBotAdmins) return reply(mess.admin);
@@ -234,10 +246,22 @@ module.exports = [
         reply(mess.done);
     }
 },
+{
+    command: ['disapproveall', 'rejectall'],
+    operate: async ({ m, args, isCreator, reply, disapproveAllRequests, mess, isBotAdmins, isGroupAdmins }) => {
+    if (!m.isGroup) return reply(mess.group);
+    if (!isGroupAdmins) return reply(mess.admin);
+    if (!isBotAdmins) return reply(mess.admin);
+        
+    const groupId = m.chat;
+ 
+   await disapproveAllRequests(m, groupId);
+    }
+},
  {
     command: ['editsettings', 'editinfo'],
     operate: async (context) => {
-        const { m, mess, args, isAdmins, isGroupOwner, isCreator, isBotAdmins, Cypher, prefix, command } = context;
+        const { m, mess, args, isAdmins, isGroupOwner, isCreator, isBotAdmins, Cypher, prefix, command, reply } = context;
         if (!m.isGroup) return reply(mess.group);
         if (!isAdmins && !isGroupOwner && !isCreator) return reply(mess.admin);
         if (!isBotAdmins) return reply(mess.admin);
@@ -276,7 +300,7 @@ module.exports = [
  {
     command: ['hidetag', 'tag'], 
     operate: async (context) => {
-        const { m, isAdmins, isGroupOwner, isCreator, mess, participants, Cypher, isBotAdmins } = context;
+        const { m, isAdmins, isGroupOwner, isCreator, mess, participants, Cypher, isBotAdmins, reply } = context;
         if (!m.isGroup) return reply(mess.group);
         if (!isAdmins && !isGroupOwner && !isCreator) return reply(mess.admin);
         if (!isBotAdmins) return reply(mess.admin);
@@ -298,7 +322,7 @@ module.exports = [
   {
     command: ['invite'],
     operate: async (context) => {
-        const { m, mess, text, prefix, Cypher, isBotAdmins } = context;
+        const { m, mess, text, prefix, Cypher, isBotAdmins, reply } = context;
         if (!m.isGroup) return reply(mess.group);
         if (!isBotAdmins) return reply(mess.admin);
         if (!text)
@@ -324,7 +348,7 @@ module.exports = [
   {
     command: ['kick', 'remove'],
     operate: async (context) => {
-        const { m, mess, text, isAdmins, isGroupOwner, isCreator, isBotAdmins, Cypher } = context;
+        const { m, mess, text, isAdmins, isGroupOwner, isCreator, isBotAdmins, Cypher, reply } = context;
         if (!m.isGroup) return reply(mess.group);
         if (!isAdmins && !isGroupOwner && !isCreator) return reply(mess.admin);
         if (!isBotAdmins) return reply(mess.admin);
@@ -356,10 +380,22 @@ module.exports = [
     Cypher.sendText(m.chat, '*ONLINE MEMBERS IN THIS GROUP*\n\n' + online.map(v => `${liston++} . @` + v.replace(/@.+/, '')).join`\n`, m, { mentions: online });
   }
 },
+{
+    command: ['listrequests', 'pendingrequests'],
+    operate: async ({ m, args, isCreator, reply, listGroupRequests, mess, isBotAdmins, isGroupAdmins }) => {
+    if (!m.isGroup) return reply(mess.group);
+    if (!isGroupAdmins) return reply(mess.admin);
+    if (!isBotAdmins) return reply(mess.admin);
+        
+    const groupId = m.chat; 
+
+    await listGroupRequests(m, groupId);
+    }
+},
   {
     command: ['mediatag'],
     operate: async (context) => {
-        const { m, isAdmins, mess, participants, Cypher, isBotAdmins } = context;
+        const { m, isAdmins, mess, participants, Cypher, isBotAdmins, reply } = context;
         if (!m.isGroup) return reply(mess.group);
         if (!isBotAdmins) return reply(mess.admin);
         if (!isAdmins) return reply(mess.admin);
@@ -374,7 +410,7 @@ module.exports = [
  {
     command: ['open'],
     operate: async (context) => {
-        const { m, mess, isAdmins, isCreator, isBotAdmins, Cypher } = context;
+        const { m, mess, isAdmins, isCreator, isBotAdmins, Cypher, reply } = context;
         if (!m.isGroup) return reply(mess.group);
         if (!isAdmins && !isCreator) return reply(mess.notadmin);
         if (!isBotAdmins) return reply(mess.admin);
@@ -386,7 +422,7 @@ module.exports = [
  {
     command: ['opentime'],
     operate: async (context) => {
-        const { m, mess, args, isAdmins, isCreator, isBotAdmins, Cypher } = context;
+        const { m, mess, args, isAdmins, isCreator, isBotAdmins, Cypher, reply } = context;
         if (!m.isGroup) return reply(mess.group);
         if (!isAdmins && !isCreator) return reply(mess.notadmin);
         if (!isBotAdmins) return reply(mess.admin);
@@ -422,7 +458,7 @@ module.exports = [
  {
     command: ['poll'],
     operate: async (context) => {
-        const { m, mess, text, isCreator, prefix, Cypher, isGroup } = context;
+        const { m, mess, text, isCreator, prefix, Cypher, isGroup, reply } = context;
         if (!isCreator) return reply(mess.owner);
         if (!m.isGroup) return reply(mess.group);
         let [poll, opt] = text.split("|");
@@ -446,7 +482,7 @@ module.exports = [
   {
     command: ['promote'],
     operate: async (context) => {
-        const { m, mess, text, isAdmins, isGroupOwner, isCreator, isBotAdmins, quoted, Cypher } = context;
+        const { m, mess, text, isAdmins, isGroupOwner, isCreator, isBotAdmins, quoted, Cypher, reply } = context;
         if (!m.isGroup) return reply(mess.group);
         if (!isAdmins && !isGroupOwner && !isCreator) return reply(mess.admin);
         if (!isBotAdmins) return reply(mess.admin);
@@ -467,7 +503,7 @@ module.exports = [
  {
     command: ['resetlink'],
     operate: async (context) => {
-        const { m, isAdmins, isGroupOwner, isCreator, mess, Cypher, isBotAdmins } = context;
+        const { m, isAdmins, isGroupOwner, isCreator, mess, Cypher, isBotAdmins, reply } = context;
         if (!m.isGroup) return reply(mess.group);
         if (!isAdmins && !isGroupOwner && !isCreator) return reply(mess.admin);
         if (!isBotAdmins) return reply(mess.admin);
@@ -478,9 +514,9 @@ module.exports = [
     }
 },
   {
-    command: ['setdesc'],
+    command: ['setdesc', 'setdescription'],
     operate: async (context) => {
-        const { m, mess, text, isAdmins, isGroupOwner, isCreator, isBotAdmins, Cypher } = context;
+        const { m, mess, text, isAdmins, isGroupOwner, isCreator, isBotAdmins, Cypher, reply } = context;
         if (!m.isGroup) return reply(mess.group);
         if (!isAdmins && !isGroupOwner && !isCreator) return reply(mess.notadmin);
         if (!isBotAdmins) return reply(mess.admin);
@@ -493,7 +529,7 @@ module.exports = [
   {
     command: ['setgroupname', 'setgcname'],
     operate: async (context) => {
-        const { m, mess, text, isAdmins, isGroupOwner, isCreator, isBotAdmins, Cypher } = context;
+        const { m, mess, text, isAdmins, isGroupOwner, isCreator, isBotAdmins, Cypher, reply } = context;
         if (!m.isGroup) return reply(mess.group);
         if (!isAdmins && !isGroupOwner && !isCreator) return reply(mess.admin);
         if (!isBotAdmins) return reply(mess.admin);
@@ -564,7 +600,7 @@ module.exports = [
  {
     command: ['tagall'],
     operate: async (context) => {
-        const { m, isAdmins, isGroupOwner, isCreator, mess, q, participants, Cypher, isBotAdmins } = context;
+        const { m, isAdmins, isGroupOwner, isCreator, mess, q, participants, Cypher, isBotAdmins, reply } = context;
         if (!m.isGroup) return reply(mess.group);
         if (!isAdmins && !isGroupOwner && !isCreator) return reply(mess.admin);
         if (!isBotAdmins) return reply(mess.admin);
@@ -606,7 +642,7 @@ module.exports = [
   {
     command: ['userid', 'userjid'],
     operate: async (context) => {
-        const { m, mess, isCreator, Cypher } = context;
+        const { m, mess, isCreator, Cypher, reply } = context;
         if (!isCreator) return reply(mess.owner);
         if (!m.isGroup) return reply(mess.group);
 
@@ -629,14 +665,14 @@ module.exports = [
     if (!m.isGroup) return reply(mess.group);
     if (!isGroupAdmins) return reply(mess.admin);
 
-    let cmiggc = await Cypher.groupMetadata(m.chat);
+    let details = await Cypher.groupMetadata(m.chat);
     let vcard = "";
     let noPort = 0;
-    for (let a of cmiggc.participants) {
+    for (let a of details.participants) {
       vcard += `BEGIN:VCARD\nVERSION:3.0\nFN:[${noPort++}] +${a.id.split("@")[0]}\nTEL;type=CELL;type=VOICE;waid=${a.id.split("@")[0]}:+${a.id.split("@")[0]}\nEND:VCARD\n`;
     }
     let nmfilect = "./contacts.vcf";
-    reply(`\nPlease wait, saving ${cmiggc.participants.length} contacts`);
+    reply(`\nPlease wait, saving ${details.participants.length} contacts`);
 
     fs.writeFileSync(nmfilect, vcard.trim());
     await sleep(2000);
@@ -646,11 +682,11 @@ module.exports = [
         document: fs.readFileSync(nmfilect),
         mimetype: "text/vcard",
         fileName: "Contact.vcf",
-        caption: `Successful\n\nGroup: *${cmiggc.subject}*\nContacts: *${cmiggc.participants.length}*`,
+        caption: `Successful\n\nGroup: *${details.subject}*\nContacts: *${details.participants.length}*`,
       },
       { ephemeralExpiration: 86400, quoted: m }
     );
     fs.unlinkSync(nmfilect);
   }
-},  
+},
 ];
