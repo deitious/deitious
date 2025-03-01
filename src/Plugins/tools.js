@@ -104,10 +104,40 @@ module.exports = [
   operate: async ({ m, args, prefix, command, reply }) => {
     if (args.length < 1) return reply(`*Example:\n${prefix}fliptext Tylor*`);
     
-    let quere = args.join(" ");
-    let flipe = quere.split("").reverse().join("");
+    let flips = args.join(" ");
+    let flipx = flips.split("").reverse().join("");
     
-    reply(`Normal:\n${quere}\nFlip:\n${flipe}`);
+    reply(`Normal:\n${flips}\n\nFlip:\n${flipx}`);
+  }
+},
+{
+  command: ['gsmarena'],
+  operate: async ({ m, reply, text }) => {
+    if (!text) return reply("*Please provide a query to search for smartphones.*");
+
+    try {
+      const apiUrl = `https://api.siputzx.my.id/api/s/gsmarena?query=${encodeURIComponent(text)}`;
+      const response = await fetch(apiUrl);
+      const result = await response.json();
+
+      if (!result.status || !result.data || result.data.length === 0) {
+        return reply("*No results found. Please try another query.*");
+      }
+
+      const limitedResults = result.data.slice(0, 10);
+      let responseMessage = `*Top 10 Results for "${text}":*\n\n`;
+
+      for (let item of limitedResults) {
+        responseMessage += `📱 *Name:* ${item.name}\n`;
+        responseMessage += `📝 *Description:* ${item.description}\n`;
+        responseMessage += `🌐 [View Image](${item.thumbnail})\n\n`;
+      }
+
+      reply(responseMessage);
+    } catch (error) {
+      console.error('Error fetching results from GSMArena API:', error);
+      reply("❌ An error occurred while fetching results from GSMArena.");
+    }
   }
 },
  {
@@ -186,34 +216,6 @@ console.log('Quoted Key:', m.quoted?.key);
     }
   }
 },
-{
-  command: ['qrcode2'],
-  operate: async ({ m, text, Cypher, reply, getRandom }) => {
-    if (!text) return reply("*Please include link or text!*");
-
-    try {
-      let qyuer = await qrcode.toDataURL(text, { scale: 35 });
-      let data = Buffer.from(qyuer.replace("data:image/png;base64,", ""), "base64");
-      let buff = getRandom(".jpg");
-
-      await fs.writeFileSync("./" + buff, data);
-      let medi = fs.readFileSync("./" + buff);
-
-      await Cypher.sendMessage(
-        m.chat,
-        { image: medi, caption: global.wm },
-        { quoted: m }
-      );
-
-      setTimeout(() => {
-        fs.unlinkSync("./" + buff);
-      }, 10000);
-    } catch (error) {
-      console.error(error);
-      reply('*An error occurred while generating the QR code.*');
-    }
-  }
-},
  {
   command: ['say', 'tts'],
   operate: async ({ m, args, reply, Cypher }) => {
@@ -272,7 +274,7 @@ console.log('Quoted Key:', m.quoted?.key);
     const q = args.join(" ");
     if (!q) return reply(`Please provide a URL to screenshot!`);
     
-    const apiURL = `https://api.tioo.eu.org/sshp?url=${q}`;
+    const apiURL = `https://api.siputzx.my.id/api/tools/ssweb?url=${q}&theme=light&device=mobile`;
     
     try {
       await Cypher.sendMessage(m.chat, { image: { url: apiURL } }, { quoted: m });
@@ -288,7 +290,7 @@ console.log('Quoted Key:', m.quoted?.key);
     const q = args.join(" ");
     if (!q) return reply(`Please provide a URL to screenshot!`);
     
-    const apiURL = `https://api.tioo.eu.org/sspc?url=${q}`;
+    const apiURL = `https://api.siputzx.my.id/api/tools/ssweb?url=${q}&theme=light&device=desktop`;
     
     try {
       await Cypher.sendMessage(m.chat, { image: { url: apiURL } }, { quoted: m });
@@ -304,7 +306,7 @@ console.log('Quoted Key:', m.quoted?.key);
     const q = args.join(" ");
     if (!q) return reply(`Please provide a URL to screenshot!`);
     
-    const apiURL = `https://api.tioo.eu.org/sstab?url=${q}`;
+    const apiURL = `https://api.siputzx.my.id/api/tools/ssweb?url=${q}&theme=light&device=tablet`;
     
     try {
       await Cypher.sendMessage(m.chat, { image: { url: apiURL } }, { quoted: m });
@@ -541,29 +543,35 @@ Ensure you use the correct language code for accurate translation.
     }
   }
 },
- {
+{
   command: ['vcc'],
   operate: async ({ m, reply, args }) => {
-    const type = args[0] || 'MasterCard';
-    const count = args[1] || 1;
-    const apiUrl = `https://api.awan-attack.my.id/vcc-generator?type=${type}&count=${count}`;
+
+    const apiUrl = `https://api.siputzx.my.id/api/tools/vcc-generator?type=MasterCard&count=5`;
 
     try {
-      const response = await axios.get(apiUrl);
+      const response = await fetch(apiUrl);
+      const result = await response.json();
 
-      if (response.data && response.data.data && response.data.data.length > 0) {
-        let vccList = response.data.data.map((vcc, index) => {
-          return `VCC ${index + 1}:\nCardholder Name: ${vcc.cardholderName}\nNumber: ${vcc.cardNumber}\nCVC: ${vcc.cvv}\nExpiration Date: ${vcc.expirationDate}`;
-        }).join('\n\n');
-
-        reply(`Here are the VCC(s) you requested:\n\n${vccList}\n\nExample of how to create a VCC:\n1. Visit the official website of the bank or VCC service provider.\n2. Choose the desired VCC type (e.g., MasterCard, Visa).\n3. Fill out the registration form with correct information.\n4. Wait for the VCC verification and activation process.\n\nAfter successfully activating the VCC, make sure to:\n- Store VCC data securely.\n- Use the VCC only for legitimate transactions.\n- Check the VCC balance regularly.`);
-      } else {
-        reply('Sorry, failed to retrieve VCC data or no data found.');
+      if (!result.status || !result.data || result.data.length === 0) {
+        return reply("❌ Unable to generate VCCs. Please try again later.");
       }
+
+      let responseMessage = `🎴 *Generated VCCs* (Type: Mastercard and Count: 5):\n\n`;
+
+      result.data.forEach((card, index) => {
+        responseMessage += `#️⃣ *Card ${index + 1}:*\n`;
+        responseMessage += `🔢 *Card Number:* ${card.cardNumber}\n`;
+        responseMessage += `📅 *Expiration Date:* ${card.expirationDate}\n`;
+        responseMessage += `🧾 *Cardholder Name:* ${card.cardholderName}\n`;
+        responseMessage += `🔒 *CVV:* ${card.cvv}\n\n`;
+      });
+
+      reply(responseMessage);
     } catch (error) {
-      console.error('Error fetching VCC data:', error);
-      reply('Sorry, an error occurred while retrieving VCC data.');
+      console.error("Error fetching VCC data:", error);
+      reply("An error occurred while generating VCCs. Please try again later.");
     }
   }
-},
+}
 ];
