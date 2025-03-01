@@ -1,6 +1,6 @@
 {
   "name": "CypherX",
-  "version": "1.2.5",
+  "version": "1.3.0",
   "description": "CypherX, the best WhatsApp Bot",
   "logo": "https://i.ibb.co/Q4QCHYd/copilot-image-1739572393172.jpg",
   "keywords": ["whatsapp", "bot", "md"],
@@ -50,82 +50,17 @@
       "value": "",
       "required": false
     },
-    "BOT_PREFIX": {
-      "description": "Enter your desired prefix here",
-      "value": ".",
-      "required": true
-    },
-    "MODE": {
-      "description": "Set 'private' to enable private mode, 'public' to enable public mode, 'group' to enable only group and 'pm' to enable only private chats",
-      "value": "public",
-      "required": false
-    },
-    "ANTIDELETE": {
-      "description": "Set 'private' to send deleted messages to message yourself, 'chat' to current chat and 'off' to disable'",
-      "value": "private",
-      "required": false
-    },
-     "ANTI_EDIT": {
-      "description": "Set 'private' to send edited messages to message yourself, 'chat' to current chat and 'off' to disable'",
-      "value": "private",
-      "required": false
-    },
-    "ALWAYS_ONLINE": {
-      "description": "Set true to make the bot online 24/7 or set false to disable always online'",
-      "value": "true",
-      "required": true
-    },
-    "AUTO_STATUS_VIEW": {
-      "description": "Set true to enable and false to disable auto status view",
-      "value": "true",
-      "required": false
-    },
-    "AUTO_STATUS_REACT": {
-      "description": "Set true to enable and false to disable auto status react",
-      "value": "false",
-      "required": false
-    },
-    "STATUS_EMOJI": {
-      "description": "Set your desired status reaction emoji",
-      "value": "🧡",
-      "required": false
-    },
-    "CHATBOT": {
-      "description": "Set true to enable and false to disable auto reply chatbot",
-      "value": "false",
-      "required": false
-    },
-    "ANTI_CALL": {
-      "description": "Set true to enable and false to disable anti-call feature",
-      "value": "false",
-      "required": false
-    },
-    "WELCOME_MSG": {
-      "description": "Set true to enable and false to disable welcome messages",
-      "value": "false",
-      "required": false
-    },
     "TIMEZONE": {
       "description": "Enter your timezone here. Google or don't edit if you don't know!",
       "value": "Africa/Nairobi",
       "required": false
     },
-    "SUDO": {
-      "description": " Type additional allowed users here. They'll be able to use all the functions of the bot without restrictions. Separate with comma incase of more than one number.",
-      "value": "2547xxxxxxxxx,263xxxxxxxxxx",
-      "required": false
-    },
-    "AUTO_READ": {
-      "description": "Set true to enable automatic reading of messages",
-      "value": "false",
-      "required": false
-    },
-    "MENU_STYLE": {
-      "description": "Menu style, options 1, 2, 3, 4, 5 or 6",
-      "value": "2",
-      "required": false
-    }
-  },
+   "GITHUB_TOKEN": {
+  "description": "IMPORTANT: Follow these steps to generate your GitHub token correctly(Bot will not save settings without it!). Go to https://github.com/settings/personal-access-tokens/new, enter any token name and select expiration(preferably 'No expiration'). Under 'Repository Access', select 'All repositories'. Scroll to 'Repository Permissions', tap and scroll to 'Administration' select 'Read and Write', then scroll to 'Contents' also select 'Read and Write'. Scroll to 'Account Permissions', tap and look for 'Interaction Limits' select 'Read and Write'. Scroll to the bottom and click 'Generate Token'. Copy the token and paste it here. If using a single token in multiple bots, make sure to change the owner number to avoid mixup of settings.",
+  "value": "",
+  "required": true
+ }
+},
     "buildpacks": [
     {
       "url": "heroku/nodejs"
