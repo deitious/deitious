@@ -16,19 +16,19 @@ module.exports = [
 
     try {
       const media = await Cypher.downloadAndSaveMediaMessage(quoted, "volume");
-      const rname = getRandom(".mp4");
+      const volvid = getRandom(".mp4");
 
-      exec(`ffmpeg -i ${media} -filter:a volume=${args[0]} ${rname}`, (err, stderr, stdout) => {
+      exec(`ffmpeg -i ${media} -filter:a volume=${args[0]} ${volvid}`, (err, stderr, stdout) => {
         fs.unlinkSync(media);
         if (err) return reply("*Error!*");
 
-        const jadie = fs.readFileSync(rname);
+        const files = fs.readFileSync(volvid);
         Cypher.sendMessage(
           m.chat,
-          { video: jadie, mimetype: "video/mp4" },
+          { video: files, mimetype: "video/mp4" },
           { quoted: m }
         );
-        fs.unlinkSync(rname);
+        fs.unlinkSync(volvid);
       });
     } catch (error) {
       console.error('Error processing video:', error);
