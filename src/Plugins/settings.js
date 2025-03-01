@@ -173,7 +173,7 @@ await reply(`+${userToAdd.split('@')[0]} is already a sudo user.`);
   command: ['autoreactstatus', 'autostatusreact'],
   operate: async ({ Cypher, m, reply, args, prefix, command, isCreator, mess, db, botNumber }) => {
     if (!isCreator) return reply(mess.owner);
-    if (args.length < 1) return reply(`Example: ${prefix + command} on/off\nKeep in mind that enabling this setting might lead to your account getting banned!`);
+    if (args.length < 1) return reply(`Example: ${prefix + command} on/off`);
 
     const validOptions = ["on", "off"];
     const option = args[0].toLowerCase();
@@ -186,7 +186,7 @@ await reply(`+${userToAdd.split('@')[0]} is already a sudo user.`);
         await global.writeDB();
     }
 
-    reply(`Auto status reaction ${option === "on" ? "enabled" : "disabled"} successfully\nKeep in mind that enabling this setting might lead to your account getting banned!`);
+    reply(`Auto status reaction ${option === "on" ? "enabled" : "disabled"} successfully.`);
   }
 },
   {
