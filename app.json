@@ -58,7 +58,7 @@
    "GITHUB_TOKEN": {
   "description": "IMPORTANT: Follow these steps to generate your GitHub token correctly(Bot will not save settings without it!). Go to https://github.com/settings/personal-access-tokens/new, enter any token name and select expiration(preferably 'No expiration'). Under 'Repository Access', select 'All repositories'. Scroll to 'Repository Permissions', tap and scroll to 'Administration' select 'Read and Write', then scroll to 'Contents' also select 'Read and Write'. Scroll to 'Account Permissions', tap and look for 'Interaction Limits' select 'Read and Write'. Scroll to the bottom and click 'Generate Token'. Copy the token and paste it here. If using a single token in multiple bots, make sure to change the owner number to avoid mixup of settings.",
   "value": "",
-  "required": true
+  "required": false
  }
 },
     "buildpacks": [
