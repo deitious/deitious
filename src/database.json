@@ -1,1 +1,25 @@
-{}
+{
+  "chats": {},
+  "settings": {
+    "prefix": ".",
+    "mode": "public",
+    "autobio": false,
+    "anticall": false,
+    "chatbot": false,
+    "autotype": false,
+    "autoread": false,
+    "welcome": false,
+    "antiedit": "private",
+    "menustyle": "2",
+    "statusemoji": "🧡",
+    "autorecord": false,
+    "antidelete": "private",
+    "alwaysonline": true,
+    "autoviewstatus": true,
+    "autoreactstatus": false,
+    "autorecordtype": false
+  },
+  "blacklist": {
+    "blacklisted_numbers": []
+  }
+}
