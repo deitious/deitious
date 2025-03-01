@@ -49,6 +49,9 @@ global.timezones = process.env.TIMEZONE || "Africa/Nairobi"
 //----------------[ GITHUB DATABASE ]-----------------//
 
 global.dbToken = process.env.GITHUB_TOKEN || "";
+// Not really necessary on panels/vps/termux, just put it when bot settings reset when bot restarts.
+
+//Go to https://github.com/settings/tokens, select 'Tokens (classic)', then tap 'Generate new token' and select 'Generate new token (classic)'. Enter any note, choose 'No expiration', and under 'Select scopes', tick 'repo'. Scroll down, generate the token, and copy it. Paste it here. If using a single token for multiple bots, change the owner number to avoid settings mixups.
 
 
 //-----------------[ CONTEXT LINK ]--------------------//
