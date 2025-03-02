@@ -378,7 +378,7 @@ await reply(`+${userToRemove.split('@')[0]} is not in the sudo list.`);
   command: ['mode'],
   operate: async ({ Cypher, m, reply, args, prefix, command, isCreator, mess, db, botNumber }) => {
     if (!isCreator) return reply(mess.owner);
-    if (args.length < 1) return reply(`Example: ${prefix + command} public/private/group/pm\n\nprivate sends deleted messages to message yourself, chat sends to current chat and off disables`);
+    if (args.length < 1) return reply(`Example: ${prefix + command} public/private/group/pm\n\n private - sets the bot to private mode\npublic - sets the bot to public mode\ngroup - sets the bot to be public on groups alone\npm sets the bot to be public on personal chats alone.`);
 
     const validOptions = ["private", "public", "group", "pm"];
     const option = args[0].toLowerCase();
