@@ -12,6 +12,7 @@
     "antiedit": "private",
     "menustyle": "2",
     "statusemoji": "🧡",
+    "autoreact": false,
     "autorecord": false,
     "antidelete": "private",
     "alwaysonline": true,
