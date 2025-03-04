@@ -13,8 +13,8 @@ module.exports = [
     if (!text) return reply("*Which apk do you want to download?*");
     
     try {
-      let kyuu = await fetchJson(`https://bk9.fun/search/apk?q=${text}`);
-      let tylor = await fetchJson(`https://bk9.fun/download/apk?id=${kyuu.BK9[0].id}`);
+      let apiUrl = await fetchJson(`https://bk9.fun/search/apk?q=${text}`);
+      let tylor = await fetchJson(`https://bk9.fun/download/apk?id=${apiUrl.BK9[0].id}`);
 
       await Cypher.sendMessage(
         m.chat,
@@ -95,12 +95,12 @@ module.exports = [
     if (!text) return reply(`*Please provide a Facebook video url!*`);
     
     try {
-      var anut = await fetchJson(`https://api-aswin-sparky.koyeb.app/api/downloader/fbdl?url=${text}`);
-      var hasdl = anut.data[0].url;
+      var dlink = await fetchJson(`https://api-aswin-sparky.koyeb.app/api/downloader/fbdl?url=${text}`);
+      var dlurl = dlink.data.high;
       
       await Cypher.sendMessage(m.chat, {
         video: {
-          url: hasdl,
+          url: dlurl,
           caption: global.botname
         }
       }, {
@@ -411,8 +411,8 @@ module.exports = [
     if (!text) return reply(`*Example: ${prefix + command} black rover*`);
     
     try {
-      let anutone2 = await ringtone.ringtone(text);
-      let result = anutone2[Math.floor(Math.random() * anutone2.length)];
+      let dltone2 = await ringtone.ringtone(text);
+      let result = dltone2[Math.floor(Math.random() * dltone2.length)];
       
       await Cypher.sendMessage(
         m.chat,
@@ -440,13 +440,13 @@ module.exports = [
     if (!args[0]) return reply('*Please provide a TikTok video url!*');
     
     try {
-      let kyuu = await fetchJson(`https://api-aswin-sparky.koyeb.app/api/downloader/tiktok?url=${args[0]}`);
+      let apiUrl = await fetchJson(`https://api-aswin-sparky.koyeb.app/api/downloader/tiktok?url=${args[0]}`);
       
       await Cypher.sendMessage(
         m.chat,
         {
           caption: global.wm,
-          video: { url: kyuu.data.video },
+          video: { url: apiUrl.data.video },
           fileName: "video.mp4",
           mimetype: "video/mp4",
         },
@@ -463,12 +463,12 @@ module.exports = [
     if (!args[0]) return reply('*Please provide a TikTok audio url!*');
     
     try {
-      let kyuu = await fetchJson(`https://api-aswin-sparky.koyeb.app/api/downloader/tiktok?url=${args[0]}`);
+      let apiUrl = await fetchJson(`https://api-aswin-sparky.koyeb.app/api/downloader/tiktok?url=${args[0]}`);
       
       await Cypher.sendMessage(
         m.chat,
         {
-          audio: { url: kyuu.data.audio },
+          audio: { url: apiUrl.data.audio },
           fileName: "tiktok.mp3",
           mimetype: "audio/mpeg",
         },
@@ -560,9 +560,9 @@ module.exports = [
   if (!isCreator) return reply(mess.owner);
 	if (!text) return reply('*Please provide a porn video search query!*');
     let kutu = await fetchJson(`https://api-aswin-sparky.koyeb.app/api/search/xnxx?search=${text}`)
-	let kyuu = await fetchJson(`https://api-aswin-sparky.koyeb.app/api/downloader/xnxx?url=${kutu.result.result[0].link}`)
+	let apiUrl = await fetchJson(`https://api-aswin-sparky.koyeb.app/api/downloader/xnxx?url=${kutu.result.result[0].link}`)
 await Cypher.sendMessage(m.chat, {
- video: {url: kyuu.data.files.high}, 
+ video: {url: apiUrl.data.files.high}, 
  caption: global.wm,
  contextInfo: {
         externalAdReply: {

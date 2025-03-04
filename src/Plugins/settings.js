@@ -210,6 +210,29 @@ await reply(`+${userToAdd.split('@')[0]} is already a sudo user.`);
   }
 },
 {
+  command: ['autoreact', 'autoreacting'],
+  operate: async ({ reply, args, prefix, command, isCreator, mess, db }) => {
+    if (!isCreator) return reply(mess.owner);
+    
+    if (args.length < 1) {
+      return reply(`Example: ${prefix + command} all/group/pm/command/off\n\nall - reacts to all messages\ngroup - reacts to messages in groups\npm - reacts to private messages\ncommand - reacts when a command is used\noff - disables auto-reaction`);
+    }
+
+    const validOptions = ["all", "group", "pm", "command", "off"];
+    const option = args[0].toLowerCase();
+
+    if (!validOptions.includes(option)) {
+      return reply(`Invalid option; type *${prefix}autoreact* to see available options!`);
+    }
+
+    db.data.settings.autoreact = option === "off" ? false : option;
+
+    if (global.dbToken) await global.writeDB();
+
+    reply(`Auto-reaction set to *${option}* successfully.`);
+  }
+},
+{
   command: ['autoread'],
   operate: async ({ reply, args, prefix, command, isCreator, mess, db }) => {
     if (!isCreator) return reply(mess.owner);
@@ -378,7 +401,7 @@ await reply(`+${userToRemove.split('@')[0]} is not in the sudo list.`);
   command: ['mode'],
   operate: async ({ Cypher, m, reply, args, prefix, command, isCreator, mess, db, botNumber }) => {
     if (!isCreator) return reply(mess.owner);
-    if (args.length < 1) return reply(`Example: ${prefix + command} public/private/group/pm\n\n private - sets the bot to private mode\npublic - sets the bot to public mode\ngroup - sets the bot to be public on groups alone\npm sets the bot to be public on personal chats alone.`);
+    if (args.length < 1) return reply(`Example: ${prefix + command} public/private/group/pm\n\nprivate - sets the bot to private mode\npublic - sets the bot to public mode\ngroup - sets the bot to be public on groups alone\npm - sets the bot to be public on personal chats alone.`);
 
     const validOptions = ["private", "public", "group", "pm"];
     const option = args[0].toLowerCase();
@@ -494,6 +517,7 @@ await reply(`+${userToRemove.split('@')[0]} is not in the sudo list.`);
         welcome: false,
         antiedit: "private",
         menustyle: "2",
+        autoreact: false,
         statusemoji: "🧡",
         autorecord: false,
         antidelete: "private",

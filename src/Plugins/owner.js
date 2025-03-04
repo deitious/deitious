@@ -118,26 +118,37 @@ module.exports = [
     }
   }
 },
- {
+{
   command: ['dlvo', 'vv', 'rvo'],
   operate: async ({ Cypher, m, reply, isCreator, mess }) => {
     if (!isCreator) return reply(mess.owner);
     if (!m.quoted) return reply(`*Please reply to a view once message!*`);
 
-    let msg = m.msg?.contextInfo?.quotedMessage
+    let msg = m.msg?.contextInfo?.quotedMessage;
     let type = Object.keys(msg)[0];
 
-    if (!/image|video/.test(type)) return reply(`*Only view once images and videos are supported!*`);
+    if (!/image|video|audioMessage/.test(type)) return reply(`*Only view once images, videos, and audio messages are supported!*`);
 
     try {
-      let media = await downloadContentFromMessage(msg[type], type === 'imageMessage' ? 'image' : 'video');
+      let media;
+      let filename;
+      let caption = msg[type]?.caption || global.wm;
+
+      if (type === 'imageMessage') {
+        media = await downloadContentFromMessage(msg[type], 'image');
+        filename = 'media.jpg';
+      } else if (type === 'videoMessage') {
+        media = await downloadContentFromMessage(msg[type], 'video');
+        filename = 'media.mp4';
+      } else if (type === 'audioMessage') {
+        media = await downloadContentFromMessage(msg[type], 'audio');
+        filename = 'audio.mp3';
+      }
+
       let buffer = Buffer.from([]);
       for await (const chunk of media) {
         buffer = Buffer.concat([buffer, chunk]);
       }
-
-      let filename = type === 'imageMessage' ? 'media.jpg' : 'media.mp4';
-      let caption = msg[type]?.caption || global.wm;
 
       return Cypher.sendFile(m.chat, buffer, filename, caption, m);
     } catch (error) {
@@ -145,7 +156,7 @@ module.exports = [
       reply(`*Failed to retrieve media. The message might not be a valid view-once media.*`);
     }
   }
-}, 
+},
  {
   command: ['gcaddprivacy'],
   operate: async ({ Cypher, m, reply, isCreator, mess, prefix, command, text, args }) => {
