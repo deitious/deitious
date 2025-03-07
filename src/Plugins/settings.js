@@ -440,12 +440,15 @@ await reply(`+${userToRemove.split('@')[0]} is not in the sudo list.`);
     if (!isCreator) return reply(mess.owner);
     if (args.length < 1) return reply(`Example: ${prefix + command} !\n\n- This will change the bot prefix to *!*`);
 
-    const newPrefix = args[0];
-
-    if (!newPrefix || newPrefix.length > 3) return reply("⚠️ Prefix should be 1-3 characters long.");
+    let newPrefix = args[0];
+    if (newPrefix.toLowerCase() === "none" || newPrefix.toLowerCase() === "noprefix") {
+      newPrefix = "";
+    } else if (newPrefix.length > 3) {
+      return reply("⚠️ Prefix should be 1-3 characters long.");
+    }
 
     db.data.settings.prefix = newPrefix;
-    reply(`✅ Prefix changed to *${newPrefix}* successfully.`);
+    reply(`✅ Prefix changed to *${newPrefix || "No Prefix"}* successfully.`);
 
     if (global.dbToken) await global.writeDB();
   }
