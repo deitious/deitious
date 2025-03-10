@@ -46,13 +46,10 @@ global.author = process.env.STICKER_AUTHOR_NAME || "X"
 global.timezones = process.env.TIMEZONE || "Africa/Nairobi" 
 //Don't edit this if you don't know!
 
-//----------------[ GITHUB DATABASE ]-----------------//
+//--------------[ POSTGRES DATABASE ]----------------//
 
-global.dbToken = process.env.GITHUB_TOKEN || "";
-// Not really necessary on panels/vps/termux, just put it when bot settings reset when bot restarts.
-
-//Go to https://github.com/settings/tokens, select 'Tokens (classic)', then tap 'Generate new token' and select 'Generate new token (classic)'. Enter any note, choose 'No expiration', and under 'Select scopes', tick 'repo'. Scroll down, generate the token, and copy it. Paste it here. If using a single token for multiple bots, change the owner number to avoid settings mixups.
-
+global.postgresqls = process.env.DATABASE_URL || "";
+// Don't fill anything, it will be automatically filled by heroku
 
 //-----------------[ CONTEXT LINK ]--------------------//
 
