@@ -22,12 +22,18 @@
 <p align="center"><img src="https://profile-counter.glitch.me/{Dark-Xploit}/count.svg" alt="CypherX:: Visitor's Count" /></p>
 
 
-1. FORK REPOSITORY
-    <br>
-    <p align="center">
-<a href='https://github.com/Dark-Xploit/CypherX/fork' target="_blank"><img alt='Fork Repo' src='https://img.shields.io/badge/Fork Repo-100000?style=for-the-badge&logo=scan&logoColor=white&labelColor=darkblue&color=darkblue'/></a>
+<br>
+<p align="center">
+    <a href="https://github.com/Dark-Xploit/CypherX/fork" target="_blank">
+        <img alt="Fork Repo" src="https://img.shields.io/badge/Fork%20Repo-100000?style=for-the-badge&logo=scan&logoColor=white&labelColor=darkblue&color=darkblue"/>
+    </a>
+</p>
 
-2. SESSION ID & DEPLOYMENTS
+<!-- Part 2: SESSION ID & DEPLOYMENTS -->
+<p align="center">
+    <strong>2. SESSION ID & DEPLOYMENTS</strong>
     <br>
-    <p align="center">
-<a href='https://xploader-pair1-99a038a6e1f2.herokuapp.com' target="_blank"><img alt='WEBSITE' src='https://img.shields.io/badge/Let's_Go-100000?style=for-the-badge&logo=scan&logoColor=white&labelColor=darkred&color=darkred'/></a>
+    <a href="https://xploader-pair1-99a038a6e1f2.herokuapp.com" target="_blank">
+        <img alt="WEBSITE" src="https://img.shields.io/badge/Let%27s_Go-100000?style=for-the-badge&logo=scan&logoColor=white&labelColor=darkred&color=darkred"/>
+    </a>
+</p>
