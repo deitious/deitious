@@ -6,7 +6,7 @@ const moment = require('moment-timezone');
 const { formatSize, checkBandwidth, runtime } = require('../../lib/myfunc');
 const checkDiskSpace = require('check-disk-space').default;
 const performance = require('perf_hooks').performance;
-const botImage = fs.readFileSync("./Media/Images/Xploader5.jpg");
+const botImage = fs.readFileSync("./src/Media/Images/Xploader5.jpg");
 
 module.exports = [
   {

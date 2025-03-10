@@ -309,7 +309,7 @@ module.exports = [
 {
   command: ['listsudo'],
   operate: async ({ reply }) => {
-    const sudoList = global.db.data.sudo;
+    const sudoList = global.db.sudo;
 
     if (sudoList.length === 0) {
       reply('The sudo list is empty.');
