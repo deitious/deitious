@@ -41,18 +41,18 @@ module.exports = [
 
         if (state === "on") {
             if (mode === "delete") {
-                db.data.chats[from].badword = true;
-                db.data.chats[from].badwordkick = false;
+                db.chats[from].badword = true;
+                db.chats[from].badwordkick = false;
             } else if (mode === "kick") {
-                db.data.chats[from].badwordkick = true;
-                db.data.chats[from].badword = false;
+                db.chats[from].badwordkick = true;
+                db.chats[from].badword = false;
             }
             reply(`*Successfully enabled antibadword ${mode} mode!*`);
         } else if (state === "off") {
             if (mode === "delete") {
-                db.data.chats[from].badword = false;
+                db.chats[from].badword = false;
             } else if (mode === "kick") {
-                db.data.chats[from].badwordkick = false;
+                db.chats[from].badwordkick = false;
             }
             reply(`*Successfully disabled antibadword ${mode} mode!*`);
         }
@@ -67,10 +67,10 @@ module.exports = [
         if (!isAdmins && !isCreator) return reply(mess.notadmin);
         if (args.length < 1) return reply("*on or off?*");
         if (args[0] === "on") {
-            db.data.chats[from].antibot = true;
+            db.chats[from].antibot = true;
             reply(`*Successfully enabled ${command}*`);
         } else if (args[0] === "off") {
-            db.data.chats[from].antibot = false;
+            db.chats[from].antibot = false;
             reply(`*Successfully disabled ${command}*`);
         }
     }
@@ -98,20 +98,20 @@ module.exports = [
 
         if (state === "on") {
             if (mode === "delete") {
-          db.data.chats[from].antilinkkick = false;
-          db.data.chats[from].antilink = true;
+          db.chats[from].antilinkkick = false;
+          db.chats[from].antilink = true;
             } else if (mode === "kick") {
-         db.data.chats[from].antilink = false;
-         db.data.chats[from].antilinkkick = true;
+         db.chats[from].antilink = false;
+         db.chats[from].antilinkkick = true;
             }
             reply(`*Successfully enabled antilink ${mode} mode!*`);
         } else if (state === "off") {
             if (mode === "delete") {
-          db.data.chats[from].antilinkkick = false;
-          db.data.chats[from].antilink = false;
+          db.chats[from].antilinkkick = false;
+          db.chats[from].antilink = false;
             } else if (mode === "kick") {
-         db.data.chats[from].antilink = false;
-         db.data.chats[from].antilinkkick = false;
+         db.chats[from].antilink = false;
+         db.chats[from].antilinkkick = false;
             }
             reply(`*Successfully disabled antilink ${mode} mode!*`);
         }
@@ -140,18 +140,18 @@ module.exports = [
 
         if (state === "on") {
             if (mode === "delete") {
-                db.data.chats[from].antilinkgc = true;
-                db.data.chats[from].antilinkgckick = false;
+                db.chats[from].antilinkgc = true;
+                db.chats[from].antilinkgckick = false;
             } else if (mode === "kick") {
-                db.data.chats[from].antilinkgckick = true;
-                db.data.chats[from].antilinkgc = false;
+                db.chats[from].antilinkgckick = true;
+                db.chats[from].antilinkgc = false;
             }
             reply(`*Successfully enabled antilinkgc ${mode} mode!*`);
         } else if (state === "off") {
             if (mode === "delete") {
-                db.data.chats[from].antilinkgc = false;
+                db.chats[from].antilinkgc = false;
             } else if (mode === "kick") {
-                db.data.chats[from].antilinkgckick = false;
+                db.chats[from].antilinkgckick = false;
             }
             reply(`*Successfully disabled antilinkgc ${mode} mode!*`);
         }
