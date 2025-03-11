@@ -436,22 +436,6 @@ await reply(`+${userToRemove.split('@')[0]} is not in the sudo list.`);
   command: ['setprefix'],
   operate: async ({ reply, args, prefix, command, db, isCreator, mess, saveDatabase }) => {
     if (!isCreator) return reply(mess.owner);
-    if (args.length < 1) return reply(`Example: ${prefix + command} !\n\n- This will change the bot prefix to *!*`);
-
-    const newPrefix = args[0];
-
-    if (!newPrefix || newPrefix.length > 3) return reply("⚠️ Prefix should be 1-3 characters long.");
-
-    db.settings.prefix = newPrefix;
-    reply(`✅ Prefix changed to *${newPrefix}* successfully.`);
-
-    await saveDatabase();
-  }
-},
-{
-  command: ['setprefix'],
-  operate: async ({ reply, args, prefix, command, db, isCreator, mess, saveDatabase }) => {
-    if (!isCreator) return reply(mess.owner);
     if (args.length < 1) return reply(`Example: ${prefix + command} !\n\n- This will change the bot prefix to *!*\n\nUse *${prefix + command} none* to use the bot without prefix`);
 
     let newPrefix = args[0];
