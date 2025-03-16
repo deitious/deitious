@@ -14,32 +14,40 @@ class PluginManager {
       .map(file => path.join(dir, file));
   }
 
-  async executePlugin(globalContext, command) {
-    try {
-      const pluginFiles = await this.getPluginFiles(this.directory);
+async executePlugin(globalContext, command) {
+  try {
+    const pluginFiles = await this.getPluginFiles(this.directory);
 
-      for (const filePath of pluginFiles) {
-        const plugins = require(filePath);
+    for (const filePath of pluginFiles) {
+      const plugins = require(filePath);
 
-        if (Array.isArray(plugins)) {
-          const matchedPlugin = plugins.find(plugin => plugin.command.includes(command));
+      if (Array.isArray(plugins)) {
+        const matchedPlugin = plugins.find(plugin => plugin.command.includes(command));
 
-          if (matchedPlugin) {
-
-            await matchedPlugin.operate(globalContext);
-
-            delete require.cache[require.resolve(filePath)];
-
-            return true;
+        if (matchedPlugin) {
+          if (matchedPlugin.react) {
+            await globalContext.Cypher.sendMessage(globalContext.m.chat, {
+              react: {
+                text: matchedPlugin.react, 
+                key: globalContext.m.key,
+              },
+            });
           }
+
+          await matchedPlugin.operate(globalContext);
+
+          delete require.cache[require.resolve(filePath)];
+
+          return true;
         }
       }
-    } catch (error) {
-      console.error(`Error executing command: ${command}`, error);
     }
-
-    return false;
+  } catch (error) {
+    console.error(`Error executing command: ${command}`, error);
   }
+
+  return false;
+}
 }
 
 module.exports = PluginManager;

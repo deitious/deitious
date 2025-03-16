@@ -3,7 +3,7 @@ const {
     getContentType
 } = require('@whiskeysockets/baileys')
 
-exports.heart = (Cypher, m, store) => {
+const heart = (Cypher, m, store) => {
     if (!m) return m
     let M = proto.WebMessageInfo
     if (m.key) {
@@ -129,3 +129,5 @@ m.text = m.msg ? (m.msg.text || m.msg.caption || m.message.conversation || m.msg
 
     return m
 }
+
+module.exports = { heart }
