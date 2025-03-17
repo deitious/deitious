@@ -11,7 +11,7 @@ const botImage = fs.readFileSync("./src/Media/Images/Xploader5.jpg");
 module.exports = [
   {
     command: ['botstatus', 'statusbot'],
-    operate: async ({ Cypher, m, reply }) => {
+    operate: async ({ Cypher, m, reply, detectPlatform }) => {
       const used = process.memoryUsage();
       const ramUsage = `${formatSize(used.heapUsed)} / ${formatSize(os.totalmem())}`;
       const freeRam = formatSize(os.freemem());
@@ -34,7 +34,7 @@ module.exports = [
 🔸 *Free RAM:* ${freeRam}
 🔸 *Disk Usage:* ${formatSize(disk.size - disk.free)} / ${formatSize(disk.size)}
 🔸 *Free Disk:* ${formatSize(disk.free)}
-🔸 *Platform:* ${os.platform()}
+🔸 *Platform:* ${detectPlatform()}
 🔸 *NodeJS Version:* ${process.version}
 🔸 *CPU Model:* ${os.cpus()[0].model}
 🔸 *Downloaded:* ${download}

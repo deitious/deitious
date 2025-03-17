@@ -465,7 +465,7 @@ console.log('Quoted Key:', m.quoted?.key);
   }
 },
  {
-  command: ['tourl', 'url'],
+  command: ['tourl', 'url', 'upload'],
   operate: async ({ m, Cypher, reply }) => {
     const quoted = m.quoted || m.msg?.quoted;
     const mime = quoted?.mimetype || quoted?.msg?.mimetype;

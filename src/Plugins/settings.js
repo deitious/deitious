@@ -308,6 +308,79 @@ await reply(`+${userToAdd.split('@')[0]} is already a sudo user.`);
     reply(`Auto-record typing set to *${option}* successfully.`);
   }
 },
+{
+  command: ['autoblock'],
+  operate: async ({ Cypher, m, reply, args, prefix, command, isCreator, mess, db, botNumber, saveDatabase }) => {
+    if (!isCreator) return reply(mess.owner);
+    if (args.length < 1) return reply(`Example: ${prefix + command} on/off`);
+
+    const validOptions = ["on", "off"];
+    const option = args[0].toLowerCase();
+
+    if (!validOptions.includes(option)) return reply("Invalid option");
+
+    db.settings.autoblock = option === "on";
+
+    await saveDatabase();
+
+    reply(`Autoblock has been ${option === "on" ? "enabled" : "disabled"} successfully.`);
+    reply("If autoblock is enabled, only users with the allowed country codes will be able to message the you in PM. To manage allowed country codes, use the commands:\n\n" +
+           `${prefix}addcountrycode <countryCode> - Adds a country code\n` +
+           `${prefix}delcountrycode <countryCode> - Removes a country code\n` +
+           `${prefix}listcountrycode - Lists all allowed country codes`);
+  }
+},
+{
+  command: ['addcountrycode'],
+  operate: async ({ Cypher, m, reply, args, prefix, command, isCreator, mess, db, botNumber, saveDatabase }) => {
+    if (!isCreator) return reply(mess.owner);
+    if (args.length < 1) return reply(`Example: ${prefix + command} 254`);
+
+    const newCode = args[0].trim();
+ 
+    if (!/^\d{2,3}$/.test(newCode)) return reply("Please enter a valid country code (2 or 3 digits).");
+
+    const allowedCodes = db.settings.allowedCodes;
+    if (allowedCodes.includes(newCode)) {
+      return reply(`Country code ${newCode} is already in the allowed list.`);
+    }
+
+    allowedCodes.push(newCode);
+    await saveDatabase();
+
+    reply(`Country code ${newCode} has been added successfully.`);
+  }
+},
+{
+  command: ['delcountrycode'],
+  operate: async ({ Cypher, m, reply, args, prefix, command, isCreator, mess, db, botNumber, saveDatabase }) => {
+    if (!isCreator) return reply(mess.owner);
+    if (args.length < 1) return reply(`Example: ${prefix + command} 254`);
+
+    const codeToRemove = args[0].trim();
+
+    const allowedCodes = db.settings.allowedCodes;
+    const index = allowedCodes.indexOf(codeToRemove);
+
+    if (index === -1) return reply(`Country code ${codeToRemove} is not in the allowed list.`);
+
+    allowedCodes.splice(index, 1);
+    await saveDatabase();
+
+    reply(`Country code ${codeToRemove} has been removed successfully.`);
+  }
+},
+{
+  command: ['listcountrycode'],
+  operate: async ({ Cypher, m, reply, args, prefix, command, isCreator, mess, db, botNumber }) => {
+    if (!isCreator) return reply(mess.owner);
+    const allowedCodes = db.settings.allowedCodes;
+    if (allowedCodes.length === 0) return reply("No country codes are allowed.");
+
+    const codesList = allowedCodes.join(', ');
+    reply(`Allowed country codes: ${codesList}`);
+  }
+},
   {
   command: ['chatbot'],
   operate: async ({ Cypher, m, reply, args, prefix, command, isCreator, mess, db, botNumber, saveDatabase }) => {
@@ -468,24 +541,6 @@ await reply(`+${userToRemove.split('@')[0]} is not in the sudo list.`);
     await saveDatabase();
   }
 },
-  {
-  command: ['welcome'],
-  operate: async ({ Cypher, m, reply, args, prefix, command, isCreator, mess, db, botNumber, saveDatabase }) => {
-    if (!isCreator) return reply(mess.owner);
-    if (args.length < 1) return reply(`Example: ${prefix + command} on/off`);
-
-    const validOptions = ["on", "off"];
-    const option = args[0].toLowerCase();
-
-    if (!validOptions.includes(option)) return reply("Invalid option");
-
-    db.settings.welcome = option === "on";
-
-    await saveDatabase();
-
-    reply(`Group welcome/left messages ${option === "on" ? "enabled" : "disabled"} successfully`);
-  }
-},
 {
   command: ['getsettings'],
   operate: async ({ reply, db }) => {
@@ -515,10 +570,10 @@ await reply(`+${userToRemove.split('@')[0]} is not in the sudo list.`);
         antibug: false,
         autotype: false,
         autoread: false,
-        welcome: false,
         antiedit: "private",
         menustyle: "2",
         autoreact: false,
+        autoblock: false,
         statusemoji: "🧡",
         autorecord: false,
         antidelete: "private",

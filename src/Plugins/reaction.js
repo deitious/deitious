@@ -8,7 +8,7 @@ const fetchReactionImage = async ({ Cypher, m, reply, command }) => {
       author: global.author,
     });
   } catch (error) {
-    reply(`❌ Error fetching image: ${error.message}`);
+      reply(global.mess.error);
   }
 };
 

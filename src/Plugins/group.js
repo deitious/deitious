@@ -2,6 +2,14 @@ const fs = require('fs');
 const { sleep } = require('../../lib/myfunc');
 const { generateProfilePicture } = require('@whiskeysockets/baileys');
 
+const processCountryCode = (code) => {
+  const cleanedCode = code.replace(/\D/g, '');
+  if (cleanedCode.length < 1 || cleanedCode.length > 3) {
+    return null; 
+  }
+
+  return cleanedCode;
+};
 
 module.exports = [
  {
@@ -157,6 +165,176 @@ module.exports = [
         }
     },
 },
+ {
+  command: ['announcements'],
+  operate: async ({ Cypher, m, reply, args, prefix, command, isCreator, mess, db, botNumber, saveDatabase }) => {
+    if (!m.isGroup) return reply(mess.group); 
+    if (!isCreator) return reply(mess.owner);
+    if (args.length < 1) return reply(`Example: ${prefix + command} on/off`);
+
+    const validOptions = ["on", "off"];
+    const option = args[0].toLowerCase();
+
+    if (!validOptions.includes(option)) return reply("Invalid option");
+
+    db.chats[m.chat].announcements = option === "on";
+
+    await saveDatabase();
+
+    reply(`Settings announcement for this group ${option === "on" ? "enabled" : "disabled"} successfully`);
+  }
+},
+  {
+  command: ['antidemote'],
+  operate: async ({ Cypher, m, reply, args, prefix, command, isCreator, mess, db, botNumber, saveDatabase, isAdmins, isBotAdmins }) => {
+    if (!m.isGroup) return reply(mess.group); 
+    if (!isBotAdmins) return reply(mess.admin); 
+    if (!isAdmins && !isCreator) return reply(mess.notadmin); 
+    if (args.length < 1) return reply(`Example: ${prefix + command} on/off`);
+
+    const validOptions = ["on", "off"];
+    const option = args[0].toLowerCase();
+
+    if (!validOptions.includes(option)) return reply("Invalid option");
+
+    db.chats[m.chat].antidemote = option === "on";
+
+    await saveDatabase();
+
+    reply(`Anti-demote has been ${option === "on" ? "enabled" : "disabled"} successfully in this group`);
+  }
+},
+{
+  command: ['antiforeign'],
+  operate: async ({ Cypher, m, reply, args, prefix, command, isCreator, mess, db, botNumber, saveDatabase, isAdmins, isBotAdmins }) => {
+    if (!m.isGroup) return reply(mess.group);
+    if (!isBotAdmins) return reply(mess.admin);
+    if (!isAdmins && !isCreator) return reply(mess.notadmin);
+    if (args.length < 1) return reply(`Example: ${prefix + command} on/off`);
+
+    const validOptions = ["on", "off"];
+    const option = args[0].toLowerCase();
+
+    if (!validOptions.includes(option)) return reply("Invalid option");
+
+    db.chats[m.chat].antiforeign = option === "on";
+
+    await saveDatabase();
+
+    reply(`
+      Anti-foreign has been ${option === "on" ? "enabled" : "disabled"} successfully in this group.
+      New members whose country code isn't ${db.chats[m.chat].allowedCodes.length > 0 ? db.chats[m.chat].allowedCodes.join(", ") : "any specified country code"} will be automatically removed.
+      
+      To manage allowed country codes, use the following commands:
+      - \`${prefix}addcode <countryCode>\` to add a country code.
+      - \`${prefix}delcode <countryCode>\` to delete a country code.
+      - \`${prefix}listcode\` to list all allowed country codes.
+    `);
+  }
+},
+{
+  command: ['addcode'],
+  operate: async ({ Cypher, m, reply, args, prefix, command, isCreator, mess, db, botNumber, saveDatabase, isAdmins, isBotAdmins }) => {
+    if (!m.isGroup) return reply(mess.group);
+    if (!isBotAdmins) return reply(mess.admin);
+    if (!isAdmins && !isCreator) return reply(mess.notadmin);
+    if (args.length < 1) return reply(`Example: ${prefix + command} <countryCode>`);
+
+    const countryCode = processCountryCode(args[0]);
+
+    if (!countryCode) {
+      return reply("Invalid country code. Make sure it's 1-3 digits.");
+    }
+
+    if (db.chats[m.chat].allowedCodes.includes(countryCode)) {
+      return reply(`Country code ${countryCode} is already in the allowed list.`);
+    }
+
+    db.chats[m.chat].allowedCodes.push(countryCode);
+    await saveDatabase();
+
+    reply(`Country code ${countryCode} has been successfully added to the allowed list.`);
+  }
+},
+{
+  command: ['delcode'],
+  operate: async ({ Cypher, m, reply, args, prefix, command, isCreator, mess, db, botNumber, saveDatabase, isAdmins, isBotAdmins }) => {
+    if (!m.isGroup) return reply(mess.group);
+    if (!isBotAdmins) return reply(mess.admin);
+    if (!isAdmins && !isCreator) return reply(mess.notadmin);
+    if (args.length < 1) return reply(`Example: ${prefix + command} <countryCode>`);
+
+    const countryCode = processCountryCode(args[0]);
+
+    if (!countryCode) {
+      return reply("Invalid country code. Make sure it's 1-3 digits.");
+    }
+
+    const codeIndex = db.chats[m.chat].allowedCodes.indexOf(countryCode);
+    if (codeIndex === -1) {
+      return reply(`Country code ${countryCode} is not in the allowed list.`);
+    }
+
+    db.chats[m.chat].allowedCodes.splice(codeIndex, 1);
+    await saveDatabase();
+
+    reply(`Country code ${countryCode} has been successfully removed from the allowed list.`);
+  }
+},
+{
+  command: ['listcode'],
+  operate: async ({ Cypher, m, reply, args, prefix, command, isCreator, mess, db, botNumber }) => {
+    if (!m.isGroup) return reply(mess.group);
+    if (!isCreator) return reply(mess.owner);
+
+    const allowedCodes = db.chats[m.chat].allowedCodes;
+
+    if (allowedCodes.length === 0) {
+      return reply("No country codes are currently allowed in this group.");
+    }
+
+    reply(`The allowed country codes in this group are: ${allowedCodes.join(", ")}`);
+  }
+},
+  {
+  command: ['antipromote'],
+  operate: async ({ Cypher, m, reply, args, prefix, command, isCreator, mess, db, botNumber, saveDatabase, isBotAdmins, isAdmins }) => {
+    if (!m.isGroup) return reply(mess.group); 
+    if (!isBotAdmins) return reply(mess.admin); 
+    if (!isAdmins && !isCreator) return reply(mess.notadmin); 
+    if (args.length < 1) return reply(`Example: ${prefix + command} on/off`);
+
+    const validOptions = ["on", "off"];
+    const option = args[0].toLowerCase();
+
+    if (!validOptions.includes(option)) return reply("Invalid option");
+
+    db.chats[m.chat].antipromote = option === "on";
+
+    await saveDatabase();
+
+    reply(`Anti-promote has been ${option === "on" ? "enabled" : "disabled"} successfully in this group`);
+  }
+},
+  {
+  command: ['welcome'],
+  operate: async ({ Cypher, m, reply, args, prefix, command, isCreator, mess, db, botNumber, saveDatabase }) => {
+    if (!m.isGroup) return reply(mess.group); 
+    if (!isCreator) return reply(mess.owner);
+    if (args.length < 1) return reply(`Example: ${prefix + command} on/off`);
+
+    const validOptions = ["on", "off"];
+    const option = args[0].toLowerCase();
+
+    if (!validOptions.includes(option)) return reply("Invalid option");
+
+    db.chats[m.chat].welcome = option === "on";
+
+    await saveDatabase();
+
+    reply(`Welcome and left messages ${option === "on" ? "enabled" : "disabled"} successfully for this group`);
+  }
+},
 {
     command: ['approveall', 'acceptall'],
     operate: async ({ m, args, isCreator, reply, approveAllRequests, mess, isGroupAdmins, isBotAdmins }) => {
@@ -182,42 +360,6 @@ module.exports = [
     }
 },
  {
-    command: ['closetime'],
-    operate: async (context) => {
-        const { m, mess, args, isAdmins, isCreator, isBotAdmins, Cypher, reply } = context;
-        if (!m.isGroup) return reply(mess.group);
-        if (!isAdmins && !isCreator) return reply(mess.notadmin);
-        if (!isBotAdmins) return reply(mess.admin);
-
-        const duration = args[0];
-        const unit = args[1].toLowerCase();
-
-        let timer;
-        switch (unit) {
-            case "seconds":
-                timer = duration * 1000;
-                break;
-            case "minutes":
-                timer = duration * 60000;
-                break;
-            case "hours":
-                timer = duration * 3600000;
-                break;
-            case "days":
-                timer = duration * 86400000;
-                break;
-            default:
-                return reply("*Select unit:*\nseconds\nminutes\nhours\ndays\n\n*Example:*\n10 seconds");
-        }
-
-        reply(`*Closing group after ${duration} ${unit}*`);
-        setTimeout(() => {
-            Cypher.groupSettingUpdate(m.chat, "announcement");
-            reply("Group closed by admin. Only admins can send messages.");
-        }, timer);
-    }
-},
- {
     command: ['delppgroup'],
     operate: async (context) => {
         const { m, mess, isAdmins, isCreator, isBotAdmins, Cypher, reply, from } = context;
@@ -229,22 +371,31 @@ module.exports = [
         reply("Group profile picture has been successfully removed.");
     }
 }, 
-  {
-    command: ['demote'],
-    operate: async (context) => {
-        const { m, mess, text, isAdmins, isGroupOwner, isCreator, isBotAdmins, Cypher, reply } = context;
-        if (!m.isGroup) return reply(mess.group);
-        if (!isAdmins && !isGroupOwner && !isCreator) return reply(mess.admin);
-        if (!isBotAdmins) return reply(mess.admin);
+{
+  command: ['demote'],
+  operate: async (context) => {
+    const { m, mess, text, isAdmins, isGroupOwner, isCreator, isBotAdmins, Cypher, reply } = context;
+    if (!m.isGroup) return reply(mess.group);
+    if (!isAdmins && !isGroupOwner && !isCreator) return reply(mess.admin);
+    if (!isBotAdmins) return reply(mess.admin);
 
-        let bwstq = m.mentionedJid[0]
-            ? m.mentionedJid[0]
-            : m.quoted
-            ? m.quoted.sender
-            : text.replace(/[^0-9]/g, "") + "@s.whatsapp.net";
-        await Cypher.groupParticipantsUpdate(m.chat, [bwstq], "demote");
-        reply(mess.done);
+    let target = m.mentionedJid[0] 
+      ? m.mentionedJid[0] 
+      : m.quoted 
+      ? m.quoted.sender 
+      : text.replace(/\D/g, "") 
+      ? text.replace(/\D/g, "") + "@s.whatsapp.net" 
+      : null;
+
+    if (!target) return reply("⚠ *Mention or reply to a user to demote!*");
+
+    try {
+      await Cypher.groupParticipantsUpdate(m.chat, [target], "demote");
+      reply(`✅ *User demoted successfully!*`);
+    } catch (error) {
+      reply("❌ *Failed to demote user. They might already be a member or the bot lacks permissions.*");
     }
+  }
 },
 {
     command: ['disapproveall', 'rejectall'],
@@ -279,22 +430,30 @@ module.exports = [
         }
     }
 }, 
- {
+{
   command: ['link', 'linkgc', 'gclink', 'grouplink'],
   operate: async ({ Cypher, m, reply, isAdmins, isGroupOwner, isCreator, mess, isBotAdmins, groupMetadata }) => {
     if (!m.isGroup) return reply(mess.group);
     if (!isAdmins && !isGroupOwner && !isCreator) return reply(mess.admin);
     if (!isBotAdmins) return reply(mess.admin);
 
-    let response = await Cypher.groupInviteCode(m.chat);
-    Cypher.sendText(
-      m.chat,
-      `*GROUP LINK*\n\n*NAME:* ${groupMetadata.subject}\n\n*OWNER:* ${groupMetadata.owner !== undefined ? "+" + groupMetadata.owner.split`@`[0] : "Unknown"}\n\n*ID:* ${groupMetadata.id}\n\n*LINK:* https://chat.whatsapp.com/${response}\n\n*MEMBERS:* ${groupMetadata.participants.length}`,
-      m,
-      {
-        detectLink: true,
-      }
-    );
+    try {
+      let groupInvite = await Cypher.groupInviteCode(m.chat);
+      let groupOwner = groupMetadata.owner ? `+${groupMetadata.owner.split('@')[0]}` : "Unknown";
+      let groupLink = `https://chat.whatsapp.com/${groupInvite}`;
+      let memberCount = groupMetadata.participants.length;
+
+      let message = `🔗 *GROUP LINK*\n\n` +
+                    `📌 *Name:* ${groupMetadata.subject}\n` +
+                    `👑 *Owner:* ${groupOwner}\n` +
+                    `🆔 *Group ID:* ${groupMetadata.id}\n` +
+                    `👥 *Members:* ${memberCount}\n\n` +
+                    `🌍 *Link:* ${groupLink}\n\n> ${global.wm}`;
+
+      Cypher.sendMessage(m.chat, { text: message }, { detectLink: true });
+    } catch (error) {
+      reply("❌ *Failed to fetch group link. Make sure the bot has admin permissions.*");
+    }
   }
 },
  {
@@ -339,28 +498,39 @@ module.exports = [
         let group = m.chat;
         let link = "https://chat.whatsapp.com/" + (await Cypher.groupInviteCode(group));
         await Cypher.sendMessage(text + "@s.whatsapp.net", {
-            text: `*GROUP INVITATION*\n\nSomeone invites you to join this group: \n\n${link}`,
+            text: `*GROUP INVITATION*\n\n${m.sender.split('@')[0]} invites you to join this group: \n\n${link}`,
             mentions: [m.sender],
         });
         reply(`*Successfully sent invite link*`);
     }
 },
-  {
-    command: ['kick', 'remove'],
-    operate: async (context) => {
-        const { m, mess, text, isAdmins, isGroupOwner, isCreator, isBotAdmins, Cypher, reply } = context;
-        if (!m.isGroup) return reply(mess.group);
-        if (!isAdmins && !isGroupOwner && !isCreator) return reply(mess.admin);
-        if (!isBotAdmins) return reply(mess.admin);
+{
+  command: ['kick', 'remove'],
+  operate: async (context) => {
+    const { m, mess, text, isAdmins, isGroupOwner, isCreator, isBotAdmins, Cypher, reply } = context;
+    if (!m.isGroup) return reply(mess.group);
+    if (!isAdmins && !isGroupOwner && !isCreator) return reply(mess.admin);
+    if (!isBotAdmins) return reply(mess.admin);
 
-        let bck = m.mentionedJid[0]
-            ? m.mentionedJid[0]
-            : m.quoted
-            ? m.quoted.sender
-            : text.replace(/[^0-9]/g, "") + "@s.whatsapp.net";
-        await Cypher.groupParticipantsUpdate(m.chat, [bck], "remove");
-        reply(mess.done);
+    let target = m.mentionedJid[0] 
+      ? m.mentionedJid[0] 
+      : m.quoted 
+      ? m.quoted.sender 
+      : text.replace(/[^0-9]/g, "") 
+      ? text.replace(/[^0-9]/g, "") + "@s.whatsapp.net" 
+      : null;
+
+    if (!target) {
+      return reply("⚠ *Mention or reply to a user to remove!*");
     }
+
+    try {
+      await Cypher.groupParticipantsUpdate(m.chat, [target], "remove");
+      reply(`✅ *User removed successfully!*`);
+    } catch (error) {
+      reply("❌ *Failed to remove user. They might be an admin or the bot lacks permissions.*");
+    }
+  }
 },
  {
   command: ['listonline', 'onlinemembers'],
@@ -419,7 +589,56 @@ module.exports = [
         reply("Group opened by admin. Members can now send messages.");
     }
 },
- {
+{
+    command: ['closetime'],
+    operate: async (context) => {
+        const { m, mess, args, isAdmins, isCreator, isBotAdmins, Cypher, reply } = context;
+        if (!m.isGroup) return reply(mess.group);
+        if (!isAdmins && !isCreator) return reply(mess.notadmin);
+        if (!isBotAdmins) return reply(mess.admin);
+
+        if (args.length < 2) {
+            return reply("*Usage:*\n.closetime <number> <unit>\n\n*Units:*\nseconds, minutes, hours, days\n\n*Example:*\n.closetime 10 seconds\n.closetime 1 hour");
+        }
+
+        const duration = parseInt(args[0]);
+        const unit = args[1]?.toLowerCase();
+
+        if (isNaN(duration) || duration <= 0) {
+            return reply("❌ *Invalid duration! Enter a valid number.*\n\nExample:\n.closetime 5 minutes");
+        }
+
+        let timer;
+        switch (unit) {
+            case "seconds":
+            case "second":
+                timer = duration * 1000;
+                break;
+            case "minutes":
+            case "minute":
+                timer = duration * 60000;
+                break;
+            case "hours":
+            case "hour":
+                timer = duration * 3600000;
+                break;
+            case "days":
+            case "day":
+                timer = duration * 86400000;
+                break;
+            default:
+                return reply("*Invalid unit! Choose from:*\nseconds, minutes, hours, days\n\nExample:\n.closetime 5 minutes");
+        }
+
+        reply(`⏳ *Closing group in ${duration} ${unit}...*`);
+        setTimeout(() => {
+            Cypher.groupSettingUpdate(m.chat, "announcement");
+            reply("🔒 *Group closed!* Now only admins can send messages.");
+        }, timer);
+    }
+},
+
+{
     command: ['opentime'],
     operate: async (context) => {
         const { m, mess, args, isAdmins, isCreator, isBotAdmins, Cypher, reply } = context;
@@ -427,31 +646,43 @@ module.exports = [
         if (!isAdmins && !isCreator) return reply(mess.notadmin);
         if (!isBotAdmins) return reply(mess.admin);
 
-        const duration = args[0];
-        const unit = args[1].toLowerCase();
+        if (args.length < 2) {
+            return reply("*Usage:*\n.opentime <number> <unit>\n\n*Units:*\nseconds, minutes, hours, days\n\n*Example:*\n.opentime 10 seconds\n.opentime 1 hour");
+        }
+
+        const duration = parseInt(args[0]);
+        const unit = args[1]?.toLowerCase();
+
+        if (isNaN(duration) || duration <= 0) {
+            return reply("❌ *Invalid duration! Enter a valid number.*\n\nExample:\n.opentime 5 minutes");
+        }
 
         let timer;
         switch (unit) {
             case "seconds":
+            case "second":
                 timer = duration * 1000;
                 break;
             case "minutes":
+            case "minute":
                 timer = duration * 60000;
                 break;
             case "hours":
+            case "hour":
                 timer = duration * 3600000;
                 break;
             case "days":
+            case "day":
                 timer = duration * 86400000;
                 break;
             default:
-                return reply("*Select unit:*\nseconds\nminutes\nhours\ndays\n\n*Example:*\n10 seconds");
+                return reply("*Invalid unit! Choose from:*\nseconds, minutes, hours, days\n\nExample:\n.opentime 5 minutes");
         }
 
-        reply(`*Opening group after ${duration} ${unit}*`);
+        reply(`⏳ *Opening group in ${duration} ${unit}...*`);
         setTimeout(() => {
             Cypher.groupSettingUpdate(m.chat, "not_announcement");
-            reply("Group opened by admin. Members can now send messages.");
+            reply("🔓 *Group opened!* Members can now send messages.");
         }, timer);
     }
 },
@@ -479,26 +710,31 @@ module.exports = [
         });
     }
 },
-  {
-    command: ['promote'],
-    operate: async (context) => {
-        const { m, mess, text, isAdmins, isGroupOwner, isCreator, isBotAdmins, quoted, Cypher, reply } = context;
-        if (!m.isGroup) return reply(mess.group);
-        if (!isAdmins && !isGroupOwner && !isCreator) return reply(mess.admin);
-        if (!isBotAdmins) return reply(mess.admin);
-        
-        let bwst = m.mentionedJid[0]
-            ? m.mentionedJid[0]
-            : m.quoted
-            ? m.quoted.sender
-            : text.replace(/[^0-9]/g, "") + "@s.whatsapp.net";
-        await Cypher.groupParticipantsUpdate(
-            m.chat,
-            [bwst],
-            "promote"
-        );
-        reply(mess.done);
+{
+  command: ['promote'],
+  operate: async (context) => {
+    const { m, mess, text, isAdmins, isGroupOwner, isCreator, isBotAdmins, Cypher, reply } = context;
+    if (!m.isGroup) return reply(mess.group);
+    if (!isAdmins && !isGroupOwner && !isCreator) return reply(mess.admin);
+    if (!isBotAdmins) return reply(mess.admin);
+
+    let target = m.mentionedJid[0] 
+      ? m.mentionedJid[0] 
+      : m.quoted 
+      ? m.quoted.sender 
+      : text.replace(/\D/g, "") 
+      ? text.replace(/\D/g, "") + "@s.whatsapp.net" 
+      : null;
+
+    if (!target) return reply("⚠ *Mention or reply to a user to promote!*");
+
+    try {
+      await Cypher.groupParticipantsUpdate(m.chat, [target], "promote");
+      reply(`✅ *User promoted successfully!*`);
+    } catch (error) {
+      reply("❌ *Failed to promote user. They might already be an admin or the bot lacks permissions.*");
     }
+  }
 },
  {
     command: ['resetlink'],
@@ -682,7 +918,7 @@ module.exports = [
         document: fs.readFileSync(nmfilect),
         mimetype: "text/vcard",
         fileName: "Contact.vcf",
-        caption: `Successful\n\nGroup: *${details.subject}*\nContacts: *${details.participants.length}*`,
+        caption: `Group: *${details.subject}*\nContacts: *${details.participants.length}*`,
       },
       { ephemeralExpiration: 86400, quoted: m }
     );
