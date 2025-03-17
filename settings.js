@@ -16,7 +16,6 @@ const fs = require('fs')
 const { color } = require('./lib/color')
 //Colouring console because plain text is quite boring😑
 if (fs.existsSync('.env')) require('dotenv').config({ path: __dirname+'/.env' })
-// Let's check if the environment variables are here... because, you know, everything runs on secrets. Shhh!
 
 //--------------------[ SESSION ID ]----------------------//
 
@@ -31,7 +30,7 @@ global.botname = process.env.BOT_NAME || 'CypherX'
 //-----------------[ OWNER NUMBER ]------------------//
 
 global.ownernumber = process.env.OWNER_NUMBER || '254754783972' 
-// The secret agent behind the curtain. Your personal contact number. If you want to call Tylor, this is the number. 👀
+// Your personal contact number. If you want to call Tylor, this is the number. 👀
 
 //-----------------[ OWNER NAME ]------------------//
 
@@ -48,8 +47,6 @@ global.packname = process.env.STICKER_PACK_NAME || "Cypher"
 global.author = process.env.STICKER_AUTHOR_NAME || "X" 
 // Who's the artist behind those epic stickers? You, of course! Unless you're just using the default name "X" – mystery vibes!
 
-global.allowedCodes = ['254', '255']; 
-
 //----------------------[ TIMEZONE ]--------------------//
 
 global.timezones = process.env.TIMEZONE || "Africa/Nairobi" 
@@ -58,12 +55,12 @@ global.timezones = process.env.TIMEZONE || "Africa/Nairobi"
 //--------------[ POSTGRES DATABASE ]----------------//
 
 global.postgresqls = process.env.DATABASE_URL || "";
-// Here lies the key to the future... aka your database URL. If you're using Heroku, this will be automatically filled. Let the magic happen!
+// Your database URL. If you're using panel, no need to fill, if you're using Heroku, this will be automatically filled. Let the magic happen!
 
 //-----------------[ CONTEXT LINK ]--------------------//
 
 global.plink = process.env.PLINK || "https://www.instagram.com/heyits_tylor?igsh=YzljYTk1ODg3Zg---"
-// Where does the journey end? Maybe an Instagram link? Or maybe just a placeholder. Who knows? 👀
+// Where does the journey end? Maybe an Instagram link? Or WhatsApp link🤔 Or maybe just a placeholder. Who knows? 👀
 
 //------------------[ WATERMARK ]--------------------//
 
