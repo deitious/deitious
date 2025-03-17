@@ -1,7 +1,5 @@
 const path = require('path');
 const sqlite3 = require('sqlite3').verbose();
-const groupCache = new Map();
-const CACHE_EXPIRY = 15 * 60 * 1000;
 
 const dbPath = path.join(__dirname, '..', 'Database', 'metadata.db');
 const dbe = new sqlite3.Database(dbPath, (err) => {
@@ -70,27 +68,19 @@ const updateGroupMetadata = async (Cypher) => {
   }
 };
 
-const fetchAndCacheGroupMetadata = async (remoteJid, Cypher) => {
-  if (groupCache.has(remoteJid)) {
-    return groupCache.get(remoteJid);
-  }
+const fetchGroupMetadata = async (remoteJid, Cypher) => {
+  let groupMetadata;
 
-  let groupMetadata = await getGroupMetadata(remoteJid);
-
-  if (!groupMetadata) {
-    groupMetadata = await Cypher.groupMetadata(remoteJid).catch(() => null);
-
+  try {
+    groupMetadata = await Cypher.groupMetadata(remoteJid);
     if (groupMetadata) {
-      await saveGroupMetadata(remoteJid, groupMetadata);
+      await saveGroupMetadata(remoteJid, groupMetadata); 
     }
-  }
-
-  if (groupMetadata) {
-    groupCache.set(remoteJid, groupMetadata);
-    setTimeout(() => groupCache.delete(remoteJid), CACHE_EXPIRY);
+  } catch (error) {
+ groupMetadata = await getGroupMetadata(remoteJid);
   }
 
   return groupMetadata;
-}
+};
 
-module.exports = { getGroupMetadata, saveGroupMetadata, updateGroupMetadata, fetchAndCacheGroupMetadata };
+module.exports = { getGroupMetadata, saveGroupMetadata, updateGroupMetadata, fetchGroupMetadata };

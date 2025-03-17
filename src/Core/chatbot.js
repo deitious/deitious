@@ -54,7 +54,7 @@ function cleanupChatbotMessages(days = 1) {
     `;
     dbe.run(query, [`-${days} days`], (err) => {
         if (err) console.error('Error cleaning up old messages:', err);
-        else console.log(`Cleaned up chatbot messages older than ${days} days.`);
+        else console.log(`[CYPHER-X] Cleaned up chatbot messages older than ${days} days.`);
     });
 }
 
