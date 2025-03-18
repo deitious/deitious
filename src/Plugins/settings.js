@@ -28,13 +28,10 @@ module.exports = [
   operate: async ({ m, args, isCreator, loadBlacklist, mess, reply, saveDatabase, text }) => {
     if (!isCreator) return reply(mess.owner);
 
-    let userToAdd  = m.mentionedJid
-      ? m.mentionedJid[0] 
-      : m.quoted 
-      ? m.quoted.sender 
-      : text.replace(/\D/g, "") 
-      ? text.replace(/\D/g, "") + "@s.whatsapp.net" 
-      : m.chat;
+
+    let mentionedUser = m.mentionedJid && m.mentionedJid[0];
+    let quotedUser = m.quoted && m.quoted.sender;
+    let userToAdd = mentionedUser || quotedUser || (text ? text.replace(/\D/g, "") + "@s.whatsapp.net" : null) || m.chat;
 
     if (!userToAdd) return reply('Mention a user, reply to their message, or provide a phone number to ignore.');
 
@@ -58,13 +55,9 @@ if (m.chat.endsWith('@g.us') && !(m.mentionedJid && m.mentionedJid[0]) && !(m.qu
   return reply('Reply to or tag a person!');
 }
 
-    let userToAdd  = m.mentionedJid
-      ? m.mentionedJid[0] 
-      : m.quoted 
-      ? m.quoted.sender 
-      : text.replace(/\D/g, "") 
-      ? text.replace(/\D/g, "") + "@s.whatsapp.net" 
-      : m.chat;
+    let mentionedUser = m.mentionedJid && m.mentionedJid[0];
+    let quotedUser = m.quoted && m.quoted.sender;
+    let userToAdd = mentionedUser || quotedUser || (text ? text.replace(/\D/g, "") + "@s.whatsapp.net" : null) || m.chat;
 
     if (!userToAdd) return reply('Mention a user or reply to their message to add them to the sudo list.');
 
@@ -436,13 +429,9 @@ await reply(`+${userToAdd.split('@')[0]} is already a sudo user.`);
   operate: async ({ m, args, isCreator, loadBlacklist, mess, reply, saveDatabase, text }) => {
     if (!isCreator) return reply(mess.owner);
 
-    let userToRemove  = m.mentionedJid
-      ? m.mentionedJid[0] 
-      : m.quoted 
-      ? m.quoted.sender 
-      : text.replace(/\D/g, "") 
-      ? text.replace(/\D/g, "") + "@s.whatsapp.net" 
-      : m.chat;
+    let mentionedUser = m.mentionedJid && m.mentionedJid[0];
+    let quotedUser = m.quoted && m.quoted.sender;
+    let userToRemove = mentionedUser || quotedUser || (text ? text.replace(/\D/g, "") + "@s.whatsapp.net" : null) || m.chat;
 
     if (!userToRemove) return reply('Mention a user, reply to their message, or provide a phone number to remove from the ignore list.');
 
@@ -468,13 +457,9 @@ if (m.chat.endsWith('@g.us') && !(m.mentionedJid && m.mentionedJid[0]) && !(m.qu
   return reply('Reply to or tag a person!');
 }
 
-        let userToRemove  = m.mentionedJid
-      ? m.mentionedJid[0] 
-      : m.quoted 
-      ? m.quoted.sender 
-      : text.replace(/\D/g, "") 
-      ? text.replace(/\D/g, "") + "@s.whatsapp.net" 
-      : m.chat;
+    let mentionedUser = m.mentionedJid && m.mentionedJid[0];
+    let quotedUser = m.quoted && m.quoted.sender;
+    let userToRemove = mentionedUser || quotedUser || (text ? text.replace(/\D/g, "") + "@s.whatsapp.net" : null) || m.chat;
 
     if (!userToRemove) return reply('Mention a user or reply to their message to remove them from the sudo list.');
 
