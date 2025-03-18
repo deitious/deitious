@@ -25,12 +25,16 @@ module.exports = [
 },
 {
   command: ['addignorelist', 'ban', 'banchat'],
-  operate: async ({ m, args, isCreator, loadBlacklist, mess, reply, saveDatabase }) => {
+  operate: async ({ m, args, isCreator, loadBlacklist, mess, reply, saveDatabase, text }) => {
     if (!isCreator) return reply(mess.owner);
 
-    let mentionedUser = m.mentionedJid && m.mentionedJid[0];
-    let quotedUser = m.quoted && m.quoted.sender;
-    let userToAdd = mentionedUser || quotedUser || m.chat;
+    let userToAdd  = m.mentionedJid
+      ? m.mentionedJid[0] 
+      : m.quoted 
+      ? m.quoted.sender 
+      : text.replace(/\D/g, "") 
+      ? text.replace(/\D/g, "") + "@s.whatsapp.net" 
+      : m.chat;
 
     if (!userToAdd) return reply('Mention a user, reply to their message, or provide a phone number to ignore.');
 
@@ -47,14 +51,20 @@ await reply(`+${userToAdd.split('@')[0]} is already ignored.`);
 },
 {
   command: ['addsudo', 'addowner'],
-  operate: async ({ m, args, isCreator, reply, saveDatabase }) => {
+  operate: async ({ m, args, isCreator, reply, saveDatabase, text }) => {
 if (!isCreator) return reply(mess.owner);
 
 if (m.chat.endsWith('@g.us') && !(m.mentionedJid && m.mentionedJid[0]) && !(m.quoted && m.quoted.sender)) {
   return reply('Reply to or tag a person!');
 }
 
-    const userToAdd = m.mentionedJid && m.mentionedJid[0] || m.quoted && m.quoted.sender || m.chat;
+    let userToAdd  = m.mentionedJid
+      ? m.mentionedJid[0] 
+      : m.quoted 
+      ? m.quoted.sender 
+      : text.replace(/\D/g, "") 
+      ? text.replace(/\D/g, "") + "@s.whatsapp.net" 
+      : m.chat;
 
     if (!userToAdd) return reply('Mention a user or reply to their message to add them to the sudo list.');
 
@@ -423,12 +433,16 @@ await reply(`+${userToAdd.split('@')[0]} is already a sudo user.`);
 },
 {
   command: ['delignorelist'],
-  operate: async ({ m, args, isCreator, loadBlacklist, mess, reply, saveDatabase }) => {
+  operate: async ({ m, args, isCreator, loadBlacklist, mess, reply, saveDatabase, text }) => {
     if (!isCreator) return reply(mess.owner);
 
-    let mentionedUser = m.mentionedJid && m.mentionedJid[0];
-    let quotedUser = m.quoted && m.quoted.sender;
-    let userToRemove = mentionedUser || quotedUser || m.chat;
+    let userToRemove  = m.mentionedJid
+      ? m.mentionedJid[0] 
+      : m.quoted 
+      ? m.quoted.sender 
+      : text.replace(/\D/g, "") 
+      ? text.replace(/\D/g, "") + "@s.whatsapp.net" 
+      : m.chat;
 
     if (!userToRemove) return reply('Mention a user, reply to their message, or provide a phone number to remove from the ignore list.');
 
@@ -447,14 +461,20 @@ await reply(`+${userToRemove.split('@')[0]} is not in the ignore list.`);
 },
 {
   command: ['delsudo'],
-  operate: async ({ m, args, isCreator, reply, saveDatabase }) => {
+  operate: async ({ m, args, isCreator, reply, saveDatabase, text }) => {
  if (!isCreator) return reply(mess.owner);
 
 if (m.chat.endsWith('@g.us') && !(m.mentionedJid && m.mentionedJid[0]) && !(m.quoted && m.quoted.sender)) {
   return reply('Reply to or tag a person!');
 }
 
-    const userToRemove = m.mentionedJid && m.mentionedJid[0] || m.quoted && m.quoted.sender || m.chat;
+        let userToRemove  = m.mentionedJid
+      ? m.mentionedJid[0] 
+      : m.quoted 
+      ? m.quoted.sender 
+      : text.replace(/\D/g, "") 
+      ? text.replace(/\D/g, "") + "@s.whatsapp.net" 
+      : m.chat;
 
     if (!userToRemove) return reply('Mention a user or reply to their message to remove them from the sudo list.');
 

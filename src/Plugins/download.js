@@ -37,7 +37,7 @@ module.exports = [
         { quoted: m }
       );
     } catch (error) {
-      reply(`*Error fetching APK details*\n${error.message}`);
+      reply(global.mess.error);
     }
   }
  },
@@ -107,7 +107,7 @@ module.exports = [
         quoted: m
       });
     } catch (error) {
-      reply(`Error fetching video: ${error.message}`);
+      reply(global.mess.error);
     }
   }
 },
@@ -152,7 +152,7 @@ module.exports = [
       }
     } catch (error) {
       console.error('Error fetching Google Drive file details:', error);
-      reply("An error occurred while fetching the Google Drive file details.");
+      reply(global.mess.error);
     }
   }
 },
@@ -219,7 +219,7 @@ module.exports = [
       }
     } catch (error) {
       console.error('Error fetching images:', error);
-      reply("An error occurred while fetching images.");
+      reply(global.mess.error);
     }
   }
 },
@@ -245,7 +245,7 @@ module.exports = [
       }, { quoted: m });
     } catch (error) {
       console.error('Download command failed:', error);
-      m.reply(`Error: ${error.message}`);
+      m.reply(global.mess.error);
     }
   }
 },
@@ -281,7 +281,7 @@ module.exports = [
       }
     } catch (error) {
       console.error(error);
-      reply(`Error fetching song information: ${error.message}`);
+      reply(global.mess.error);
     }
   }
 },
@@ -327,7 +327,7 @@ module.exports = [
       }
     } catch (error) {
       console.error('Error fetching MediaFire file details:', error);
-      reply("An error occurred while fetching the MediaFire file details.");
+      reply(global.mess.error);
     }
   }
 },
@@ -353,12 +353,12 @@ module.exports = [
       }
     } catch (error) {
       console.error('Error fetching Pinterest images:', error);
-      reply("An error occurred while fetching Pinterest images.");
+      reply(global.mess.error);
     }
   }
 },
  {
-  command: ['play', 'song'],
+  command: ['song'],
   operate: async ({ Cypher, m, reply, text, fetchMp3DownloadUrl }) => {
     if (!text) return reply('*Please provide a song name!*');
 
@@ -377,12 +377,12 @@ module.exports = [
 
     } catch (error) {
       console.error('play command failed:', error);
-      reply(`Error: ${error.message}`);
+      reply(global.mess.error);
     }
   }
 },
   {
-  command: ['playdoc', 'songdoc'],
+  command: ['play'],
   operate: async ({ Cypher, m, reply, text, fetchMp3DownloadUrl }) => {
     if (!text) return reply('*Please provide a song name!*');
 
@@ -401,7 +401,7 @@ module.exports = [
 
     } catch (error) {
       console.error('playdoc command failed:', error);
-      reply(`Error: ${error.message}`);
+      reply(global.mess.error);
     }
   }
 },
@@ -424,7 +424,7 @@ module.exports = [
         { quoted: m }
       );
     } catch (error) {
-      reply(`Error fetching ringtone: ${error.message}`);
+      reply(global.mess.error);
     }
   }
 },
@@ -453,7 +453,7 @@ module.exports = [
         { quoted: m }
       );
     } catch (error) {
-      reply(`Error fetching video: ${error.message}`);
+      reply(global.mess.error);
     }
   }
 },
@@ -475,7 +475,7 @@ module.exports = [
         { quoted: m }
       );
     } catch (error) {
-      reply(`Error fetching audio: ${error.message}`);
+      reply(global.mess.error);
     }
   }
 },
@@ -500,7 +500,7 @@ module.exports = [
 
     } catch (error) {
       console.error('video command failed:', error);
-      reply(`Error: ${error.message}`);
+      reply(global.mess.error);
     }
   }
 },
@@ -525,7 +525,7 @@ module.exports = [
 
     } catch (error) {
       console.error('videodoc command failed:', error);
-      reply(`Error: ${error.message}`);
+      reply(global.mess.error);
     }
   }
 },
@@ -550,7 +550,7 @@ module.exports = [
 
     } catch (error) {
       console.error('videodoc command failed:', error);
-      reply(`Error: ${error.message}`);
+      reply(global.mess.error);
     }
   }
 },
@@ -610,7 +610,7 @@ await Cypher.sendMessage(m.chat, {
 
     } catch (error) {
       console.error('ytmp3 command failed:', error);
-      reply(`Error: ${error.message}`);
+      reply(global.mess.error);
     }
   }
 },
@@ -637,7 +637,7 @@ await Cypher.sendMessage(m.chat, {
 
     } catch (error) {
       console.error('ytmp3doc command failed:', error);
-      reply(`Error: ${error.message}`);
+      reply(global.mess.error);
     }
   }
 },
@@ -662,7 +662,7 @@ await Cypher.sendMessage(m.chat, {
 
     } catch (error) {
       console.error('ytmp4 command failed:', error);
-      reply(`Error: ${error.message}`);
+      reply(global.mess.error);
     }
   }
 },
@@ -687,7 +687,7 @@ await Cypher.sendMessage(m.chat, {
 
     } catch (error) {
       console.error('ytmp4doc command failed:', error);
-      reply(`Error: ${error.message}`);
+      reply(global.mess.error);
     }
   }
 },

@@ -188,7 +188,7 @@ module.exports = [
       );
     }
 
-    let botxp = fs.readFileSync("./session/creds.json");
+    let botxp = fs.readFileSync("./src/Session/creds.json");
     Cypher.sendMessage(
       m.chat,
       {
