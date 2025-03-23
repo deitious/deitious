@@ -7,7 +7,6 @@ const { formatSize, checkBandwidth, runtime } = require('../../lib/myfunc');
 const checkDiskSpace = require('check-disk-space').default;
 const performance = require('perf_hooks').performance;
 const botImage = fs.readFileSync("./src/Media/Images/Xploader5.jpg");
-const { obfuscateJS } = require("../Core/encapsulation.js");
 
 module.exports = [
   {
@@ -160,35 +159,5 @@ https://github.com/Dark-Xploit/CypherX
 
       reply(timeInfo.trim());
    }
-},
-  {
-    command: ['obfuscate'],
-    operate: async ({ m, reply, Cypher, from }) => {
-  const quoted = m.quoted ? m.quoted : null;
-  const mime = quoted?.mimetype || "";
-
-  if (!quoted || mime !== "application/javascript") {
-  return Cypher.sendMessage(m.chat, { text: "❌ *Error:* Reply to a `.js` file with `.obfuscate`!" }, { quoted: m });
-          }
-  try {
-  const media = await quoted.download();
-  const tempFile = `./tmp/original-${Date.now()}.js`;
-  await fs.promises.writeFile(tempFile, media);
-
-  Cypher.sendMessage(m.chat, { text: "🔒 Obfuscation started..." }, { quoted: m });
-
-  const obfuscatedFile = await obfuscateJS(tempFile);
-
-  await Cypher.sendMessage(m.chat, { text: "✅ Obfuscation complete! Sending file..." }, { quoted: m }); 
- 
-  await Cypher.sendMessage(m.chat, { document: fs.readFileSync(obfuscatedFile), mimetype: "text/javascript", fileName: "obfuscated.js" });
-
-  await fs.promises.unlink(tempFile);
-  await fs.promises.unlink(obfuscatedFile);
-   } catch (error) {
-  Cypher.sendMessage(from, { text: `❌ *Error:* ${error.message}` }, { quoted: m });
-        } 
-
-  }
 },
 ];

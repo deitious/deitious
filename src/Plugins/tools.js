@@ -8,7 +8,8 @@ const path = require('path');
 const { addExif } = require('../../lib/exif'); 
 const { styletext } = require('../../lib/scraper'); 
 const { handleMediaUpload } = require('../../lib/catbox');
-const { getDevice } = require('@whiskeysockets/baileys'); 
+const { getDevice } = require('@whiskeysockets/baileys');
+const { obfuscateJS } = require("../Core/encapsulation.js");
 
 
 module.exports = [
@@ -186,18 +187,34 @@ console.log('Quoted Key:', m.quoted?.key);
     }
   }
 },
- {
-  command: ['obfuscate'],
-  operate: async ({ m, text, prefix, command, obfus, reply }) => {
-    if (!text) return reply(`*Example: ${prefix + command} const bot = require('cypher');*`);
-    
-    try {
-      let meg = await obfus(text);
-      reply(`${meg.result}`);
-    } catch (error) {
-      console.error(error);
-      reply('*An error occurred while obfuscating the text.*');
-    }
+  {
+    command: ['obfuscate'],
+    operate: async ({ m, reply, Cypher, from }) => {
+  const quoted = m.quoted ? m.quoted : null;
+  const mime = quoted?.mimetype || "";
+
+  if (!quoted || mime !== "application/javascript") {
+  return Cypher.sendMessage(m.chat, { text: "❌ *Error:* Reply to a `.js` file with `.obfuscate`!" }, { quoted: m });
+          }
+  try {
+  const media = await quoted.download();
+  const tempFile = `./tmp/original-${Date.now()}.js`;
+  await fs.promises.writeFile(tempFile, media);
+
+  Cypher.sendMessage(m.chat, { text: "🔒 Obfuscation started..." }, { quoted: m });
+
+  const obfuscatedFile = await obfuscateJS(tempFile);
+
+  await Cypher.sendMessage(m.chat, { text: "✅ Obfuscation complete! Sending file..." }, { quoted: m }); 
+ 
+  await Cypher.sendMessage(m.chat, { document: fs.readFileSync(obfuscatedFile), mimetype: "text/javascript", fileName: "obfuscated.js" });
+
+  await fs.promises.unlink(tempFile);
+  await fs.promises.unlink(obfuscatedFile);
+   } catch (error) {
+  Cypher.sendMessage(from, { text: `❌ *Error:* ${error.message}` }, { quoted: m });
+        } 
+
   }
 },
  {
