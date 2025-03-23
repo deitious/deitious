@@ -1,5 +1,4 @@
 const { fetchJson } = require('../../lib/myfunc');
-const { ringtone } = require('../../lib/scraper');
 const fetch = require('node-fetch'); 
 const fs = require('fs');
 const path = require('path');
@@ -405,29 +404,6 @@ module.exports = [
     }
   }
 },
- {
-  command: ['ringtone'],
-  operate: async ({ m, text, prefix, command, Cypher, reply }) => {
-    if (!text) return reply(`*Example: ${prefix + command} black rover*`);
-    
-    try {
-      let dltone2 = await ringtone.ringtone(text);
-      let result = dltone2[Math.floor(Math.random() * dltone2.length)];
-      
-      await Cypher.sendMessage(
-        m.chat,
-        {
-          audio: { url: result.audio },
-          fileName: result.title + ".mp3",
-          mimetype: "audio/mpeg",
-        },
-        { quoted: m }
-      );
-    } catch (error) {
-      reply(global.mess.error);
-    }
-  }
-},
   {
   command: ['savestatus', 'save'],
   operate: async ({ m, saveStatusMessage }) => {
@@ -505,31 +481,6 @@ module.exports = [
   }
 },
 {
-  command: ['videodoc'],
-  operate: async ({ Cypher, m, reply, text, fetchVideoDownloadUrl }) => {
-    if (!text) return reply('*Please provide a song name!*');
-
-    try {
-      const search = await yts(text);
-      if (!search || search.all.length === 0) return reply('*The song you are looking for was not found.*');
-
-      const video = search.all[0]; 
-      const videoData = await fetchVideoDownloadUrl(video.url);
-
-      await Cypher.sendMessage(m.chat, {
-        document: { url: videoData.data.dl },
-        mimetype: 'video/mp4',
-        fileName: `${videoData.data.title}.mp4`,
-        caption: videoData.data.title
-      }, { quoted: m });
-
-    } catch (error) {
-      console.error('videodoc command failed:', error);
-      reply(global.mess.error);
-    }
-  }
-},
-  {
   command: ['videodoc'],
   operate: async ({ Cypher, m, reply, text, fetchVideoDownloadUrl }) => {
     if (!text) return reply('*Please provide a song name!*');
