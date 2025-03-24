@@ -514,6 +514,32 @@ module.exports = [
    await disapproveAllRequests(m, groupId);
     }
 },
+{
+  command: ['getgrouppp', 'getgrouprofilepic'],
+  operate: async ({ m, Cypher, reply, mess }) => {
+    if (!m.isGroup) return reply(mess.group);
+
+    try {
+      const ppUrl = await Cypher.profilePictureUrl(m.chat, 'image');
+
+      await Cypher.sendMessage(m.chat, 
+        { 
+          image: { url: ppUrl }, 
+          caption: `🔹 *This Group's Profile Picture*`
+        }, 
+        { quoted: m }
+      );
+    } catch {
+      await Cypher.sendMessage(m.chat, 
+        { 
+          image: { url: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png?q=60' }, 
+          caption: '⚠️ No profile picture found for this group.'
+        }, 
+        { quoted: m }
+      );
+    }
+  }
+},
  {
     command: ['editsettings', 'editinfo'],
     operate: async (context) => {

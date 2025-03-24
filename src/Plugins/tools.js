@@ -5,8 +5,8 @@ const axios = require('axios');
 const { exec } = require('child_process');
 const { getRandom } = require('../../lib/myfunc');
 const path = require('path');
-const { addExif } = require('../../lib/exif'); 
-const { styletext } = require('../../lib/scraper'); 
+const moment = require('moment-timezone');
+const { addExif } = require('../../lib/exif');
 const { handleMediaUpload } = require('../../lib/catbox');
 const { getDevice } = require('@whiskeysockets/baileys');
 const { obfuscateJS } = require("../Core/encapsulation.js");
@@ -61,6 +61,54 @@ module.exports = [
     } catch (error) {
       console.error(error);
       reply('*An error occurred during the calculation.*');
+    }
+  }
+},
+{
+  command: ['getpp', 'getprofilepic'],
+  operate: async ({ m, Cypher, reply, mess, isCreator }) => {
+  if (!isCreator) return reply(mess.owner);
+    if (!m.quoted) {
+      return reply('Reply to a user to get their profile picture.');
+    }
+
+    const userId = m.quoted.sender;
+
+    try {
+      const ppUrl = await Cypher.profilePictureUrl(userId, 'image');
+
+   await Cypher.sendMessage(m.chat, 
+            { 
+                image: { url: ppUrl }, 
+                caption: `🔹 *Profile Picture of:* @${userId.split('@')[0]}`,
+                mentions: [ userId ]
+            }, { quoted: m }); 
+    } catch {
+      await Cypher.sendMessage(m.chat, { image: { url: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png?q=60' }, caption: '⚠️ No profile picture found.' }, { quoted: m });
+    }
+  }
+},
+{
+  command: ['getabout'],
+  operate: async ({ m, Cypher, reply, mess, isCreator }) => {
+    if (!isCreator) return reply(mess.owner);
+    if (!m.quoted) {
+      return reply('Reply to a user to get their about/bio.');
+    }
+
+    const userId = m.quoted.sender;
+
+    try {
+      const { status, setAt } = await Cypher.fetchStatus(userId);
+      const formattedDate = moment(setAt).format("MMMM Do YYYY, h:mm:ss A");
+
+      await Cypher.sendMessage(m.chat, { 
+        text: `🔹 *About of:* @${userId.split('@')[0]}\n\n"${status}"\n\n🕒 *Set at:* ${formattedDate}`,
+        mentions: [userId] 
+      }, { quoted: m });
+
+    } catch {
+      reply('⚠️ Unable to fetch the user’s about info. This may be due to their privacy settings.');
     }
   }
 },
@@ -379,23 +427,27 @@ console.log('Quoted Key:', m.quoted?.key);
     }
   }
 },
- {
+{
   command: ['fancy', 'styletext'],
   operate: async ({ m, text, Cypher, reply }) => {
-    
     if (!text) return reply('*Enter a text!*');
-    
+
     try {
-      let anu = await styletext(text);
-      let teks = `Styles for ${text}\n\n`;
-      
-      for (let i of anu) {
-        teks += `□ *${i.name}* : ${i.result}\n\n`;
+      const apiUrl = `https://xploader-api.vercel.app/styletext?text=${encodeURIComponent(text)}`;
+      const response = await axios.get(apiUrl);
+
+      if (response.status !== 200 || !Array.isArray(response.data)) {
+        throw new Error('Invalid response from StyleText API');
       }
-      
+
+      let teks = `*Styles for:* _${text}_\n\n`;
+      response.data.forEach(({ name, result }) => {
+        teks += `□ *${name}* : ${result || 'N/A'}\n\n`;
+      });
+
       reply(teks);
     } catch (error) {
-      console.error(error);
+      console.error('Error fetching fancy text styles:', error);
       reply('*An error occurred while fetching fancy text styles.*');
     }
   }
