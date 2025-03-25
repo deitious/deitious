@@ -357,7 +357,7 @@ module.exports = [
   }
 },
  {
-  command: ['song'],
+  command: ['song2'],
   operate: async ({ Cypher, m, reply, text, fetchMp3DownloadUrl }) => {
     if (!text) return reply('*Please provide a song name!*');
 
@@ -380,8 +380,39 @@ module.exports = [
     }
   }
 },
+{
+  command: ['song'],
+  operate: async ({ Cypher, m, reply, text, fetchMp3DownloadUrl }) => {
+    if (!text) return reply('*Please provide a song name!*');
+
+    try {
+      const search = await yts(text);
+      if (!search || search.all.length === 0) return reply('*The song you are looking for was not found.*');
+
+      const video = search.all[0];
+      
+      const apiUrl = `http://xploader-api.vercel.app/ytmp3buffer?url=${encodeURIComponent(video.url)}`;
+      
+      const response = await axios.get(apiUrl);
+      
+      const downloadBuffer = response.data.downloadBuffer;
+      
+      const audioBuffer = Buffer.from(downloadBuffer, 'base64');
+      
+      await Cypher.sendMessage(m.chat, {
+        audio: audioBuffer,
+        mimetype: 'audio/mpeg',
+        fileName: `${video.title}.mp3`
+      }, { quoted: m });
+
+    } catch (error) {
+      console.error('song command failed:', error);
+      reply(global.mess.error);
+    }
+  }
+},
   {
-  command: ['play'],
+  command: ['play2'],
   operate: async ({ Cypher, m, reply, text, fetchMp3DownloadUrl }) => {
     if (!text) return reply('*Please provide a song name!*');
 
@@ -394,6 +425,37 @@ module.exports = [
 
       await Cypher.sendMessage(m.chat, {
         document: { url: downloadUrl },
+        mimetype: 'audio/mpeg',
+        fileName: `${video.title}.mp3`
+      }, { quoted: m });
+
+    } catch (error) {
+      console.error('playdoc command failed:', error);
+      reply(global.mess.error);
+    }
+  }
+},
+{
+  command: ['play'],
+  operate: async ({ Cypher, m, reply, text, fetchMp3DownloadUrl }) => {
+    if (!text) return reply('*Please provide a song name!*');
+
+    try {
+      const search = await yts(text);
+      if (!search || search.all.length === 0) return reply('*The song you are looking for was not found.*');
+
+      const video = search.all[0];
+      
+      const apiUrl = `http://xploader-api.vercel.app/ytmp3buffer?url=${encodeURIComponent(video.url)}`;
+      
+      const response = await axios.get(apiUrl);
+      
+      const downloadBuffer = response.data.downloadBuffer;
+      
+      const audioBuffer = Buffer.from(downloadBuffer, 'base64');
+      
+      await Cypher.sendMessage(m.chat, {
+        document: audioBuffer,
         mimetype: 'audio/mpeg',
         fileName: `${video.title}.mp3`
       }, { quoted: m });
