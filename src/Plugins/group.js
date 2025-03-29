@@ -123,43 +123,6 @@ module.exports = [
         }
     }
 },
-{
-    command: ['antigroupmention'],
-    operate: async (context) => {
-        const { m, db, from, isBotAdmins, isAdmins, isCreator, args, mess, reply } = context;
-
-        if (!m.isGroup) return reply(mess.group); 
-        if (!isBotAdmins) return reply(mess.admin); 
-        if (!isAdmins && !isCreator) return reply(mess.notadmin); 
-        if (args.length < 2) return reply("*Usage: .antigroupmention <kick/warn> <on/off>*");
-
-        const mode = args[0].toLowerCase();
-        const state = args[1].toLowerCase();
-
-        if (!["kick", "warn"].includes(mode)) {
-            return reply("*Invalid mode! Use either 'kick', or 'warn'.*");
-        }
-
-        if (!["on", "off"].includes(state)) {
-            return reply("*Invalid state! Use either 'on' or 'off'.*");
-        }
-
-        if (state === "on") {
-            db.chats[from].antigroupmentionkick = false;
-            db.chats[from].antigroupmentionwarn = false;
-
-            if (mode === "kick") db.chats[from].antigroupmentionkick = true;
-            else if (mode === "warn") db.chats[from].antigroupmentionwarn = true;
-
-            reply(`*Successfully enabled anti-group mention ${mode} mode!*`);
-        } else if (state === "off") {
-           if (mode === "kick") db.chats[from].antigroupmentionkick = false;
-            else if (mode === "warn") db.chats[from].antigroupmentionwarn = false;
-            
-            reply(`*Successfully disabled anti-group mention ${mode} mode!*`);
-        }
-    }
-},
   {
     command: ['antilinkgc'],
     operate: async (context) => {
