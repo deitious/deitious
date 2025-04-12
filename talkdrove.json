@@ -1,0 +1,35 @@
+{
+    "bot-name": "CypherX",
+    "description": "CypherX, the best WhatsApp Bot",
+    "logo": "https://i.ibb.co/Q4QCHYd/copilot-image-1739572393172.jpg",
+    "keywords": ["whatsapp", "bot", "md"],
+    "documentation-link": "cypherxbot.vercel.app",
+    "owner-verification": "tylor9kid@gmail.com", 
+  "env": {
+    "SESSION_ID": {
+      "description": "The session string used to authenticate the bot with WhatsApp. Must begin with 'XPLOADER-BOT:~' or 'CYPHER-X:~'.",
+      "value": "",
+      "required": false
+    },
+    "BOT_NAME": {
+      "description": "Enter your bot name here (CypherX is cool, but feel free to name it something quirky!)",
+      "value": "CypherX",
+      "required": false
+    },
+    "OWNER_NUMBER": {
+      "description": "The display name of the bot as it will appear in interactions.",
+      "value": "",
+      "required": true
+    },
+    "OWNER_NAME": {
+      "description": "The primary owner's WhatsApp number, including country code (e.g., 2547XXXXXXXX).",
+      "value": "",
+      "required": true
+    },
+    "TIMEZONE": {
+      "description": "Timezone for the bot's internal clock (e.g., Africa/Nairobi). Used for time-based functions. Don't change or Google if you don't know!",
+      "value": "Africa/Nairobi",
+      "required": false
+    }
+  }
+}
