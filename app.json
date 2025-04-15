@@ -1,9 +1,8 @@
 {
   "name": "CypherX",
-  "version": "latest",
-  "description": "CypherX, the best WhatsApp Bot",
-  "logo": "https://i.ibb.co/Q4QCHYd/copilot-image-1739572393172.jpg",
-  "keywords": ["whatsapp", "bot", "md"],
+  "description": "CypherX, your friendly assistant!",
+  "logo": "https://i.ibb.co/nqsRcKDB/Xploader4.jpg",
+  "keywords": [],
   "repository": "https://github.com/Dark-Xploit/CypherX",
   "stack": "container",
   "addons": [
@@ -16,7 +15,7 @@
   },
 "env": {
   "SESSION_ID": {
-    "description": "The session string used to authenticate the bot with WhatsApp. Must begin with 'XPLOADER-BOT:~' or 'CYPHER-X:~'.",
+    "description": "Must begin with 'XPLOADER-BOT:~' or 'CYPHER-X:~'.",
     "value": "",
     "required": false
   },
@@ -34,6 +33,11 @@
     "description": "The name of the primary owner of the bot.",
     "value": "",
     "required": true
+  },
+  "MENU_IMAGE": {
+    "description": "Enter the urls of images that you wish to be set as menu image. Separate with a comma if it's more than 1. Reply to an image using .tourl to get one.",
+    "value": "https://example.com/image1.jpg, https://example.com/image2.png",
+    "required": false
   },
   "HEROKU_API_KEY": {
     "description": "Heroku API key used for accessing and managing your Heroku app programmatically.",
