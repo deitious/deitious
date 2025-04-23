@@ -18,41 +18,6 @@
     "description": "Must begin with 'XPLOADER-BOT:~' or 'CYPHER-X:~'.",
     "value": "",
     "required": false
-  },
-  "BOT_NAME": {
-    "description": "The display name of the bot as it will appear in interactions.",
-    "value": "CypherX",
-    "required": false
-  },
-  "OWNER_NUMBER": {
-    "description": "The primary owner's WhatsApp number, including country code (e.g., 2547XXXXXXXX).",
-    "value": "",
-    "required": true
-  },
-  "OWNER_NAME": {
-    "description": "The name of the primary owner of the bot.",
-    "value": "",
-    "required": true
-  },
-  "MENU_IMAGE": {
-    "description": "Enter the urls of images that you wish to be set as menu image. Separate with a comma if it's more than 1. Reply to an image using .tourl to get one.",
-    "value": "https://example.com/image1.jpg, https://example.com/image2.png",
-    "required": false
-  },
-  "HEROKU_API_KEY": {
-    "description": "Heroku API key used for accessing and managing your Heroku app programmatically.",
-    "value": "",
-    "required": false
-  },
-  "HEROKU_APP_NAME": {
-    "description": "The exact name of your Heroku application that you've just entered above.",
-    "value": "",
-    "required": false
-  },
-  "TIMEZONE": {
-    "description": "Timezone for the bot's internal clock (e.g., Africa/Nairobi). Used for time-based functions. Don't change or Google if you don't know!",
-    "value": "Africa/Nairobi",
-    "required": false
   }
 },
   "buildpacks": [
