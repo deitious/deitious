@@ -1,6 +1,6 @@
 /* CYPHER-X © 2025 */
 
-process.env.SESSION_ID = "";
+global.SESSION_ID = "";
 
 /* Session ID must begin with 'XPLOADER-BOT:~' or 'CYPHER-X:~' */
 
