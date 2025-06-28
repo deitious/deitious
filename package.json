@@ -22,7 +22,7 @@
         "awesome-phonenumber": "^7.4.0",
         "axios": "^1.8.3",
         "chalk": "^4.1.2",
-        "cheerio": "^1.0.0-rc.12",
+        "cheerio": "^1.1.0",
         "css-select": "^5.1.0",
         "check-disk-space": "^3.3.1",
         "dotenv": "^16.5.0",
