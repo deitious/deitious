@@ -1,18 +1,10 @@
-body {
-    background-color: black;
-    text-align: center;
-    color: white;
-    font-family: Arial, sans-serif;
-}
-
 .thumbnail {
-    max-width: 150px;
+    max-width: 150px;  /* small thumbnail size */
     margin: 10px;
     border: 2px solid white;
     cursor: pointer;
 }
 
-/* Modal styling */
 .modal {
     display: none;
     position: fixed;
@@ -28,13 +20,17 @@ body {
 .modal-content {
     margin: auto;
     display: block;
-    max-width: 80%;
+    max-width: 80%;  /* enlarged image size */
 }
 
 #close {
     position: absolute;
     top: 20px;
     right: 35px;
+    color: white;
+    font-size: 40px;
+    cursor: pointer;
+}    right: 35px;
     color: white;
     font-size: 40px;
     cursor: pointer;
