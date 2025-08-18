@@ -1,3 +1,4 @@
+ HEAD
 .thumbnail {
     max-width: 150px;  /* small thumbnail size */
     margin: 10px;
@@ -5,6 +6,29 @@
     cursor: pointer;
 }
 
+body {
+    background-color: black;
+    text-align: center;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+/* Small thumbnails */
+.thumbnail {
+    width: 150px;    /* start small */
+    height: auto;    /* maintain ratio */
+    margin: 10px;
+    border: 2px solid white;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.thumbnail:hover {
+    transform: scale(1.1);  /* slight zoom on hover */
+}
+
+/* Modal styling */
+f581c5f (Fix clickable thumbnails)
 .modal {
     display: none;
     position: fixed;
@@ -20,7 +44,11 @@
 .modal-content {
     margin: auto;
     display: block;
+HEAD
     max-width: 80%;  /* enlarged image size */
+
+    max-width: 80%;  /* enlarged version */
+f581c5f (Fix clickable thumbnails)
 }
 
 #close {
@@ -30,8 +58,11 @@
     color: white;
     font-size: 40px;
     cursor: pointer;
+HEAD
 }    right: 35px;
     color: white;
     font-size: 40px;
     cursor: pointer;
+
+f581c5f (Fix clickable thumbnails)
 }
