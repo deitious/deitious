@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Mini Website</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Welcome to My Website!</h1>
+    <p>This is a simple page running in Termux.</p>
+    <button onclick="greet()">Click Me</button>
+
+    <script src="script.js"></script>
+</body>
+</html>body {
+    font-family: Arial, sans-serif;
+    background-color: #1a1a1a;
+    color: white;
+    text-align: center;
+    padding: 50px;
+}
+
+button {
+    background-color: #00ff00;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #00cc00;
+}
