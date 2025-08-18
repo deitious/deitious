@@ -17,8 +17,8 @@ h1 {
 
 /* Thumbnail images */
 img {
-  width: 150px;       /* small size */
-  height: auto;
+  width: 50px;       /* small size */
+  height: 50px;
   margin: 10px;
   border-radius: 8px;
   cursor: pointer;
