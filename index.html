@@ -16,4 +16,51 @@ cat > index.html <<'EOF'
   <script src="script.js"></script>
 </body>
 </html>
+<section id="terminal" style="margin:20px;">
+  <p>> Type <b>help</b> to see commands</p>
+  <input id="termInput" autofocus>
+  <div id="output"></div>
+</section>
+
+<style>
+#terminal {
+  background: black; color: lime;
+  font-family: monospace;
+  padding: 10px;
+  height: 200px;
+  overflow-y: auto;
+  border: 1px solid lime;
+}
+#termInput {
+  background: black; color: lime;
+  border: none; outline: none;
+  width: 100%;
+}
+</style>
+
+<script>
+const output = document.getElementById("output");
+const input = document.getElementById("termInput");
+
+const commands = {
+  help: "Available: about, projects, contact",
+  about: "Yo, I’m Deitious. Effortlessly iconic.",
+  projects: "Check my GitHub: https://github.com/deitious",
+  contact: "Hit me up on IG/Discord."
+};
+
+input.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    const cmd = input.value.toLowerCase();
+    output.innerHTML += "<p>> " + cmd + "</p>";
+    if (commands[cmd]) {
+      output.innerHTML += "<p>" + commands[cmd] + "</p>";
+    } else {
+      output.innerHTML += "<p>Unknown command</p>";
+    }
+    input.value = "";
+    output.scrollTop = output.scrollHeight;
+  }
+});
+</script>
 EOF
