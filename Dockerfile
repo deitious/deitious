@@ -1,25 +1,20 @@
-FROM node:lts
+# Use the official Node.js image
+FROM node:20
 
-# Install dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends ffmpeg imagemagick webp && apt-get clean
+# Set the working directory inside the container
+WORKDIR /usr/src/app
 
-# Set working directory
-WORKDIR /app
-
-# Copy package files
+# Copy package.json and package-lock.json to the container
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install && npm cache clean --force
+RUN npm install
 
-# Copy application code
+# Copy the rest of the application code
 COPY . .
 
-# Expose port
+# Expose the port your app is running on (adjust this if needed)
 EXPOSE 3000
 
-# Set environment
-ENV NODE_ENV production
-
-# Run command
-CMD ["npm", "run", "start"]
+# Command to run your app (adjust to the entry point file)
+CMD ["node", "index.js"]
