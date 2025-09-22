@@ -3,130 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Deitious</title>
+  <title>For Agnes ❤️</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1 style="color: white;">Helping 😂😂</h1>
-  <canvas id="matrix"></canvas>
-  <script src="matrix.js"></script>
-  <p style="color: white;">This is a helping website for you</p>
+  <div class="container">
+    <h1>Agnes Mbithi 💖</h1>
+    <h2>Will you be mine forever? 💍</h2>
 
-  <!-- Terminal -->
-  <section id="terminal" style="margin:20px;">
-    <p>> Type <b>help</b> to see commands</p>
-    <input id="termInput" autofocus>
-    <div id="output"></div>
-  </section>
+    <div class="slideshow">
+      <img id="slide" src="pics/photo1.jpg" alt="Agnes">
+    </div>
 
-  <!-- Snake Game Canvas (hidden until launched) -->
-  <canvas id="snakeCanvas" width="400" height="400"
-    style="display:none; background:black; border:1px solid lime; margin:20px auto; display:block;">
-  </canvas>
+    <div class="buttons">
+      <button id="yesBtn">Yes 💍</button>
+      <button id="maybeBtn">Maybe Later 😅</button>
+    </div>
 
-  <style>
-    #terminal {
-      background: black; color: lime;
-      font-family: monospace;
-      padding: 10px;
-      height: 200px;
-      overflow-y: auto;
-      border: 1px solid lime;
-    }
-    #termInput {
-      background: black; color: lime;
-      border: none; outline: none;
-      width: 100%;
-    }
-    #snakeCanvas {
-      box-shadow: 0 0 15px lime;
-    }
-  </style>
+    <p id="message"></p>
+  </div>
 
-  <script>
-    const output = document.getElementById("output");
-    const input = document.getElementById("termInput");
-    const snakeCanvas = document.getElementById("snakeCanvas");
-    const ctx = snakeCanvas.getContext("2d");
-
-    const commands = {
-      help: "Available: about, projects, contact, snake",
-      about: "Yo, I’m Deitious. Effortlessly iconic.",
-      projects: "Check my GitHub: https://github.com/deitious",
-      contact: "Hit me up on IG/Discord.",
-      snake: "Launching Snake Game... use arrow keys to play!"
-    };
-
-    input.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        const cmd = input.value.toLowerCase();
-        output.innerHTML += "<p>> " + cmd + "</p>";
-        if (commands[cmd]) {
-          output.innerHTML += "<p>" + commands[cmd] + "</p>";
-          if (cmd === "snake") startSnakeGame();
-        } else {
-          output.innerHTML += "<p>Unknown command</p>";
-        }
-        input.value = "";
-        output.scrollTop = output.scrollHeight;
-      }
-    });
-
-    // Snake Game
-    let snake, dx, dy, food, snakeInterval;
-
-    function startSnakeGame() {
-      snakeCanvas.style.display = "block";
-      snake = [{x: 200, y: 200}];
-      dx = 20; dy = 0;
-      food = randomFood();
-      if (snakeInterval) clearInterval(snakeInterval);
-      snakeInterval = setInterval(drawSnake, 100);
-    }
-
-    function drawSnake() {
-      ctx.fillStyle = "black";
-      ctx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
-
-      ctx.fillStyle = "lime";
-      snake.forEach(part => ctx.fillRect(part.x, part.y, 20, 20));
-
-      ctx.fillStyle = "red";
-      ctx.fillRect(food.x, food.y, 20, 20);
-
-      const head = {x: snake[0].x + dx, y: snake[0].y + dy};
-
-      if (head.x === food.x && head.y === food.y) {
-        snake.unshift(head);
-        food = randomFood();
-      } else {
-        snake.pop();
-        snake.unshift(head);
-      }
-
-      if (
-        head.x < 0 || head.y < 0 ||
-        head.x >= snakeCanvas.width || head.y >= snakeCanvas.height ||
-        snake.slice(1).some(p => p.x === head.x && p.y === head.y)
-      ) {
-        clearInterval(snakeInterval);
-        output.innerHTML += "<p>Game Over! Type 'snake' to play again.</p>";
-      }
-    }
-
-    function randomFood() {
-      return {
-        x: Math.floor(Math.random() * (snakeCanvas.width / 20)) * 20,
-        y: Math.floor(Math.random() * (snakeCanvas.height / 20)) * 20
-      };
-    }
-
-    window.addEventListener("keydown", e => {
-      if (e.key === "ArrowUp" && dy === 0) {dx = 0; dy = -20;}
-      else if (e.key === "ArrowDown" && dy === 0) {dx = 0; dy = 20;}
-      else if (e.key === "ArrowLeft" && dx === 0) {dx = -20; dy = 0;}
-      else if (e.key === "ArrowRight" && dx === 0) {dx = 20; dy = 0;}
-    });
-  </script>
+  <canvas id="confetti"></canvas>
+  <script src="script.js"></script>
 </body>
 </html>
