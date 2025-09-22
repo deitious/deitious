@@ -3,27 +3,94 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>For Agnes ❤️</title>
+  <title>Romantic Proposal for Agnes ❤️</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f0f5;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #c2185b;
+      margin-bottom: 20px;
+    }
+
+    .slideshow {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .slideshow img {
+      width: 120px;     /* small square */
+      height: 120px;
+      object-fit: cover;
+      border-radius: 15px;
+      box-shadow: 0px 3px 10px rgba(0,0,0,0.4);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .slideshow img:hover {
+      transform: scale(1.1);
+    }
+
+    /* Lightbox (popup) */
+    #lightbox {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.9);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    #lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 15px;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Agnes Mbithi 💖</h1>
-    <h2>Will you be mine forever? 💍</h2>
 
-    <div class="slideshow">
-      <img id="slide" src="pics/photo1.jpg" alt="Agnes">
-    </div>
+  <h1>Agnes ❤️ Will You Be Mine Forever?</h1>
 
-    <div class="buttons">
-      <button id="yesBtn">Yes 💍</button>
-      <button id="maybeBtn">Maybe Later 😅</button>
-    </div>
-
-    <p id="message"></p>
+  <div class="slideshow">
+    <img src="pics/photo1.jpg" alt="Memory 1">
+    <img src="pics/photo2.jpg" alt="Memory 2">
+    <img src="pics/photo3.jpg" alt="Memory 3">
+    <img src="pics/photo4.jpg" alt="Memory 4">
   </div>
 
-  <canvas id="confetti"></canvas>
-  <script src="script.js"></script>
+  <!-- Lightbox -->
+  <div id="lightbox">
+    <img src="" alt="Enlarged image">
+  </div>
+
+  <script>
+    const images = document.querySelectorAll('.slideshow img');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = lightbox.querySelector('img');
+
+    images.forEach(img => {
+      img.addEventListener('click', () => {
+        lightbox.style.display = 'flex';
+        lightboxImg.src = img.src;
+      });
+    });
+
+    lightbox.addEventListener('click', () => {
+      lightbox.style.display = 'none';
+    });
+  </script>
+
 </body>
 </html>
