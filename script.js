@@ -10,59 +10,65 @@ setInterval(() => {
 
 // Buttons
 const yesBtn = document.getElementById("yesBtn");
-const maybeBtn = document.getElementById("maybeBtn");
+const noBtn = document.getElementById("noBtn");
 const message = document.getElementById("message");
 
 yesBtn.addEventListener("click", () => {
-  message.innerHTML = "Agnes said YES! 🎉❤️";
-  startConfetti();
+  message.innerHTML = "Nessy said YES! 🎉❤️";
+  spawnHeart(window.innerWidth / 2, window.innerHeight / 2);
 });
 
-maybeBtn.addEventListener("click", () => {
-  message.innerHTML = "Okay Agnes... I’ll ask again tomorrow 😅❤️";
+// Runaway NO button
+noBtn.addEventListener("mouseenter", () => {
+  const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+  const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+  noBtn.style.position = "absolute";
+  noBtn.style.left = `${x}px`;
+  noBtn.style.top = `${y}px`;
 });
 
-// Simple confetti effect
-const confettiCanvas = document.getElementById("confetti");
-const ctx = confettiCanvas.getContext("2d");
-confettiCanvas.width = window.innerWidth;
-confettiCanvas.height = window.innerHeight;
+// Hearts effect
+const heartsContainer = document.createElement("div");
+heartsContainer.style.position = "fixed";
+heartsContainer.style.top = 0;
+heartsContainer.style.left = 0;
+heartsContainer.style.width = "100%";
+heartsContainer.style.height = "100%";
+heartsContainer.style.pointerEvents = "none";
+document.body.appendChild(heartsContainer);
 
-let confetti = [];
-function startConfetti() {
-  confetti = [];
-  for (let i = 0; i < 150; i++) {
-    confetti.push({
-      x: Math.random() * confettiCanvas.width,
-      y: Math.random() * confettiCanvas.height - confettiCanvas.height,
-      r: Math.random() * 6 + 4,
-      d: Math.random() * 100,
-      color: `hsl(${Math.random()*360}, 100%, 50%)`,
-      tilt: Math.floor(Math.random() * 10) - 10
-    });
+function spawnHeart(x, y) {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.style.left = `${x}px`;
+  heart.style.top = `${y}px`;
+  heartsContainer.appendChild(heart);
+  animateHeart(heart);
+
+  // chain reaction hearts
+  for (let i = 0; i < 5; i++) {
+    const offsetX = (Math.random() - 0.5) * 150;
+    const offsetY = (Math.random() - 0.5) * 150;
+    setTimeout(() => {
+      const miniHeart = document.createElement("div");
+      miniHeart.className = "heart";
+      miniHeart.style.left = `${x + offsetX}px`;
+      miniHeart.style.top = `${y + offsetY}px`;
+      heartsContainer.appendChild(miniHeart);
+      animateHeart(miniHeart);
+    }, i * 200);
   }
-  drawConfetti();
 }
 
-function drawConfetti() {
-  ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-  confetti.forEach(c => {
-    ctx.beginPath();
-    ctx.fillStyle = c.color;
-    ctx.arc(c.x, c.y, c.r, 0, Math.PI*2);
-    ctx.fill();
+function animateHeart(heart) {
+  const duration = 3000;
+  const animation = heart.animate([
+    { transform: "scale(1) rotate(45deg)", opacity: 1 },
+    { transform: "scale(1.5) rotate(45deg) translateY(-100px)", opacity: 0 }
+  ], {
+    duration,
+    easing: "ease-out"
   });
-  updateConfetti();
-  requestAnimationFrame(drawConfetti);
-}
 
-function updateConfetti() {
-  confetti.forEach(c => {
-    c.y += Math.cos(c.d) + 1 + c.r/2;
-    c.x += Math.sin(c.d);
-    if (c.y > confettiCanvas.height) {
-      c.y = -10;
-      c.x = Math.random() * confettiCanvas.width;
-    }
-  });
+  animation.onfinish = () => heart.remove();
 }
