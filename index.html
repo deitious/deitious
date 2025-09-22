@@ -3,94 +3,206 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Romantic Proposal for Agnes ❤️</title>
+  <title>For Agnes ❤️</title>
   <link rel="stylesheet" href="style.css">
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f8f0f5;
-      text-align: center;
       margin: 0;
-      padding: 20px;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      color: white;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      padding: 30px;
     }
 
     h1 {
-      color: #c2185b;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: 1.5rem;
       margin-bottom: 20px;
     }
 
-    .slideshow {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 15px;
-    }
-
     .slideshow img {
-      width: 120px;     /* small square */
-      height: 120px;
+      width: 150px;
+      height: 150px;
       object-fit: cover;
       border-radius: 15px;
       box-shadow: 0px 3px 10px rgba(0,0,0,0.4);
+      margin-bottom: 15px;
+      animation: fade 2s ease-in-out;
+    }
+
+    @keyframes fade {
+      from { opacity: 0.3; }
+      to { opacity: 1; }
+    }
+
+    .buttons button {
+      margin: 10px;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 25px;
+      font-size: 1rem;
       cursor: pointer;
+      background: white;
+      color: #ff3b6a;
+      font-weight: bold;
       transition: transform 0.2s;
     }
 
-    .slideshow img:hover {
+    .buttons button:hover {
       transform: scale(1.1);
     }
 
-    /* Lightbox (popup) */
-    #lightbox {
-      display: none;
+    #message {
+      margin-top: 20px;
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
+
+    #confetti {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(0,0,0,0.9);
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
+      pointer-events: none;
+      z-index: 1;
     }
 
-    #lightbox img {
-      max-width: 90%;
-      max-height: 90%;
-      border-radius: 15px;
+    /* Floating hearts */
+    .heart {
+      position: fixed;
+      bottom: -10px;
+      color: #ff1e56;
+      font-size: 24px;
+      animation: floatUp 6s linear infinite;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) scale(0.5);
+        opacity: 0;
+      }
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <h1>Agnes Mbithi 💖</h1>
+    <h2>Will you be mine forever? 💍</h2>
 
-  <h1>Agnes ❤️ Will You Be Mine Forever?</h1>
+    <div class="slideshow">
+      <img id="slide" src="pics/photo1.jpg" alt="Agnes">
+    </div>
 
-  <div class="slideshow">
-    <img src="pics/photo1.jpg" alt="Memory 1">
-    <img src="pics/photo2.jpg" alt="Memory 2">
-    <img src="pics/photo3.jpg" alt="Memory 3">
-    <img src="pics/photo4.jpg" alt="Memory 4">
+    <div class="buttons">
+      <button id="yesBtn">Yes ❤️</button>
+      <button id="noBtn">No 💔</button>
+    </div>
+
+    <p id="message"></p>
   </div>
 
-  <!-- Lightbox -->
-  <div id="lightbox">
-    <img src="" alt="Enlarged image">
-  </div>
+  <canvas id="confetti"></canvas>
 
   <script>
-    const images = document.querySelectorAll('.slideshow img');
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = lightbox.querySelector('img');
+    // Slideshow
+    const images = ["pics/photo1.jpg", "pics/photo2.jpg", "pics/photo3.jpg", "pics/photo4.jpg"];
+    let index = 0;
+    const slide = document.getElementById("slide");
 
-    images.forEach(img => {
-      img.addEventListener('click', () => {
-        lightbox.style.display = 'flex';
-        lightboxImg.src = img.src;
+    setInterval(() => {
+      index = (index + 1) % images.length;
+      slide.src = images[index];
+    }, 3000);
+
+    // Buttons
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const message = document.getElementById("message");
+
+    yesBtn.addEventListener("click", () => {
+      message.innerHTML = "Agnes said YES! 🎉❤️";
+      startConfetti();
+    });
+
+    noBtn.addEventListener("click", () => {
+      message.innerHTML = "Agnes broke my heart 💔😭";
+    });
+
+    // Confetti
+    const confettiCanvas = document.getElementById("confetti");
+    const ctx = confettiCanvas.getContext("2d");
+    confettiCanvas.width = window.innerWidth;
+    confettiCanvas.height = window.innerHeight;
+
+    let confetti = [];
+    function startConfetti() {
+      confetti = [];
+      for (let i = 0; i < 150; i++) {
+        confetti.push({
+          x: Math.random() * confettiCanvas.width,
+          y: Math.random() * confettiCanvas.height - confettiCanvas.height,
+          r: Math.random() * 6 + 4,
+          d: Math.random() * 100,
+          color: `hsl(${Math.random()*360}, 100%, 50%)`,
+          tilt: Math.floor(Math.random() * 10) - 10
+        });
+      }
+      drawConfetti();
+    }
+
+    function drawConfetti() {
+      ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+      confetti.forEach(c => {
+        ctx.beginPath();
+        ctx.fillStyle = c.color;
+        ctx.arc(c.x, c.y, c.r, 0, Math.PI*2);
+        ctx.fill();
       });
-    });
+      updateConfetti();
+      requestAnimationFrame(drawConfetti);
+    }
 
-    lightbox.addEventListener('click', () => {
-      lightbox.style.display = 'none';
-    });
+    function updateConfetti() {
+      confetti.forEach(c => {
+        c.y += Math.cos(c.d) + 1 + c.r/2;
+        c.x += Math.sin(c.d);
+        if (c.y > confettiCanvas.height) {
+          c.y = -10;
+          c.x = Math.random() * confettiCanvas.width;
+        }
+      });
+    }
+
+    // Floating hearts generator
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerHTML = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = Math.random() * 20 + 20 + "px";
+      heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 6000);
+    }
+
+    setInterval(createHeart, 800);
   </script>
-
 </body>
 </html>
