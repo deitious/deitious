@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Me n U 💞</title>
+  <link rel="stylesheet" href="style.css" />
+  <script type="module" src="script.js" defer></script>
+</head>
+<body>
+  <button id="themeToggle" class="toggle-theme">🌙</button>
+
+  <!-- Login Screen -->
+  <div class="login" id="login-screen">
+    <div class="login-form">
+      <h2>Welcome ❤️</h2>
+      <p>Enter your password</p>
+      <input type="password" id="password" placeholder="Enter password" />
+      <button id="loginBtn">Login</button>
+      <p class="error" id="error-msg"></p>
+    </div>
+  </div>
+
+  <!-- Main App -->
+  <div class="app" id="app">
+    <nav>
+      <button class="nav-btn" data-section="home">🏠</button>
+      <button class="nav-btn" data-section="gallery">🖼️</button>
+      <button class="nav-btn" data-section="music">🎵</button>
+      <button class="nav-btn" data-section="notes">📝</button>
+      <button class="nav-btn" data-section="chat">💬</button>
+    </nav>
+
+    <div id="home" class="section active">
+      <h2>Hey Love 💞</h2>
+      <p>Welcome to our little world 🖤</p>
+      <div class="profile-pic" id="profile-pic"></div>
+    </div>
+
+    <div id="gallery" class="section">
+      <h2>Gallery 🖼️</h2>
+      <input type="file" id="photoUpload" accept="image/*" />
+      <div class="gallery-grid" id="gallery-grid"></div>
+    </div>
+
+    <div id="music" class="section">
+      <h2>Music 🎶</h2>
+      <input type="file" id="musicUpload" accept="audio/*" />
+      <ul id="music-list"></ul>
+    </div>
+
+    <div id="notes" class="section">
+      <h2>Notes 📝</h2>
+      <textarea id="noteInput" placeholder="Write your note here..."></textarea>
+      <button id="saveNote">Save Note</button>
+      <ul id="notesList"></ul>
+    </div>
+
+    <div id="chat" class="section">
+      <h2>Chat 💬</h2>
+      <div id="chat-box"></div>
+      <div class="chat-input">
+        <input type="text" id="chatMessage" placeholder="Type a message..." />
+        <button id="sendMessage">📩</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase Setup -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-analytics.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBEZhmdOhuL8Kql4VLVpmrKxr3Yvj0pJgw",
+      authDomain: "me--n--u.firebaseapp.com",
+      projectId: "me--n--u",
+      storageBucket: "me--n--u.firebasestorage.app",
+      messagingSenderId: "912553010351",
+      appId: "1:912553010351:web:a7f36503a271fed974a05a",
+      measurementId: "G-G7L91926LF"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+</body>
+</html>
