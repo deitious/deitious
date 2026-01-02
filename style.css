@@ -1,151 +1,119 @@
-/* GENERAL */
+/* --- Reset & basics --- */
 body, html {
-  margin: 0;
-  padding: 0;
+  margin: 0; padding: 0;
   font-family: 'Arial', sans-serif;
-  background: pink;
-  color: black;
   overflow-x: hidden;
+  background: linear-gradient(135deg, #6a0dad, #1e90ff);
+  color: black;
 }
 
-/* COVER */
-#cover {
+/* --- Cover Page --- */
+.cover {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
   position: relative;
-  text-align: center;
-}
-.glitter-text {
-  font-size: 3em;
-  animation: glitter 2s infinite;
-}
-@keyframes glitter {
-  0%, 100% { color: #ff69b4; text-shadow: 0 0 5px #fff; }
-  50% { color: #ff1493; text-shadow: 0 0 20px #fff; }
-}
-.plane {
-  position: absolute;
-  top: 20%;
-  left: -50px;
-  animation: fly 6s linear infinite;
-}
-@keyframes fly {
-  0% { left: -50px; }
-  100% { left: 100%; }
-}
-.flyer {
-  font-size: 1em;
-}
-#enterBtn {
-  margin-top: 30px;
-  padding: 15px 30px;
-  font-size: 1.2em;
-  border-radius: 25px;
-  background-color: #ff1493;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-.cheering-shadows {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 100px;
-  background: repeating-linear-gradient(45deg, rgba(0,0,0,0.05), rgba(0,0,0,0.05) 10px, transparent 10px, transparent 20px);
 }
 
-/* PASSWORD */
-.hidden { display: none; }
-#password-section {
+.glitter-text {
+  font-size: 3rem;
+  text-align: center;
+  animation: glitter 2s infinite alternate;
+}
+
+@keyframes glitter {
+  0% { text-shadow: 0 0 5px #fff, 0 0 10px #ffb6c1, 0 0 15px #fff;}
+  100% { text-shadow: 0 0 20px #fff, 0 0 30px #ff69b4, 0 0 40px #fff;}
+}
+
+.cover input {
+  margin: 20px 0;
+  padding: 10px;
+  font-size: 1.2rem;
+  border-radius: 8px;
+  border: none;
+}
+
+.cover button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background-color: #ff69b4;
+  color: white;
+}
+
+/* --- Home Page --- */
+.home {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 50px;
-}
-#password {
-  padding: 10px;
-  font-size: 1.2em;
-  margin-bottom: 20px;
-}
-#unlockBtn {
-  padding: 10px 20px;
-  font-size: 1em;
-  border-radius: 15px;
-  background-color: #ff1493;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-.heart-lock {
-  font-size: 5em;
-  animation: heartBeat 1s infinite;
-}
-@keyframes heartBeat {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.2); }
-}
-
-/* HOME */
-#home {
-  text-align: center;
   position: relative;
+  min-height: 100vh;
   overflow: hidden;
 }
-#messageIcon {
-  position: absolute;
+
+#message-icon {
+  position: fixed;
   top: 20px;
   right: 20px;
-  font-size: 2em;
+  font-size: 2rem;
   cursor: pointer;
-  animation: bounce 1s infinite;
-}
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-15px); }
-}
-#message {
-  margin-top: 50px;
-  font-size: 1.2em;
-  white-space: pre-wrap;
-  max-width: 80%;
-  margin-left: auto;
-  margin-right: auto;
+  animation: bounce 2s infinite;
 }
 
-/* PHOTO */
-.photo-section {
+@keyframes bounce {
+  0%, 100% { transform: translateY(0);}
+  50% { transform: translateY(-10px);}
+}
+
+.hidden { display: none; }
+
+#message-box {
+  max-width: 600px;
   margin-top: 50px;
+  font-size: 1.1rem;
+  line-height: 1.5;
 }
-.photo-section img {
-  width: 250px;
-  height: 250px;
-  object-fit: cover;
-  border-radius: 25px;
-}
-.photo-section .caption {
-  margin-top: 10px;
-  font-size: 1.2em;
-}
-.photo-btn {
-  margin-top: 20px;
-  padding: 15px 30px;
-  border-radius: 20px;
-  background-color: #ff1493;
-  color: white;
+
+#photo-btn {
+  margin-top: 30px;
+  padding: 15px 25px;
+  font-size: 1.2rem;
+  border-radius: 12px;
   border: none;
   cursor: pointer;
-  font-size: 1em;
+  background-color: #8a2be2;
+  color: white;
 }
 
-/* ANIMATIONS */
-.shooting-stars, .diamond-rain, .fireworks {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  pointer-events: none;
+#photo-container img {
+  width: 300px;
+  border-radius: 12px;
+  margin-top: 20px;
 }
+
+.caption {
+  margin-top: 10px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* --- Typewriter --- */
+#typewriter {
+  white-space: pre-wrap;
+  overflow: hidden;
+  border-right: 2px solid black;
+  animation: typing 15s steps(200) forwards;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+/* --- Shooting star & diamond rain canvas handled in JS --- */
+canvas { position: absolute; top:0; left:0; width:100%; height:100%; z-index:-1; }
