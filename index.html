@@ -3,47 +3,39 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Happy Birthday Kababy 💖</title>
+<title>Happy Birthday Kababy</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<!-- Cover Page -->
-<div id="cover" class="page active">
-  <h1 class="glow">HAPPY BIRTHDAY KABABY 💖✨</h1>
-  <button id="enterBtn" class="pink-btn">ENTER</button>
-  <p class="tap">Tap the button to start 🎉</p>
+<!-- COVER PAGE -->
+<div id="cover">
+  <div class="glitter-text">✨ HAPPY BIRTHDAY KABABY ✨</div>
+  <div class="plane">
+    ✈️ <span class="flyer">Happy Birthday Kababy! 🎉💖</span>
+  </div>
+  <button id="enterBtn">ENTER</button>
+  <div class="cheering-shadows"></div>
 </div>
 
-<!-- Password Page -->
-<div id="password" class="page">
-  <h2>Enter Password</h2>
-  <input type="password" id="passInput" placeholder="kababy">
-  <button id="passBtn">Submit</button>
-  <p id="passMsg"></p>
+<!-- PASSWORD -->
+<div id="password-section" class="hidden">
+  <div class="heart-lock">🔒❤️</div>
+  <input type="password" id="password" placeholder="Enter Password">
+  <button id="unlockBtn">UNLOCK</button>
 </div>
 
-<!-- Home Page -->
-<div id="home" class="page">
-  <div class="top-bar">
-    <button id="themeToggle">🌙/☀️</button>
-    <button id="msgBtn" class="icon-btn">✉️</button>
-    <div class="icon-buttons">
-      <button id="photosBtn" class="icon-btn">📷</button>
-      <button id="songsBtn" class="icon-btn">🎵</button>
-    </div>
+<!-- HOME SCREEN -->
+<div id="home" class="hidden">
+  <div id="messageIcon">💌</div>
+  <div id="message" class="hidden"></div>
+  <div class="shooting-stars"></div>
+  <div class="diamond-rain"></div>
+  <div class="fireworks"></div>
+  <div class="photo-section">
+    <img src="assets/photos/IMG_20260101_193619.jpg" alt="Kababy Photo">
+    <div class="caption">I love you Kababy ❤️🎈😘</div>
+    <button class="photo-btn">Happy Birthday my love🎁😘 Happy Birthday to this person💝🎉</button>
   </div>
-
-  <!-- Envelope Message -->
-  <div id="messageBox" class="envelope">
-    <p id="typewriter"></p>
-    <button id="closeMsg">Close</button>
-  </div>
-
-  <!-- Photos Grid -->
-  <div id="photosGrid" class="grid"></div>
-
-  <!-- Songs List -->
-  <div id="songsList" class="grid"></div>
 </div>
 
 <script src="script.js"></script>
