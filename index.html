@@ -3,59 +3,47 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Happy Birthday Kababy</title>
+<title>Happy Birthday Kababy 💖</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<!-- COVER PAGE -->
-<div id="cover" class="cover-page">
-    <h1 class="glow-text">HAPPY BIRTHDAY KABABY</h1>
-    <button id="enterBtn" class="enter-btn">ENTER</button>
+<!-- Cover Page -->
+<div id="cover" class="page active">
+  <h1 class="glow">HAPPY BIRTHDAY KABABY 💖✨</h1>
+  <button id="enterBtn" class="pink-btn">ENTER</button>
+  <p class="tap">Tap the button to start 🎉</p>
 </div>
 
-<!-- PASSWORD PAGE -->
-<div id="password" class="password-page">
-    <input type="password" id="passwordInput" placeholder="Enter password">
-    <button id="passwordBtn">GO</button>
+<!-- Password Page -->
+<div id="password" class="page">
+  <h2>Enter Password</h2>
+  <input type="password" id="passInput" placeholder="kababy">
+  <button id="passBtn">Submit</button>
+  <p id="passMsg"></p>
 </div>
 
-<!-- HOME PAGE -->
-<div id="home" class="home-page">
-    <div class="top-bar">
-        <button id="photosBtn" class="icon-btn" title="Photos">
-            📸
-        </button>
-        <button id="songsBtn" class="icon-btn" title="Songs">
-            🎵
-        </button>
-        <button id="envelopeBtn" class="icon-btn envelope-btn" title="Special Message">
-            ✉️
-        </button>
-        <button id="themeToggle" class="icon-btn theme-toggle" title="Toggle Theme">
-            🌗
-        </button>
+<!-- Home Page -->
+<div id="home" class="page">
+  <div class="top-bar">
+    <button id="themeToggle">🌙/☀️</button>
+    <button id="msgBtn" class="icon-btn">✉️</button>
+    <div class="icon-buttons">
+      <button id="photosBtn" class="icon-btn">📷</button>
+      <button id="songsBtn" class="icon-btn">🎵</button>
     </div>
+  </div>
 
-    <!-- PHOTOS GRID -->
-    <div id="photos" class="section">
-        <button id="backFromPhotos" class="back-btn">⬅ Back</button>
-        <div id="photoGrid" class="photo-grid"></div>
-    </div>
+  <!-- Envelope Message -->
+  <div id="messageBox" class="envelope">
+    <p id="typewriter"></p>
+    <button id="closeMsg">Close</button>
+  </div>
 
-    <!-- SONGS GRID -->
-    <div id="songs" class="section">
-        <button id="backFromSongs" class="back-btn">⬅ Back</button>
-        <div id="songGrid" class="song-grid"></div>
-    </div>
-</div>
+  <!-- Photos Grid -->
+  <div id="photosGrid" class="grid"></div>
 
-<!-- MESSAGE MODAL -->
-<div id="messageModal" class="modal">
-    <div class="modal-content">
-        <span id="closeModal" class="close">&times;</span>
-        <p id="typewriter"></p>
-        <span class="blinking-heart">❤️</span>
-    </div>
+  <!-- Songs List -->
+  <div id="songsList" class="grid"></div>
 </div>
 
 <script src="script.js"></script>
