@@ -1,64 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Happy Birthday Bree 💖</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Kababy</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
+<!-- COVER PAGE -->
+<div id="cover" class="cover-page">
+    <h1 class="glow-text">HAPPY BIRTHDAY KABABY</h1>
+    <button id="enterBtn" class="enter-btn">ENTER</button>
+</div>
 
-  <!-- COVER PAGE -->
-  <section id="cover" class="page cover-page">
-    <div class="cover-text">
-      <p>kababy, i know<br>but i had to 😃</p>
-      <button id="enterBtn" class="pink-btn">Happy Birthday 💖</button>
-      <p class="hint-text">Tap it 😘</p>
+<!-- PASSWORD PAGE -->
+<div id="password" class="password-page">
+    <input type="password" id="passwordInput" placeholder="Enter password">
+    <button id="passwordBtn">GO</button>
+</div>
+
+<!-- HOME PAGE -->
+<div id="home" class="home-page">
+    <div class="top-bar">
+        <button id="photosBtn" class="icon-btn" title="Photos">
+            📸
+        </button>
+        <button id="songsBtn" class="icon-btn" title="Songs">
+            🎵
+        </button>
+        <button id="envelopeBtn" class="icon-btn envelope-btn" title="Special Message">
+            ✉️
+        </button>
+        <button id="themeToggle" class="icon-btn theme-toggle" title="Toggle Theme">
+            🌗
+        </button>
     </div>
-  </section>
 
-  <!-- PASSWORD PAGE -->
-  <section id="password" class="page password-page">
-    <div class="password-box">
-      <input type="text" id="passwordInput" placeholder="Enter the secret code">
-      <button id="passwordBtn" class="pink-btn">Enter</button>
-      <p class="hint-text">Hint: kababy 😘</p>
+    <!-- PHOTOS GRID -->
+    <div id="photos" class="section">
+        <button id="backFromPhotos" class="back-btn">⬅ Back</button>
+        <div id="photoGrid" class="photo-grid"></div>
     </div>
-  </section>
 
-  <!-- HOME PAGE -->
-  <section id="home" class="page home-page">
-    <div class="home-buttons">
-      <button id="photosBtn" class="rounded-btn">Photos</button>
-      <button id="songBtn" class="rounded-btn">Song</button>
+    <!-- SONGS GRID -->
+    <div id="songs" class="section">
+        <button id="backFromSongs" class="back-btn">⬅ Back</button>
+        <div id="songGrid" class="song-grid"></div>
     </div>
-    <div class="special-envelope" id="envelopeBtn">
-      <span class="envelope-icon">📩</span>
-    </div>
-  </section>
+</div>
 
-  <!-- PHOTOS PAGE -->
-  <section id="photos" class="page photos-page">
-    <div class="photo-grid" id="photoGrid"></div>
-    <button class="backBtn" id="backFromPhotos">Back</button>
-  </section>
-
-  <!-- SONG PAGE -->
-  <section id="song" class="page song-page">
-    <audio controls id="birthdaySong">
-      <source src="assets/Trevor Daniel - For You (Official Audio).mp3" type="audio/mpeg">
-      Your browser does not support the audio element.
-    </audio>
-    <button class="backBtn" id="backFromSong">Back</button>
-  </section>
-
-  <!-- SPECIAL MESSAGE MODAL -->
-  <div id="messageModal" class="modal">
+<!-- MESSAGE MODAL -->
+<div id="messageModal" class="modal">
     <div class="modal-content">
-      <p id="typewriter"></p>
-      <button id="closeModal">Close</button>
+        <span id="closeModal" class="close">&times;</span>
+        <p id="typewriter"></p>
+        <span class="blinking-heart">❤️</span>
     </div>
-  </div>
+</div>
 
 <script src="script.js"></script>
 </body>
